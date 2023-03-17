@@ -7,6 +7,7 @@ import React from 'react'
 
 interface IExpensesTable {
   expenses: IExpense[]
+  // eslint-disable-next-line no-unused-vars
   onShowExpenseModal: (expense?: IExpense) => void
   onOpenImporter: () => void
 }

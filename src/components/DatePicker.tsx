@@ -26,12 +26,10 @@ const ButtonInput = forwardRef<HTMLButtonElement>(
       value,
       onClick,
       disabled = false,
-      vertical = false,
     }: {
       value?: string
       onClick: MouseEventHandler<HTMLButtonElement>
       disabled?: boolean
-      vertical?: boolean
     },
     ref,
   ) => (

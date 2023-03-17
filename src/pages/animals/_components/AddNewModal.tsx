@@ -11,6 +11,7 @@ interface IAddNewModal {
   newType: string
   open: boolean
   onClose: () => void
+  // eslint-disable-next-line no-unused-vars
   onSubmit: (name: string) => void
 }
 

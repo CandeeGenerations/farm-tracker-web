@@ -16,7 +16,9 @@ interface IExpenseModal {
   errorMessage?: string
   open: boolean
   onClose: () => void
+  // eslint-disable-next-line no-unused-vars
   onDelete: (id: string) => void
+  // eslint-disable-next-line no-unused-vars
   onSubmit: (expense: IExpense) => void
 }
 

@@ -450,7 +450,7 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
 export async function getStaticPaths() {
   const prisma = new PrismaClient()
   const products = await prisma.product.findMany()
-  let paths: {params: {id: string}}[] = []
+  const paths: {params: {id: string}}[] = []
 
   products.forEach(({id}) => {
     paths.push({params: {id: id.toString()}})

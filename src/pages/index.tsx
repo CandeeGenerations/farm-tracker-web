@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Router from 'next/router'
 import React, {useEffect} from 'react'
+import Image from 'next/image'
 
 const StartPage = (): React.ReactElement => {
   useEffect(() => {
@@ -20,7 +21,7 @@ const StartPage = (): React.ReactElement => {
       </Head>
 
       <div>
-        <img
+        <Image
           alt="Farm Tracker - Track your farm!"
           src="/images/default.svg"
           className="mx-auto h-full"

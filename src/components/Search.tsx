@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react'
 import FormInput from './FormInput'
 
 export interface ISearch {
+  // eslint-disable-next-line no-unused-vars
   onSearch?: (value: string, reset?: boolean) => void
   resetSearch?: number
 }

@@ -6,6 +6,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
+import Image from 'next/image'
 
 interface IPageState {
   activeNavigation?: string
@@ -57,7 +58,7 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <Link href="/home">
-                        <img className="h-8 w-8" src="/images/logo-white.png" alt="Farm Tracker" />
+                        <Image className="h-8 w-8" src="/images/logo-white.png" alt="Farm Tracker" />
                       </Link>
                     </div>
 

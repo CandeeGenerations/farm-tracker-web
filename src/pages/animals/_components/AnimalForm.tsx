@@ -28,7 +28,9 @@ interface IAnimalForm {
   animal?: IAnimal
   metadata: AnimalMetadata
   errorMessage?: string
+  // eslint-disable-next-line no-unused-vars
   onSubmit: (data: IAnimal) => void
+  // eslint-disable-next-line no-unused-vars
   onDelete?: (id: string) => void
 }
 

@@ -26,10 +26,8 @@ interface ITable {
   data: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
   keyName: string
   linkKey?: string
-  copyingId?: string
   defaultSortColumn?: string
   defaultSortOrder?: 'asc' | 'desc'
-  hideDelete?: boolean
   editLink?: string
   // eslint-disable-next-line no-unused-vars
   onEdit?: (id: string | number) => void
@@ -42,8 +40,6 @@ const Table = ({
   defaultSortColumn,
   defaultSortOrder,
   linkKey,
-  hideDelete = false,
-  copyingId,
   actions,
   onEdit,
   editLink,

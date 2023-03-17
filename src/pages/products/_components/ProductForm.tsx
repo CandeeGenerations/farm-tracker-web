@@ -22,7 +22,9 @@ interface IProductForm {
   product?: IProduct
   metadata: ProductMetadata
   errorMessage?: string
+  // eslint-disable-next-line no-unused-vars
   onSubmit: (data: IProduct) => void
+  // eslint-disable-next-line no-unused-vars
   onDelete?: (id: string) => void
 }
 

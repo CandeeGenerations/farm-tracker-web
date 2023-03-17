@@ -30,6 +30,7 @@ const EditAnimalPage = ({animal, metadata}: IEditAnimalPage): React.ReactElement
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
+  // eslint-disable-next-line no-unused-vars
   const handleSubmit = async ({children, ...data}: IAnimalWithChildren) => {
     try {
       await axios.post(`/api/animal/${data.id}`, data)
@@ -95,7 +96,7 @@ const EditAnimalPage = ({animal, metadata}: IEditAnimalPage): React.ReactElement
 export async function getStaticPaths() {
   const prisma = new PrismaClient()
   const animals = await prisma.animal.findMany()
-  let paths: {params: {id: string}}[] = []
+  const paths: {params: {id: string}}[] = []
 
   animals.forEach(({id}) => {
     paths.push({params: {id: id.toString()}})

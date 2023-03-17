@@ -8,6 +8,7 @@ import React from 'react'
 
 interface ILogsTable {
   logs: ILoggedProduct[]
+  // eslint-disable-next-line no-unused-vars
   onShowLoggedProductModal: (loggedProduct?: ILoggedProduct) => void
   onOpenImporter: () => void
   product: IProduct
