@@ -1,5 +1,5 @@
 import {ProductWithExpenses} from '@/types'
-import {Expense, LoggedProduct, Product} from '@prisma/client'
+import {Product, Expense, LoggedProduct} from '@prisma/client'
 import dayjs from 'dayjs'
 import {morphism, StrictSchema} from 'morphism'
 
