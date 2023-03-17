@@ -29,3 +29,44 @@ model Animal {
   deceasedDate DateTime?
   saleDate     DateTime?
 }
+
+model Product {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  productKey String @unique
+  name       String
+  species    String
+  unit       String
+
+  expenses       Expense[]
+  loggedProducts LoggedProduct[]
+}
+
+model LoggedProduct {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+
+  species String?
+  breed   String?
+
+  quantity Float
+
+  logDate DateTime
+}
+
+model Expense {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+
+  item String
+
+  amount Float
+
+  quantity Int
+
+  purchaseDate DateTime
+}
