@@ -1,6 +1,6 @@
 import TabNav from '@/components/TabNav'
 import {getErrorMessage, setPageState} from '@/helpers'
-import {IAnimalWithChildren, morphAnimalDb} from '@/morphs/animal.morph'
+import {IAnimalWithChildren, morphAnimalDb} from '@/pages/api/_morphs/animal.morph'
 import Layout from '@/pages/_layout'
 import {AnimalMetadata} from '@/types'
 import {PrismaClient} from '@prisma/client'

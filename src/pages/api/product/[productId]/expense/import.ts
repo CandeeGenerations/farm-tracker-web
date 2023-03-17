@@ -1,4 +1,4 @@
-import {IExpense, morphExpense} from '@/morphs/product.morph'
+import {IExpense, morphExpense} from '@/pages/api/_morphs/product.morph'
 import {Expense, PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
 

@@ -1,4 +1,4 @@
-import {ILoggedProduct, morphLoggedProduct} from '@/morphs/product.morph'
+import {ILoggedProduct, morphLoggedProduct} from '@/pages/api/_morphs/product.morph'
 import {LoggedProduct, PrismaClient} from '@prisma/client'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'

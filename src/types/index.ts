@@ -1,4 +1,4 @@
-import {IProduct} from '@/morphs/product.morph'
+import {IProduct} from '@/pages/api/_morphs/product.morph'
 import {Animal, Expense, LoggedProduct, Product} from '@prisma/client'
 
 export type ProductMetadata = {

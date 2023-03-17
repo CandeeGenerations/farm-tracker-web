@@ -1,4 +1,4 @@
-import {IAnimal, morphAnimal} from '@/morphs/animal.morph'
+import {IAnimal, morphAnimal} from '@/pages/api/_morphs/animal.morph'
 import {Animal, PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
 

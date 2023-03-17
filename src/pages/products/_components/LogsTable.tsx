@@ -1,7 +1,7 @@
 import Button from '@/components/Button'
 import Table from '@/components/Table'
 import {addCommas, formatDate} from '@/helpers'
-import {ILoggedProduct, IProduct} from '@/morphs/product.morph'
+import {ILoggedProduct, IProduct} from '@/pages/api/_morphs/product.morph'
 import dayjs from 'dayjs'
 import _sum from 'lodash/sum'
 import React from 'react'
