@@ -39,6 +39,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
+    "@netlify/plugin-nextjs": "^4.32.2",
+    "@next/eslint-plugin-next": "^13.2.4",
     "@types/change-case": "^2.3.1",
     "@types/node": "^18.15.3",
     "@types/papaparse": "^5.3.7",
