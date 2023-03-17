@@ -12,7 +12,7 @@ import {
   morphExpenseDb,
   morphLoggedProductDb,
   morphProductDb,
-} from '@/morphs/product.morph'
+} from '@/pages/api/_morphs/product.morph'
 import Layout from '@/pages/_layout'
 import {ProductMetadata} from '@/types'
 import {Expense, LoggedProduct, PrismaClient} from '@prisma/client'

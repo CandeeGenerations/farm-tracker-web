@@ -1,6 +1,6 @@
 import Table from '@/components/Table'
 import {formatDate} from '@/helpers'
-import {IAnimal} from '@/morphs/animal.morph'
+import {IAnimal} from '@/pages/api/_morphs/animal.morph'
 import React from 'react'
 
 interface IOffspringTable {
