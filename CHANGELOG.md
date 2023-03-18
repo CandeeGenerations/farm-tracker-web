@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.3...v0.1.4) (2023-03-18)
+
+
+### Features
+
+* added authentication ([66cde1b](https://github.com/CandeeGenerations/farm-tracker/commit/66cde1bd6afe900b6d1c6dcfc7344981e0b61c2e))
+
 ### [0.1.3](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.2...v0.1.3) (2023-03-18)
 
 
