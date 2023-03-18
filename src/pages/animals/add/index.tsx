@@ -17,7 +17,7 @@ interface IPageState {
 const AddAnimalPage = (): React.ReactElement => {
   const {push} = useRouter()
   const [animals, setAnimals] = useState<{loading: boolean; animals: IAnimalWithChildren[]}>({
-    loading: false,
+    loading: true,
     animals: [],
   })
   const [pageState, stateFunc] = useState<IPageState>({})
