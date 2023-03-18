@@ -30,7 +30,13 @@ const LogsTable = ({logs, onShowLoggedProductModal, onOpenImporter, product}: IL
         <Button
           type="primary"
           onClick={() =>
-            onShowLoggedProductModal({id: undefined, logDate: dayjs().format(), quantity: 1, productId: product.id})
+            onShowLoggedProductModal({
+              id: undefined,
+              owner: undefined,
+              logDate: dayjs().format(),
+              quantity: 1,
+              productId: product.id,
+            })
           }
         >
           Add log

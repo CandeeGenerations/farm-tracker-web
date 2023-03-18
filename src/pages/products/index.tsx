@@ -76,6 +76,7 @@ const ProductsPage = (): React.ReactElement => {
     for (const product of data) {
       products.push({
         id: undefined,
+        owner: undefined,
         productKey: '',
         name: product.name,
         species: product.species,

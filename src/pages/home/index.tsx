@@ -83,6 +83,7 @@ const HomePage = (): React.ReactElement => {
       logs.push({
         id: undefined,
         productId: undefined,
+        owner: undefined,
         productKey: log.productKey,
         quantity: Number(log.quantity),
         breed: log.breed,
