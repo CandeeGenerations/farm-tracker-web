@@ -1,11 +1,11 @@
-import {ILoggedProduct, morphLoggedProduct} from '@/pages/api/_morphs/product.morph'
-import {LoggedProduct, PrismaClient} from '@prisma/client'
+import {ILoggedProduct, morphLoggedProduct, morphLoggedProductDb} from '@/pages/api/_morphs/product.morph'
+import {PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 const prisma = new PrismaClient()
 
 // UPDATE /api/product/:productId/log/:logId
-const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<LoggedProduct> => {
+const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<ILoggedProduct> => {
   const id = req.query.logId.toString()
   const updatedLogProduct: ILoggedProduct = req.body
   let loggedProduct = await prisma.loggedProduct.findUnique({where: {id}})
@@ -30,14 +30,14 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<Logged
 
   await prisma.loggedProduct.update({data: loggedProduct, where: {id}})
 
-  res.json(loggedProduct)
+  res.json(morphLoggedProductDb(loggedProduct))
 }
 
 // DELETE /api/product/:productId/log/:logId
 async function handleDelete(id: string, res: NextApiResponse): Promise<void> {
-  const loggedProduct = await prisma.loggedProduct.delete({where: {id}})
+  await prisma.loggedProduct.delete({where: {id}})
 
-  res.json(loggedProduct)
+  res.json({success: true})
 }
 
 // noinspection JSUnusedGlobalSymbols

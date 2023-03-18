@@ -1,39 +1,48 @@
 import Button from '@/components/Button'
+import Card from '@/components/Card'
 import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
 import Search from '@/components/Search'
 import Table from '@/components/Table'
+import TableLoader from '@/components/TableLoader'
 import {addCommas, setPageState} from '@/helpers'
 import {DEBOUNCE} from '@/helpers/constants'
-import {IProduct, morphProductDb} from '@/pages/api/_morphs/product.morph'
 import Layout from '@/pages/_layout'
-import {PrismaClient} from '@prisma/client'
+import {IProduct} from '@/pages/api/_morphs/product.morph'
 import axios from 'axios'
 import _debounce from 'lodash/debounce'
 import _sum from 'lodash/sum'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import React, {useState} from 'react'
-
-interface IProductsPage {
-  products: IProduct[]
-}
+import React, {useEffect, useState} from 'react'
 
 interface IPageState {
+  loading?: boolean
   products?: IProduct[]
   originalProducts?: IProduct[]
   resetSearch?: number
   importerOpen?: boolean
 }
 
-const ProductsPage = ({products}: IProductsPage): React.ReactElement => {
+const ProductsPage = (): React.ReactElement => {
   const router = useRouter()
   const [pageState, stateFunc] = useState<IPageState>({
-    products: products,
+    loading: true,
+    products: [],
     importerOpen: false,
-    originalProducts: [...products],
+    originalProducts: [],
     resetSearch: 0,
   })
+
+  const getProducts = async () => {
+    const products = await axios.get<IProduct[]>(`/api/products`)
+
+    setState({loading: false, products: products.data, originalProducts: [...products.data]})
+  }
+
+  useEffect(() => {
+    getProducts()
+  }, [])
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
@@ -89,7 +98,11 @@ const ProductsPage = ({products}: IProductsPage): React.ReactElement => {
       description="Manage the products being produced on your farm"
       breadcrumbs={[{name: 'Products', current: true}]}
     >
-      {pageState.products.length === 0 ? (
+      {pageState.loading ? (
+        <Card>
+          <TableLoader />
+        </Card>
+      ) : pageState.products.length === 0 ? (
         <EmptyState
           entity="products"
           actions={
@@ -161,17 +174,4 @@ const ProductsPage = ({products}: IProductsPage): React.ReactElement => {
   )
 }
 
-// noinspection JSUnusedGlobalSymbols
-export const getStaticProps = async (): Promise<{props: IProductsPage}> => {
-  const prisma = new PrismaClient()
-  const products = await prisma.product.findMany({include: {expenses: true, loggedProducts: true}})
-
-  return {
-    props: {
-      products: products.map(morphProductDb),
-    },
-  }
-}
-
-// noinspection JSUnusedGlobalSymbols
 export default ProductsPage

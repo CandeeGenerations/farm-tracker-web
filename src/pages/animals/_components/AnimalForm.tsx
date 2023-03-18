@@ -10,7 +10,7 @@ import {IAnimal} from '@/pages/api/_morphs/animal.morph'
 import {AnimalMetadata, Breed, DbAnimal} from '@/types'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {useRouter} from 'next/router'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {SubmitHandler, useForm} from 'react-hook-form'
 import * as yup from 'yup'
 import AddNewModal from './AddNewModal'
@@ -44,7 +44,7 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
-  const {formState, control, register, watch, setValue, getValues, handleSubmit, trigger} = useForm<IAnimal>({
+  const {formState, reset, control, register, watch, setValue, getValues, handleSubmit, trigger} = useForm<IAnimal>({
     defaultValues: animal || {},
     mode: 'onChange',
     resolver: yupResolver(
@@ -55,6 +55,10 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
       }),
     ),
   })
+
+  useEffect(() => {
+    reset(animal || {})
+  }, [animal])
 
   const deceased = watch('deceased')
   const sold = watch('sold')

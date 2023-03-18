@@ -3,10 +3,10 @@ import {Disclosure} from '@headlessui/react'
 import {Bars3Icon, HomeIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import dayjs from 'dayjs'
 import Head from 'next/head'
+import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
-import Image from 'next/image'
 
 interface IPageState {
   activeNavigation?: string
@@ -58,7 +58,13 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <Link href="/home">
-                        <Image className="h-8 w-8" src="/images/logo-white.png" alt="Farm Tracker" />
+                        <Image
+                          className="h-8 w-8"
+                          src="/images/logo-white.png"
+                          alt="Farm Tracker"
+                          width={48}
+                          height={48}
+                        />
                       </Link>
                     </div>
 

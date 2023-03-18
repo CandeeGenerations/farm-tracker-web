@@ -1,24 +1,34 @@
+import Card from '@/components/Card'
+import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import Layout from '@/pages/_layout'
-import {ProductMetadata} from '@/types'
-import {PrismaClient} from '@prisma/client'
+import {IAnimal} from '@/pages/api/_morphs/animal.morph'
 import axios from 'axios'
 import _uniq from 'lodash/uniq'
 import {useRouter} from 'next/router'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import ProductForm from '../_components/ProductForm'
 
 interface IPageState {
   errorMessage?: string
 }
 
-interface IAddProductPage {
-  metadata: ProductMetadata
-}
-
-const AddAnimalPage = ({metadata}: IAddProductPage): React.ReactElement => {
+const AddAnimalPage = (): React.ReactElement => {
   const {push} = useRouter()
+  const [animals, setAnimals] = useState<{loading: boolean; animals: IAnimal[]}>({
+    loading: true,
+    animals: [],
+  })
   const [pageState, stateFunc] = useState<IPageState>({})
+
+  const getAnimals = async () => {
+    const animals = await axios.get<IAnimal[]>('/api/animals')
+    setAnimals({loading: false, animals: animals.data})
+  }
+
+  useEffect(() => {
+    getAnimals()
+  }, [])
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
@@ -40,23 +50,21 @@ const AddAnimalPage = ({metadata}: IAddProductPage): React.ReactElement => {
         {name: 'Add product', current: true},
       ]}
     >
-      <ProductForm onSubmit={handleSubmit} metadata={metadata} errorMessage={pageState.errorMessage} />
+      {animals.loading ? (
+        <Card>
+          <TableLoader />
+        </Card>
+      ) : (
+        <ProductForm
+          onSubmit={handleSubmit}
+          metadata={{
+            dbSpecies: _uniq(animals.animals.map(x => x.species)),
+          }}
+          errorMessage={pageState.errorMessage}
+        />
+      )}
     </Layout>
   )
-}
-
-// noinspection JSUnusedGlobalSymbols
-export const getStaticProps = async (): Promise<{props: IAddProductPage}> => {
-  const prisma = new PrismaClient()
-  const animals = await prisma.animal.findMany()
-
-  return {
-    props: {
-      metadata: {
-        dbSpecies: _uniq(animals.map(x => x.species)),
-      },
-    },
-  }
 }
 
 export default AddAnimalPage

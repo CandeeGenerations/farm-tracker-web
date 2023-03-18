@@ -2,21 +2,15 @@ import Button from '@/components/Button'
 import Card from '@/components/Card'
 import ImportModal from '@/components/ImportModal'
 import {getErrorMessage, setPageState} from '@/helpers'
-import {ILoggedProduct, IProduct, morphProductDb} from '@/pages/api/_morphs/product.morph'
 import Layout from '@/pages/_layout'
+import {IAnimal} from '@/pages/api/_morphs/animal.morph'
+import {ILoggedProduct, IProduct} from '@/pages/api/_morphs/product.morph'
 import LogProductModal from '@/pages/products/_components/LogProductModal'
-import {Breed} from '@/types'
 import {ExclamationTriangleIcon} from '@heroicons/react/24/outline'
-import {PrismaClient} from '@prisma/client'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import _uniqBy from 'lodash/uniqBy'
-import React, {useState} from 'react'
-
-interface IHomePage {
-  products: IProduct[]
-  dbBreeds: Breed[]
-}
+import React, {useEffect, useState} from 'react'
 
 interface IPageState {
   showLoggedProductModal?: boolean
@@ -24,11 +18,34 @@ interface IPageState {
   importerOpen?: boolean
 }
 
-const HomePage = (props: IHomePage): React.ReactElement => {
+const HomePage = (): React.ReactElement => {
+  const [products, setProducts] = useState<{loading: boolean; products: IProduct[]}>({
+    loading: false,
+    products: [],
+  })
+  const [animals, setAnimals] = useState<{loading: boolean; animals: IAnimal[]}>({
+    loading: false,
+    animals: [],
+  })
   const [pageState, stateFunc] = useState<IPageState>({
     showLoggedProductModal: false,
     importerOpen: false,
   })
+
+  const getProducts = async () => {
+    const products = await axios.get<IProduct[]>('/api/products')
+    setProducts({loading: false, products: products.data})
+  }
+
+  const getAnimals = async () => {
+    const animals = await axios.get<IAnimal[]>('/api/animals')
+    setAnimals({loading: false, animals: animals.data})
+  }
+
+  useEffect(() => {
+    getProducts()
+    getAnimals()
+  }, [])
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
@@ -99,7 +116,7 @@ const HomePage = (props: IHomePage): React.ReactElement => {
 
             <p className="pb-2.5">Log a new product that is produced by something on your farm.</p>
 
-            <Button type="primary" onClick={handleShowLoggedProductModal}>
+            <Button loading={products.loading || animals.loading} type="primary" onClick={handleShowLoggedProductModal}>
               Log Product
             </Button>
 
@@ -116,7 +133,14 @@ const HomePage = (props: IHomePage): React.ReactElement => {
       </div>
 
       <LogProductModal
-        {...props}
+        products={products.products}
+        dbBreeds={_uniqBy(
+          animals.animals.map(x => ({
+            name: x.breed,
+            species: x.species,
+          })),
+          'name',
+        )}
         errorMessage={pageState.loggedProductErrorMessage}
         open={pageState.showLoggedProductModal}
         onClose={handleCloseLoggedProductModal}
@@ -133,25 +157,6 @@ const HomePage = (props: IHomePage): React.ReactElement => {
       />
     </Layout>
   )
-}
-
-export const getStaticProps = async (): Promise<{props: IHomePage}> => {
-  const prisma = new PrismaClient()
-  const products = await prisma.product.findMany()
-  const animals = await prisma.animal.findMany()
-
-  return {
-    props: {
-      products: products.map(morphProductDb),
-      dbBreeds: _uniqBy(
-        animals.map(x => ({
-          name: x.breed,
-          species: x.species,
-        })),
-        'name',
-      ),
-    },
-  }
 }
 
 export default HomePage

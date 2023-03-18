@@ -5,12 +5,11 @@ import FormSelect, {IFormSelectItem} from '@/components/FormSelect'
 import ImportModal from '@/components/ImportModal'
 import Search from '@/components/Search'
 import Table from '@/components/Table'
+import TableLoader from '@/components/TableLoader'
 import {setPageState} from '@/helpers'
 import {DEBOUNCE} from '@/helpers/constants'
-import {IAnimal, morphAnimalDb} from '@/pages/api/_morphs/animal.morph'
 import Layout from '@/pages/_layout'
-import {Breed} from '@/types'
-import {PrismaClient} from '@prisma/client'
+import {IAnimal} from '@/pages/api/_morphs/animal.morph'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import _debounce from 'lodash/debounce'
@@ -18,13 +17,7 @@ import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import React, {useState} from 'react'
-
-interface IAnimalsPage {
-  animals: IAnimal[]
-  dbSpecies: string[]
-  dbBreeds: Breed[]
-}
+import React, {useEffect, useState} from 'react'
 
 interface IFilters {
   species: IFormSelectItem
@@ -34,6 +27,7 @@ interface IFilters {
 }
 
 interface IPageState {
+  loading?: boolean
   animals?: IAnimal[]
   originalAnimals?: IAnimal[]
   filters?: IFilters
@@ -54,15 +48,26 @@ const defaultFilters = {
   sold: filterOptions[0],
 }
 
-const AnimalsPage = ({animals, dbSpecies, dbBreeds}: IAnimalsPage): React.ReactElement => {
+const AnimalsPage = (): React.ReactElement => {
   const router = useRouter()
   const [pageState, stateFunc] = useState<IPageState>({
-    animals: animals,
+    loading: true,
+    animals: [],
     importerOpen: false,
-    originalAnimals: [...animals],
+    originalAnimals: [],
     resetSearch: 0,
     filters: {...defaultFilters},
   })
+
+  const getAnimals = async () => {
+    const animals = await axios.get('/api/animals')
+
+    setState({loading: false, animals: animals.data, originalAnimals: [...animals.data]})
+  }
+
+  useEffect(() => {
+    getAnimals()
+  }, [])
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
@@ -162,7 +167,11 @@ const AnimalsPage = ({animals, dbSpecies, dbBreeds}: IAnimalsPage): React.ReactE
       description="Manage the animals on your farm"
       breadcrumbs={[{name: 'Animals', current: true}]}
     >
-      {pageState.animals.length === 0 ? (
+      {pageState.loading ? (
+        <Card>
+          <TableLoader />
+        </Card>
+      ) : pageState.animals.length === 0 ? (
         <EmptyState
           entity="animals"
           actions={
@@ -191,7 +200,10 @@ const AnimalsPage = ({animals, dbSpecies, dbBreeds}: IAnimalsPage): React.ReactE
                 vertical
                 label="Species"
                 name="species"
-                items={[filterOptions[0], ...dbSpecies.map(name => ({id: name, name}))]}
+                items={[
+                  filterOptions[0],
+                  ..._uniq(pageState.originalAnimals.map(x => x.species)).map(name => ({id: name, name})),
+                ]}
                 staticSelected={pageState.filters.species}
                 onSelected={item => handleFilter({...pageState.filters, species: item, breed: filterOptions[0]})}
               />
@@ -203,7 +215,13 @@ const AnimalsPage = ({animals, dbSpecies, dbBreeds}: IAnimalsPage): React.ReactE
                   name="breed"
                   items={[
                     filterOptions[0],
-                    ...dbBreeds
+                    ..._uniqBy(
+                      pageState.originalAnimals.map(x => ({
+                        name: x.breed,
+                        species: x.species,
+                      })),
+                      'name',
+                    )
                       .filter(x => x.species === pageState.filters.species.id)
                       .map(({name}) => ({id: name, name})),
                   ]}
@@ -279,25 +297,4 @@ const AnimalsPage = ({animals, dbSpecies, dbBreeds}: IAnimalsPage): React.ReactE
   )
 }
 
-// noinspection JSUnusedGlobalSymbols
-export const getStaticProps = async (): Promise<{props: IAnimalsPage}> => {
-  const prisma = new PrismaClient()
-  const animals = await prisma.animal.findMany()
-
-  return {
-    props: {
-      animals: animals.map(morphAnimalDb),
-      dbSpecies: _uniq(animals.map(x => x.species)),
-      dbBreeds: _uniqBy(
-        animals.map(x => ({
-          name: x.breed,
-          species: x.species,
-        })),
-        'name',
-      ),
-    },
-  }
-}
-
-// noinspection JSUnusedGlobalSymbols
 export default AnimalsPage

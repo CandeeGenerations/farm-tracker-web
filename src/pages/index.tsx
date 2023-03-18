@@ -26,6 +26,8 @@ const StartPage = (): React.ReactElement => {
           src="/images/default.svg"
           className="mx-auto h-full"
           style={{maxWidth: 1000}}
+          width={1000}
+          height={1000}
         />
       </div>
     </div>

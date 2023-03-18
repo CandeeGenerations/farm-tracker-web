@@ -1,11 +1,11 @@
-import {IExpense, morphExpense} from '@/pages/api/_morphs/product.morph'
+import {IExpense, morphExpense, morphExpenseDb} from '@/pages/api/_morphs/product.morph'
 import {Expense, PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 const prisma = new PrismaClient()
 
 // CREATE /api/product/:productId/expense/import
-const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<Expense[]> => {
+const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IExpense[]> => {
   if (req.method !== 'POST') {
     res.status(500).send({error: 'Method not supported'})
     return
@@ -28,7 +28,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<Expens
     createdExpenses.push(newExpense)
   }
 
-  res.json(createdExpenses)
+  res.json(createdExpenses.map(morphExpenseDb))
 }
 
 export default handle

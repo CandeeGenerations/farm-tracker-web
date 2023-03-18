@@ -1,14 +1,14 @@
-import {IProduct, morphProduct} from '@/pages/api/_morphs/product.morph'
-import {Expense, PrismaClient, Product} from '@prisma/client'
+import {IProduct, morphProduct, morphProductDb} from '@/pages/api/_morphs/product.morph'
+import {Expense, PrismaClient, Product, LoggedProduct} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 const prisma = new PrismaClient()
 
 // UPDATE /api/product/:productId
-const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<Product> => {
+const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IProduct> => {
   const id = req.query.productId.toString()
   const updatedProduct: IProduct = req.body
-  let product = await prisma.product.findUnique({where: {id}, include: {expenses: true}})
+  let product = await prisma.product.findUnique({where: {id}, include: {expenses: true, loggedProducts: true}})
 
   if (!product) {
     res.status(500).send({error: 'Product not found'})
@@ -17,6 +17,11 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<Produc
 
   if (req.method === 'DELETE') {
     await handleDelete(product, res)
+    return
+  }
+
+  if (req.method === 'GET') {
+    await handleGet(id, res)
     return
   }
 
@@ -31,19 +36,37 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<Produc
 
   await prisma.product.update({data: product as Product, where: {id}})
 
-  res.json(product)
+  res.json(morphProductDb(product))
+}
+
+// GET /api/product/:productId
+async function handleGet(id: string, res: NextApiResponse): Promise<IProduct> {
+  const product = await prisma.product.findUnique({where: {id}, include: {expenses: true, loggedProducts: true}})
+
+  if (!product) {
+    res.status(500).send({error: 'Product not found'})
+    return
+  }
+
+  res.json(morphProductDb(product))
 }
 
 // DELETE /api/product/:productId
-async function handleDelete(product: Product & {expenses: Expense[]}, res: NextApiResponse): Promise<void> {
+async function handleDelete(
+  product: Product & {expenses: Expense[]; loggedProducts: LoggedProduct[]},
+  res: NextApiResponse,
+): Promise<void> {
   for (const expenses of product.expenses) {
     await prisma.expense.delete({where: {id: expenses.id}})
   }
 
-  const dbProduct = await prisma.product.delete({where: {id: product.id}})
+  for (const loggedProduct of product.loggedProducts) {
+    await prisma.loggedProduct.delete({where: {id: loggedProduct.id}})
+  }
 
-  res.json(dbProduct)
+  await prisma.product.delete({where: {id: product.id}})
+
+  res.json({success: true})
 }
 
-// noinspection JSUnusedGlobalSymbols
 export default handle

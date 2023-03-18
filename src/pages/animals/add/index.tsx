@@ -1,25 +1,35 @@
+import Card from '@/components/Card'
+import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import Layout from '@/pages/_layout'
-import {AnimalMetadata} from '@/types'
-import {PrismaClient} from '@prisma/client'
+import {IAnimalWithChildren} from '@/pages/api/_morphs/animal.morph'
 import axios from 'axios'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
 import {useRouter} from 'next/router'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import AnimalForm from '../_components/AnimalForm'
 
 interface IPageState {
   errorMessage?: string
 }
 
-interface IAddAnimalPage {
-  metadata: AnimalMetadata
-}
-
-const AddAnimalPage = ({metadata}: IAddAnimalPage): React.ReactElement => {
+const AddAnimalPage = (): React.ReactElement => {
   const {push} = useRouter()
+  const [animals, setAnimals] = useState<{loading: boolean; animals: IAnimalWithChildren[]}>({
+    loading: false,
+    animals: [],
+  })
   const [pageState, stateFunc] = useState<IPageState>({})
+
+  const getAnimals = async () => {
+    const animals = await axios.get(`/api/animals`)
+    setAnimals({loading: false, animals: animals.data})
+  }
+
+  useEffect(() => {
+    getAnimals()
+  }, [])
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
@@ -41,36 +51,34 @@ const AddAnimalPage = ({metadata}: IAddAnimalPage): React.ReactElement => {
         {name: 'Add animal', current: true},
       ]}
     >
-      <AnimalForm onSubmit={handleSubmit} metadata={metadata} errorMessage={pageState.errorMessage} />
+      {animals.loading ? (
+        <Card>
+          <TableLoader />
+        </Card>
+      ) : (
+        <AnimalForm
+          onSubmit={handleSubmit}
+          metadata={{
+            dbAnimals: animals.animals.map(x => ({
+              id: x.id,
+              name: x.name,
+              species: x.species,
+              breed: x.breed,
+            })),
+            dbSpecies: _uniq(animals.animals.map(x => x.species)),
+            dbBreeds: _uniqBy(
+              animals.animals.map(x => ({
+                name: x.breed,
+                species: x.species,
+              })),
+              'name',
+            ),
+          }}
+          errorMessage={pageState.errorMessage}
+        />
+      )}
     </Layout>
   )
-}
-
-// noinspection JSUnusedGlobalSymbols
-export const getStaticProps = async (): Promise<{props: IAddAnimalPage}> => {
-  const prisma = new PrismaClient()
-  const animals = await prisma.animal.findMany()
-
-  return {
-    props: {
-      metadata: {
-        dbAnimals: animals.map(x => ({
-          id: x.id,
-          name: x.name,
-          species: x.species,
-          breed: x.breed,
-        })),
-        dbSpecies: _uniq(animals.map(x => x.species)),
-        dbBreeds: _uniqBy(
-          animals.map(x => ({
-            name: x.breed,
-            species: x.species,
-          })),
-          'name',
-        ),
-      },
-    },
-  }
 }
 
 export default AddAnimalPage

@@ -1,4 +1,4 @@
-import {ILoggedProduct, morphLoggedProduct} from '@/pages/api/_morphs/product.morph'
+import {ILoggedProduct, morphLoggedProduct, morphLoggedProductDb} from '@/pages/api/_morphs/product.morph'
 import {LoggedProduct, PrismaClient} from '@prisma/client'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
@@ -7,7 +7,7 @@ import {NextApiRequest, NextApiResponse} from 'next'
 const prisma = new PrismaClient()
 
 // CREATE /api/log/import
-const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<LoggedProduct[]> => {
+const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<ILoggedProduct[]> => {
   if (req.method !== 'POST') {
     res.status(500).send({error: 'Method not supported'})
     return
@@ -51,7 +51,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<Logged
     createdLoggedProducts.push(newLoggedProduct)
   }
 
-  res.json(createdLoggedProducts)
+  res.json(createdLoggedProducts.map(morphLoggedProductDb))
 }
 
 export default handle

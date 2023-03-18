@@ -1,12 +1,14 @@
-import {IProduct, morphProduct} from '@/pages/api/_morphs/product.morph'
+import {generateString} from '@/helpers'
+import {IProduct, morphProduct, morphProductDb} from '@/pages/api/_morphs/product.morph'
 import {PrismaClient, Product} from '@prisma/client'
+import {paramCase} from 'change-case'
 import _uniq from 'lodash/uniq'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 const prisma = new PrismaClient()
 
 // CREATE /api/product/import
-const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<Product[]> => {
+const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IProduct[]> => {
   if (req.method !== 'POST') {
     res.status(500).send({error: 'Method not supported'})
     return
@@ -26,13 +28,17 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<Produc
     }
 
     const newProduct = await prisma.product.create({
-      data: morphProduct({...product, unit: product.unit.trim().toLowerCase()}),
+      data: morphProduct({
+        ...product,
+        productKey: `${paramCase(product.name.trim())}-${generateString()}`,
+        unit: product.unit.trim().toLowerCase(),
+      }),
     })
 
     createdProducts.push(newProduct)
   }
 
-  res.json(createdProducts)
+  res.json(createdProducts.map(morphProductDb))
 }
 
 export default handle

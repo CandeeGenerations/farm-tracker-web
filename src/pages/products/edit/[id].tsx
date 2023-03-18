@@ -1,27 +1,27 @@
 import Button from '@/components/Button'
+import Card from '@/components/Card'
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal'
 import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
 import TableLoader from '@/components/TableLoader'
 import TabNav from '@/components/TabNav'
 import {getErrorMessage, setPageState} from '@/helpers'
+import Layout from '@/pages/_layout'
+import {IAnimal} from '@/pages/api/_morphs/animal.morph'
 import {
   IExpense,
   ILoggedProduct,
   IProduct,
   morphExpenseDb,
   morphLoggedProductDb,
-  morphProductDb,
 } from '@/pages/api/_morphs/product.morph'
-import Layout from '@/pages/_layout'
-import {ProductMetadata} from '@/types'
-import {Expense, LoggedProduct, PrismaClient} from '@prisma/client'
+import {Expense, LoggedProduct} from '@prisma/client'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
 import {useRouter} from 'next/router'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import ExpenseChart from '../_components/ExpenseChart'
 import ExpenseModal from '../_components/ExpenseModal'
 import ExpensesTable from '../_components/ExpensesTable'
@@ -30,8 +30,7 @@ import LogsChart from '../_components/LogsChart'
 import LogsTable from '../_components/LogsTable'
 import ProductForm from '../_components/ProductForm'
 
-interface IPageState {
-  errorMessage?: string
+interface IExpensesState {
   showExpenseModal?: boolean
   expense?: IExpense
   expenseErrorMessage?: string
@@ -40,8 +39,9 @@ interface IPageState {
   showDeleteExpenseModal?: boolean
   deleteExpenseId?: string
   deleteExpenseLoading?: boolean
-  currentTab?: number
-  expenseImporterOpen?: boolean
+}
+
+interface ILoggedProductsState {
   loggedProducts?: ILoggedProduct[]
   loggedProduct?: ILoggedProduct
   loggedProductErrorMessage?: string
@@ -50,33 +50,70 @@ interface IPageState {
   deleteLoggedProductLoading?: boolean
   deleteLoggedProductId?: string
   loggedProductsLoading?: boolean
-  loggedProductImporterOpen?: boolean
 }
 
-interface IEditProductPage {
-  product: IProduct
-  metadata: ProductMetadata
+interface IPageState {
+  errorMessage?: string
+  currentTab?: number
 }
 
-const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactElement => {
+const EditAnimalPage = (): React.ReactElement => {
   const router = useRouter()
-  const [pageState, stateFunc] = useState<IPageState>({
+  const [product, setProduct] = useState<{loading: boolean; product: IProduct}>({loading: true, product: undefined})
+  const [products, setProducts] = useState<{loading: boolean; products: IProduct[]}>({loading: true, products: []})
+  const [animals, setAnimals] = useState<{loading: boolean; animals: IAnimal[]}>({loading: true, animals: []})
+  const [expenseImportModalOpen, setExpenseImportModalOpen] = useState<boolean>(false)
+  const [loggedProductImportModalOpen, setLoggedProductImportModalOpen] = useState<boolean>(false)
+  const [expensesState, expensesFunc] = useState<IExpensesState>({
     showExpenseModal: false,
-    expenses: product.expenses || [],
+    expenses: [],
     expensesLoading: false,
     showDeleteExpenseModal: false,
     deleteExpenseLoading: false,
-    currentTab: 1,
-    expenseImporterOpen: false,
-    loggedProducts: product.loggedProducts || [],
+  })
+  const [loggedProductsState, loggedProductsFunc] = useState<ILoggedProductsState>({
+    loggedProducts: [],
     showLoggedProductModal: false,
     showDeleteLoggedProductModal: false,
     deleteLoggedProductLoading: false,
     loggedProductsLoading: false,
-    loggedProductImporterOpen: false,
+  })
+  const [pageState, stateFunc] = useState<IPageState>({
+    currentTab: 1,
   })
 
+  const getProduct = async id => {
+    const result = await axios.get(`/api/product/${id}`)
+    setProduct({loading: false, product: result.data})
+    setExpensesState({expenses: result.data.expenses})
+    setLoggedProductsState({loggedProducts: result.data.loggedProducts})
+  }
+
+  const getProducts = async () => {
+    const result = await axios.get('/api/products')
+    setProducts({loading: false, products: result.data})
+  }
+
+  const getAnimals = async () => {
+    const result = await axios.get('/api/animals')
+    setAnimals({loading: false, animals: result.data})
+  }
+
+  useEffect(() => {
+    if (router.query.id) {
+      getProduct(router.query.id)
+    }
+
+    getProducts()
+    getAnimals()
+  }, [router.query.id])
+
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
+
+  const setExpensesState = (state: IExpensesState) => setPageState<IExpensesState>(expensesFunc, expensesState, state)
+
+  const setLoggedProductsState = (state: ILoggedProductsState) =>
+    setPageState<ILoggedProductsState>(loggedProductsFunc, loggedProductsState, state)
 
   const handleSubmit = async (data: IProduct) => {
     try {
@@ -97,65 +134,61 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
   }
 
   const handleLoadExpenses = async () => {
-    setState({expensesLoading: true})
-
-    const stateUpdate = {
-      showExpenseModal: false,
-      expense: undefined,
-      expensesLoading: false,
-      deleteExpenseId: undefined,
-      deleteExpenseLoading: false,
-      showDeleteExpenseModal: false,
-    }
+    setExpensesState({expensesLoading: true})
 
     try {
-      const {data} = await axios.get<Expense[]>(`/api/product/${product.id}/expenses`)
-      setState({expenses: data.map(morphExpenseDb), ...stateUpdate})
+      const {data} = await axios.get<Expense[]>(`/api/product/${product.product.id}/expenses`)
+      setExpensesState({
+        expenses: data.map(morphExpenseDb),
+        ...{
+          showExpenseModal: false,
+          expensesLoading: false,
+          deleteExpenseId: undefined,
+          deleteExpenseLoading: false,
+          showDeleteExpenseModal: false,
+        },
+      })
     } catch (e) {
-      setState({errorMessage: getErrorMessage(e), ...stateUpdate})
+      setState({errorMessage: getErrorMessage(e)})
     }
   }
 
   const handleShowExpenseModal = (expense?: IExpense) =>
-    setState({showExpenseModal: true, expenseErrorMessage: undefined, expense})
+    setExpensesState({showExpenseModal: true, expenseErrorMessage: undefined, expense})
 
-  const handleCloseExpenseModal = () => setState({showExpenseModal: false})
+  const handleCloseExpenseModal = () => setExpensesState({showExpenseModal: false})
 
   const handleCompleteExpense = async (expense: IExpense) => {
     try {
-      await axios.post(`/api/product/${product.id}/expense${expense.id ? `/${expense.id}` : ''}`, expense)
+      await axios.post(`/api/product/${product.product.id}/expense${expense.id ? `/${expense.id}` : ''}`, expense)
       await handleLoadExpenses()
     } catch (e) {
-      setState({expenseErrorMessage: getErrorMessage(e)})
+      setExpensesState({expenseErrorMessage: getErrorMessage(e)})
     }
   }
 
   const handleShowDeleteExpenseModal = (deleteExpenseId: string) =>
-    setState({showDeleteExpenseModal: true, deleteExpenseId})
+    setExpensesState({showDeleteExpenseModal: true, deleteExpenseId})
 
-  const handleCloseDeleteExpenseModal = () => setState({showDeleteExpenseModal: false, deleteExpenseId: undefined})
+  const handleCloseDeleteExpenseModal = () =>
+    setExpensesState({showDeleteExpenseModal: false, deleteExpenseId: undefined})
 
   const handleDeleteExpense = async () => {
-    setState({deleteExpenseLoading: true})
-
-    const stateUpdate = {
-      showDeleteExpenseModal: false,
-      deleteExpenseId: undefined,
-    }
+    setExpensesState({deleteExpenseLoading: true})
 
     try {
-      await axios.delete(`/api/product/${product.id}/expense/${pageState.deleteExpenseId}`)
+      await axios.delete(`/api/product/${product.product.id}/expense/${expensesState.deleteExpenseId}`)
       await handleLoadExpenses()
     } catch (e) {
-      setState({expenseErrorMessage: getErrorMessage(e), ...stateUpdate})
+      setExpensesState({expenseErrorMessage: getErrorMessage(e)})
     }
   }
 
   const handleChangeTab = (tab: number) => setState({currentTab: tab})
 
-  const handleOpenExpenseImporter = () => setState({expenseImporterOpen: true})
+  const handleOpenExpenseImporter = () => setExpenseImportModalOpen(true)
 
-  const handleCloseExpenseImporter = () => setState({expenseImporterOpen: false})
+  const handleCloseExpenseImporter = () => setExpenseImportModalOpen(false)
 
   const handleImportExpenses = async (
     data: {
@@ -178,35 +211,34 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
       })
     }
 
-    await axios.post(`/api/product/${product.id}/expense/import`, expenses)
-
-    router.reload()
+    await axios.post(`/api/product/${product.product.id}/expense/import`, expenses)
+    await handleLoadExpenses()
   }
 
   const handleLoadLoggedProducts = async () => {
-    setState({loggedProductsLoading: true})
-
-    const stateUpdate = {
-      showLoggedProductModal: false,
-      loggedProduct: undefined,
-      loggedProductsLoading: false,
-      deleteLoggedProductId: undefined,
-      deleteLoggedProductLoading: false,
-      showDeleteLoggedProductModal: false,
-    }
+    setLoggedProductsState({loggedProductsLoading: true})
 
     try {
-      const {data} = await axios.get<LoggedProduct[]>(`/api/product/${product.id}/logs`)
-      setState({loggedProducts: data.map(morphLoggedProductDb), ...stateUpdate})
+      const {data} = await axios.get<LoggedProduct[]>(`/api/product/${product.product.id}/logs`)
+      setLoggedProductsState({
+        loggedProducts: data.map(morphLoggedProductDb),
+        ...{
+          showLoggedProductModal: false,
+          loggedProductsLoading: false,
+          deleteLoggedProductId: undefined,
+          deleteLoggedProductLoading: false,
+          showDeleteLoggedProductModal: false,
+        },
+      })
     } catch (e) {
-      setState({errorMessage: getErrorMessage(e), ...stateUpdate})
+      setState({errorMessage: getErrorMessage(e)})
     }
   }
 
   const handleShowLoggedProductModal = (loggedProduct?: ILoggedProduct) =>
-    setState({showLoggedProductModal: true, loggedProductErrorMessage: undefined, loggedProduct})
+    setLoggedProductsState({showLoggedProductModal: true, loggedProductErrorMessage: undefined, loggedProduct})
 
-  const handleCloseLoggedProductModal = () => setState({showLoggedProductModal: false})
+  const handleCloseLoggedProductModal = () => setLoggedProductsState({showLoggedProductModal: false})
 
   const handleCompleteLoggedProduct = async (loggedProduct: ILoggedProduct) => {
     try {
@@ -216,18 +248,18 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
       )
       await handleLoadLoggedProducts()
     } catch (e) {
-      setState({loggedProductErrorMessage: getErrorMessage(e)})
+      setLoggedProductsState({loggedProductErrorMessage: getErrorMessage(e)})
     }
   }
 
   const handleShowDeleteLoggedProductModal = (deleteLoggedProductId: string) =>
-    setState({showDeleteLoggedProductModal: true, deleteLoggedProductId})
+    setLoggedProductsState({showDeleteLoggedProductModal: true, deleteLoggedProductId})
 
   const handleCloseDeleteLoggedProductModal = () =>
-    setState({showDeleteLoggedProductModal: false, deleteLoggedProductId: undefined})
+    setLoggedProductsState({showDeleteLoggedProductModal: false, deleteLoggedProductId: undefined})
 
   const handleDeleteLoggedProduct = async () => {
-    setState({deleteLoggedProductLoading: true})
+    setLoggedProductsState({deleteLoggedProductLoading: true})
 
     const stateUpdate = {
       showDeleteLoggedProductModal: false,
@@ -235,16 +267,16 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
     }
 
     try {
-      await axios.delete(`/api/product/${product.id}/log/${pageState.deleteLoggedProductId}`)
+      await axios.delete(`/api/product/${product.product.id}/log/${loggedProductsState.deleteLoggedProductId}`)
       await handleLoadLoggedProducts()
     } catch (e) {
-      setState({loggedProductErrorMessage: getErrorMessage(e), ...stateUpdate})
+      setLoggedProductsState({loggedProductErrorMessage: getErrorMessage(e), ...stateUpdate})
     }
   }
 
-  const handleOpenLoggedProductImporter = () => setState({loggedProductImporterOpen: true})
+  const handleOpenLoggedProductImporter = () => setLoggedProductImportModalOpen(true)
 
-  const handleCloseLoggedProductImporter = () => setState({loggedProductImporterOpen: false})
+  const handleCloseLoggedProductImporter = () => setLoggedProductImportModalOpen(false)
 
   const handleImportLoggedProducts = async (
     data: {
@@ -258,8 +290,8 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
     for (const log of data) {
       logs.push({
         id: undefined,
-        productId: product.id,
-        productKey: product.productKey,
+        productId: product.product.id,
+        productKey: product.product.productKey,
         quantity: Number(log.quantity),
         breed: log.breed,
         logDate: log.logDate ? dayjs(log.logDate).format() : dayjs().format(),
@@ -267,134 +299,149 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
     }
 
     await axios.post(`/api/log/import`, logs)
-
-    router.reload()
+    await handleLoadLoggedProducts()
   }
 
   return (
     <Layout
-      title={`${product.name} - Edit product`}
+      title={`${product.product?.name || 'Loading...'} - Edit product`}
       description="Update this product"
       breadcrumbs={[
         {name: 'Products', href: '/products'},
-        {name: product.name, current: true},
+        {name: product.product?.name, current: true},
       ]}
     >
-      <div className="mt-6">
-        <TabNav
-          tabs={[
-            {id: 1, name: 'Product'},
-            {id: 2, name: 'Logs'},
-            {id: 3, name: 'Expenses'},
-          ]}
-          currentTab={pageState.currentTab}
-          onChange={handleChangeTab}
-        />
-
-        {pageState.currentTab === 1 && (
-          <ProductForm
-            product={product}
-            onDelete={handleDelete}
-            onSubmit={handleSubmit}
-            metadata={metadata}
-            errorMessage={pageState.errorMessage}
+      {products.loading || product.loading || animals.loading ? (
+        <Card>
+          <TableLoader />
+        </Card>
+      ) : (
+        <div className="mt-6">
+          <TabNav
+            tabs={[
+              {id: 1, name: 'Product'},
+              {id: 2, name: 'Logs'},
+              {id: 3, name: 'Expenses'},
+            ]}
+            currentTab={pageState.currentTab}
+            onChange={handleChangeTab}
           />
-        )}
 
-        {pageState.currentTab === 2 && (
-          <div className="mt-10">
-            {pageState.loggedProductsLoading ? (
-              <TableLoader />
-            ) : pageState.loggedProducts.length === 0 ? (
-              <div className="pt-10">
-                <EmptyState
-                  entity="logs"
-                  actions={
-                    <>
-                      <p className="mt-1 text-sm text-muted">Add a new logged product here</p>
+          {pageState.currentTab === 1 && (
+            <ProductForm
+              product={product.product}
+              onDelete={handleDelete}
+              onSubmit={handleSubmit}
+              metadata={{
+                dbProducts: products.products,
+                dbSpecies: _uniq(animals.animals.map(x => x.species)),
+                dbBreeds: _uniqBy(
+                  animals.animals.map(x => ({
+                    name: x.breed,
+                    species: x.species,
+                  })),
+                  'name',
+                ),
+              }}
+              errorMessage={pageState.errorMessage}
+            />
+          )}
 
-                      <div className="mt-6">
-                        <Button type="secondary" className="mr-4" onClick={handleOpenLoggedProductImporter}>
-                          Import logs
-                        </Button>
+          {pageState.currentTab === 2 && (
+            <div className="mt-10">
+              {loggedProductsState.loggedProductsLoading ? (
+                <TableLoader />
+              ) : loggedProductsState.loggedProducts.length === 0 ? (
+                <div className="pt-10">
+                  <EmptyState
+                    entity="logs"
+                    actions={
+                      <>
+                        <p className="mt-1 text-sm text-muted">Add a new logged product here</p>
 
-                        <Button
-                          type="primary"
-                          onClick={() =>
-                            handleShowLoggedProductModal({
-                              id: undefined,
-                              quantity: 1,
-                              productId: product.id,
-                              logDate: dayjs().format(),
-                            })
-                          }
-                        >
-                          Add log
-                        </Button>
-                      </div>
-                    </>
-                  }
-                />
-              </div>
-            ) : (
-              <>
-                <LogsTable
-                  logs={pageState.loggedProducts}
-                  product={product}
-                  onShowLoggedProductModal={handleShowLoggedProductModal}
-                  onOpenImporter={handleOpenLoggedProductImporter}
-                />
+                        <div className="mt-6">
+                          <Button type="secondary" className="mr-4" onClick={handleOpenLoggedProductImporter}>
+                            Import logs
+                          </Button>
 
-                <LogsChart logs={pageState.loggedProducts} />
-              </>
-            )}
-          </div>
-        )}
+                          <Button
+                            type="primary"
+                            onClick={() =>
+                              handleShowLoggedProductModal({
+                                id: undefined,
+                                quantity: 1,
+                                productId: product.product.id,
+                                logDate: dayjs().format(),
+                              })
+                            }
+                          >
+                            Add log
+                          </Button>
+                        </div>
+                      </>
+                    }
+                  />
+                </div>
+              ) : (
+                <>
+                  <LogsTable
+                    logs={loggedProductsState.loggedProducts}
+                    product={product.product}
+                    onShowLoggedProductModal={handleShowLoggedProductModal}
+                    onOpenImporter={handleOpenLoggedProductImporter}
+                  />
 
-        {pageState.currentTab === 3 && (
-          <div className="mt-10">
-            {pageState.expensesLoading ? (
-              <TableLoader />
-            ) : pageState.expenses.length === 0 ? (
-              <div className="pt-10">
-                <EmptyState
-                  entity="expenses"
-                  actions={
-                    <>
-                      <p className="mt-1 text-sm text-muted">Add a new expense here</p>
+                  <LogsChart logs={loggedProductsState.loggedProducts} />
+                </>
+              )}
+            </div>
+          )}
 
-                      <div className="mt-6">
-                        <Button type="secondary" className="mr-4" onClick={handleOpenExpenseImporter}>
-                          Import expenses
-                        </Button>
+          {pageState.currentTab === 3 && (
+            <div className="mt-10">
+              {expensesState.expensesLoading ? (
+                <TableLoader />
+              ) : expensesState.expenses.length === 0 ? (
+                <div className="pt-10">
+                  <EmptyState
+                    entity="expenses"
+                    actions={
+                      <>
+                        <p className="mt-1 text-sm text-muted">Add a new expense here</p>
 
-                        <Button type="primary" onClick={() => handleShowExpenseModal()}>
-                          Add expense
-                        </Button>
-                      </div>
-                    </>
-                  }
-                />
-              </div>
-            ) : (
-              <>
-                <ExpensesTable
-                  expenses={pageState.expenses}
-                  onShowExpenseModal={handleShowExpenseModal}
-                  onOpenImporter={handleOpenExpenseImporter}
-                />
+                        <div className="mt-6">
+                          <Button type="secondary" className="mr-4" onClick={handleOpenExpenseImporter}>
+                            Import expenses
+                          </Button>
 
-                <ExpenseChart expenses={pageState.expenses} />
-              </>
-            )}
-          </div>
-        )}
-      </div>
+                          <Button type="primary" onClick={() => handleShowExpenseModal()}>
+                            Add expense
+                          </Button>
+                        </div>
+                      </>
+                    }
+                  />
+                </div>
+              ) : (
+                <>
+                  <ExpensesTable
+                    expenses={expensesState.expenses}
+                    onShowExpenseModal={handleShowExpenseModal}
+                    onOpenImporter={handleOpenExpenseImporter}
+                  />
+
+                  <ExpenseChart expenses={expensesState.expenses} />
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       <ExpenseModal
-        expense={pageState.expense}
-        errorMessage={pageState.expenseErrorMessage}
-        open={pageState.showExpenseModal}
+        expense={expensesState.expense}
+        errorMessage={expensesState.expenseErrorMessage}
+        open={expensesState.showExpenseModal}
         onClose={handleCloseExpenseModal}
         onSubmit={handleCompleteExpense}
         onDelete={handleShowDeleteExpenseModal}
@@ -402,8 +449,8 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
 
       <ConfirmDeleteModal
         type="expense"
-        open={pageState.showDeleteExpenseModal}
-        loading={pageState.deleteExpenseLoading}
+        open={expensesState.showDeleteExpenseModal}
+        loading={expensesState.deleteExpenseLoading}
         onClose={handleCloseDeleteExpenseModal}
         onDelete={handleDeleteExpense}
       />
@@ -411,17 +458,24 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
       <ImportModal
         type="expenses"
         headers={['item', 'amount', 'quantity', 'purchaseDate']}
-        open={pageState.expenseImporterOpen}
+        open={expenseImportModalOpen}
         onClose={handleCloseExpenseImporter}
         onSave={handleImportExpenses}
+        notReloading
       />
 
       <LogProductModal
-        products={metadata.dbProducts}
-        dbBreeds={metadata.dbBreeds}
-        loggedProduct={pageState.loggedProduct}
-        errorMessage={pageState.loggedProductErrorMessage}
-        open={pageState.showLoggedProductModal}
+        products={products.products}
+        dbBreeds={_uniqBy(
+          animals.animals.map(x => ({
+            name: x.breed,
+            species: x.species,
+          })),
+          'name',
+        )}
+        loggedProduct={loggedProductsState.loggedProduct}
+        errorMessage={loggedProductsState.loggedProductErrorMessage}
+        open={loggedProductsState.showLoggedProductModal}
         onClose={handleCloseLoggedProductModal}
         onSubmit={handleCompleteLoggedProduct}
         onDelete={handleShowDeleteLoggedProductModal}
@@ -429,8 +483,8 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
 
       <ConfirmDeleteModal
         type="logged product"
-        open={pageState.showDeleteLoggedProductModal}
-        loading={pageState.deleteLoggedProductLoading}
+        open={loggedProductsState.showDeleteLoggedProductModal}
+        loading={loggedProductsState.deleteLoggedProductLoading}
         onClose={handleCloseDeleteLoggedProductModal}
         onDelete={handleDeleteLoggedProduct}
       />
@@ -438,56 +492,13 @@ const EditAnimalPage = ({product, metadata}: IEditProductPage): React.ReactEleme
       <ImportModal
         type="logged products"
         headers={['quantity', 'logDate', 'breed']}
-        open={pageState.loggedProductImporterOpen}
+        open={loggedProductImportModalOpen}
         onClose={handleCloseLoggedProductImporter}
         onSave={handleImportLoggedProducts}
+        notReloading
       />
     </Layout>
   )
-}
-
-// noinspection JSUnusedGlobalSymbols
-export async function getStaticPaths() {
-  const prisma = new PrismaClient()
-  const products = await prisma.product.findMany()
-  const paths: {params: {id: string}}[] = []
-
-  products.forEach(({id}) => {
-    paths.push({params: {id: id.toString()}})
-  })
-
-  return {
-    paths,
-    fallback: false,
-  }
-}
-
-// noinspection JSUnusedGlobalSymbols
-export const getStaticProps = async ({params}): Promise<{props: IEditProductPage}> => {
-  const prisma = new PrismaClient()
-  const product = await prisma.product.findFirst({
-    where: {id: params.id},
-    include: {expenses: true, loggedProducts: true},
-  })
-  const animals = await prisma.animal.findMany()
-  const products = await prisma.product.findMany({include: {expenses: true, loggedProducts: true}})
-
-  return {
-    props: {
-      product: morphProductDb(product),
-      metadata: {
-        dbSpecies: _uniq(animals.map(x => x.species)),
-        dbBreeds: _uniqBy(
-          animals.map(x => ({
-            name: x.breed,
-            species: x.species,
-          })),
-          'name',
-        ),
-        dbProducts: products.map(x => morphProductDb(x)),
-      },
-    },
-  }
 }
 
 export default EditAnimalPage
