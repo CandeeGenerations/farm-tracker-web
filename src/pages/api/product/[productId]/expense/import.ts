@@ -1,6 +1,8 @@
 import {IExpense, morphExpense, morphExpenseDb} from '@/pages/api/_morphs/product.morph'
 import {Expense, PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '../../../auth/[...nextauth]'
 
 const prisma = new PrismaClient()
 
@@ -11,11 +13,14 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IExpen
     return
   }
 
+  const session = await getServerSession(req, res, authOptions)
   const productId = req.query.productId.toString()
   const expenses: IExpense[] = req.body
   const createdExpenses: Expense[] = []
 
   for (const expense of expenses) {
+    expense.owner = session.user.email
+
     const newExpense = await prisma.expense.create({
       data: morphExpense({
         ...expense,

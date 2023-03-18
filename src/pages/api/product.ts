@@ -3,6 +3,8 @@ import {IProduct, morphProductDb} from '@/pages/api/_morphs/product.morph'
 import {PrismaClient, Product} from '@prisma/client'
 import {paramCase} from 'change-case'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from './auth/[...nextauth]'
 
 const prisma = new PrismaClient()
 
@@ -13,7 +15,11 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IProdu
     return
   }
 
+  const session = await getServerSession(req, res, authOptions)
   const newProduct: Product = req.body
+
+  newProduct.owner = session.user.email
+
   const product = await prisma.product.create({
     data: {
       ...newProduct,

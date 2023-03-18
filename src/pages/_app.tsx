@@ -1,5 +1,6 @@
 import type {AppProps} from 'next/app'
 import React from 'react'
+import {SessionProvider} from 'next-auth/react'
 
 import '../styles/globals.css'
 
@@ -17,8 +18,12 @@ ${sep}
  Farm Tracker | v${process.env.NEXT_PUBLIC_APP_VERSION || '_dev'}
 ${sep}`)
 
-const FarmTrackerApp = ({Component, pageProps}: AppProps): React.ReactElement => {
-  return <Component {...pageProps} />
+const FarmTrackerApp = ({Component, pageProps: {session, ...pageProps}}: AppProps): React.ReactElement => {
+  return (
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
+  )
 }
 
 // noinspection JSUnusedGlobalSymbols

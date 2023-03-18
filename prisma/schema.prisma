@@ -18,6 +18,7 @@ model Animal {
 
   children Animal[] @relation("children")
 
+  owner   String
   name    String
   species String
   breed   String
@@ -33,6 +34,7 @@ model Animal {
 model Product {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
+  owner      String
   productKey String @unique
   name       String
   species    String
@@ -48,6 +50,7 @@ model LoggedProduct {
   product   Product @relation(fields: [productId], references: [id])
   productId String  @db.ObjectId
 
+  owner   String
   species String?
   breed   String?
 
@@ -62,7 +65,8 @@ model Expense {
   product   Product @relation(fields: [productId], references: [id])
   productId String  @db.ObjectId
 
-  item String
+  owner String
+  item  String
 
   amount Float
 

@@ -13,6 +13,7 @@ export interface IProduct {
   unit: string
   expenses: IExpense[]
   loggedProducts: ILoggedProduct[]
+  owner: string
 }
 
 const productDbToFormMap = {
@@ -21,6 +22,7 @@ const productDbToFormMap = {
   name: 'name',
   species: 'species',
   unit: 'unit',
+  owner: 'owner',
   expenses: ({expenses}: ProductWithExpenses) => (expenses || []).map(morphExpenseDb),
   loggedProducts: ({loggedProducts}: ProductWithExpenses) => (loggedProducts || []).map(morphLoggedProductDb),
 }
@@ -34,6 +36,7 @@ const productToDbMap = {
   name: ({name}) => name.trim(),
   species: 'species',
   unit: 'unit',
+  owner: 'owner',
 }
 
 export const morphProduct = (source: IProduct) => morphism<StrictSchema<Product, IProduct>>(productToDbMap, source)
@@ -47,6 +50,7 @@ export interface IExpense {
   amount: number
   quantity: number
   purchaseDate: string
+  owner: string
 }
 
 const expenseDbToFormMap = {
@@ -55,6 +59,7 @@ const expenseDbToFormMap = {
   item: 'item',
   amount: ({amount}) => parseFloat(amount),
   quantity: 'quantity',
+  owner: 'owner',
   purchaseDate: ({purchaseDate}: Expense) => (purchaseDate ? dayjs(purchaseDate).format() : null),
 }
 
@@ -66,6 +71,7 @@ const expenseToDbMap = {
   item: ({item}) => item.trim(),
   amount: 'amount',
   quantity: 'quantity',
+  owner: 'owner',
   purchaseDate: ({purchaseDate}: IExpense) => (purchaseDate ? new Date(purchaseDate) : null),
 }
 
@@ -80,6 +86,7 @@ export interface ILoggedProduct {
   breed?: string
   quantity: number
   logDate?: string
+  owner: string
 }
 
 const loggedProductDbToFormMap = {
@@ -87,6 +94,7 @@ const loggedProductDbToFormMap = {
   productId: 'productId',
   species: 'species',
   breed: 'breed',
+  owner: 'owner',
   quantity: ({quantity}: LoggedProduct) => Number(quantity),
   logDate: ({logDate}: LoggedProduct) => (logDate ? dayjs(logDate).format() : null),
 }
@@ -100,6 +108,7 @@ const loggedProductToDbMap = {
   species: 'species',
   breed: 'breed',
   quantity: 'quantity',
+  owner: 'owner',
   logDate: ({logDate}: ILoggedProduct) => (logDate ? new Date(logDate) : null),
 }
 

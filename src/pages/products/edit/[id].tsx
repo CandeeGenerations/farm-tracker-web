@@ -204,6 +204,7 @@ const EditAnimalPage = (): React.ReactElement => {
       expenses.push({
         id: undefined,
         productId: undefined,
+        owner: undefined,
         item: expense.item,
         amount: expense.amount,
         quantity: expense.quantity,
@@ -290,6 +291,7 @@ const EditAnimalPage = (): React.ReactElement => {
     for (const log of data) {
       logs.push({
         id: undefined,
+        owner: product.product.owner,
         productId: product.product.id,
         productKey: product.product.productKey,
         quantity: Number(log.quantity),
@@ -370,6 +372,7 @@ const EditAnimalPage = (): React.ReactElement => {
                               handleShowLoggedProductModal({
                                 id: undefined,
                                 quantity: 1,
+                                owner: product.product.owner,
                                 productId: product.product.id,
                                 logDate: dayjs().format(),
                               })

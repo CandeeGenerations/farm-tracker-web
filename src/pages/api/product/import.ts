@@ -4,6 +4,8 @@ import {PrismaClient, Product} from '@prisma/client'
 import {paramCase} from 'change-case'
 import _uniq from 'lodash/uniq'
 import {NextApiRequest, NextApiResponse} from 'next'
+import {getServerSession} from 'next-auth/next'
+import {authOptions} from '../auth/[...nextauth]'
 
 const prisma = new PrismaClient()
 
@@ -14,6 +16,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IProdu
     return
   }
 
+  const session = await getServerSession(req, res, authOptions)
   const existingAnimals = await prisma.animal.findMany()
   const existingSpecies = _uniq(existingAnimals.map(x => x.species))
 
@@ -26,6 +29,8 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IProdu
     if (species) {
       product.species = species
     }
+
+    product.owner = session.user.email
 
     const newProduct = await prisma.product.create({
       data: morphProduct({

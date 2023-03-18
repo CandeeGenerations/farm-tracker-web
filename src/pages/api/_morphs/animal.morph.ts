@@ -14,6 +14,7 @@ export interface IAnimal {
   deceasedDate?: string
   saleDate?: string
   parentId?: string
+  owner: string
 }
 
 export interface IAnimalWithChildren extends IAnimal {
@@ -28,6 +29,7 @@ const animalDbToFormMap = {
   deceased: 'deceased',
   sold: 'sold',
   parentId: 'parentId',
+  owner: 'owner',
   birthDate: ({birthDate}: AnimalWithChildren) => (birthDate ? dayjs(birthDate).format() : null),
   deceasedDate: ({deceasedDate}: AnimalWithChildren) => (deceasedDate ? dayjs(deceasedDate).format() : null),
   saleDate: ({saleDate}: AnimalWithChildren) => (saleDate ? dayjs(saleDate).format() : null),
@@ -45,6 +47,7 @@ const animalToDbMap = {
   deceased: 'deceased',
   sold: 'sold',
   parentId: 'parentId',
+  owner: 'owner',
   birthDate: ({birthDate}: IAnimal) => (birthDate ? new Date(birthDate) : null),
   deceasedDate: ({deceasedDate}: IAnimal) => (deceasedDate ? new Date(deceasedDate) : null),
   saleDate: ({saleDate}: IAnimal) => (saleDate ? new Date(saleDate) : null),

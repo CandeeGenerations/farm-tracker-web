@@ -1,17 +1,12 @@
+import Button from '@/components/Button'
+import {signIn} from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
-import Router from 'next/router'
 import React, {useEffect} from 'react'
 
 const StartPage = (): React.ReactElement => {
   useEffect(() => {
-    const timer = setTimeout(async () => {
-      await Router.push('/home')
-    }, 2000)
-
-    return () => {
-      clearTimeout(timer)
-    }
+    signIn()
   }, [])
 
   return (
@@ -20,15 +15,17 @@ const StartPage = (): React.ReactElement => {
         <title>Farm Tracker - Track your farm!</title>
       </Head>
 
-      <div>
+      <div className="text-center">
         <Image
           alt="Farm Tracker - Track your farm!"
           src="/images/default.svg"
           className="mx-auto h-full"
-          style={{maxWidth: 1000}}
-          width={1000}
-          height={1000}
+          style={{maxWidth: 500}}
+          width={500}
+          height={500}
         />
+
+        <Button loading>Loading...</Button>
       </div>
     </div>
   )
