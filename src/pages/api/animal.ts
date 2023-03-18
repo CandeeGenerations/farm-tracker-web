@@ -1,5 +1,5 @@
 import {IAnimal, morphAnimal, morphAnimalDb} from '@/pages/api/_morphs/animal.morph'
-import {Animal, PrismaClient} from '@prisma/client'
+import {PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 const prisma = new PrismaClient()

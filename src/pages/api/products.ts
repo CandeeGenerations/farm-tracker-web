@@ -1,5 +1,5 @@
 import {IProduct, morphProductDb} from '@/pages/api/_morphs/product.morph'
-import {PrismaClient, Product} from '@prisma/client'
+import {PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 const prisma = new PrismaClient()

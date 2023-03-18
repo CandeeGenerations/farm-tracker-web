@@ -1,7 +1,7 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import Router from 'next/router'
 import React, {useEffect} from 'react'
-import Image from 'next/image'
 
 const StartPage = (): React.ReactElement => {
   useEffect(() => {

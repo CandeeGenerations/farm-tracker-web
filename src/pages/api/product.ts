@@ -1,8 +1,8 @@
+import {generateString} from '@/helpers'
 import {IProduct, morphProductDb} from '@/pages/api/_morphs/product.morph'
 import {PrismaClient, Product} from '@prisma/client'
 import {paramCase} from 'change-case'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {generateString} from '@/helpers'
 
 const prisma = new PrismaClient()
 

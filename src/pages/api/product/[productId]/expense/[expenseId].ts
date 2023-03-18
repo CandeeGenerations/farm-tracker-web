@@ -1,5 +1,5 @@
 import {IExpense, morphExpense, morphExpenseDb} from '@/pages/api/_morphs/product.morph'
-import {Expense, PrismaClient} from '@prisma/client'
+import {PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
 
 const prisma = new PrismaClient()
