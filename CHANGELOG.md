@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.2...v0.1.3) (2023-03-18)
+
+
+### Bug Fixes
+
+* minor fix ([dd40eb6](https://github.com/CandeeGenerations/farm-tracker/commit/dd40eb683bcd6657bbd659a8b638b0648daec010))
+
 ### [0.1.2](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.1...v0.1.2) (2023-03-18)
 
 
