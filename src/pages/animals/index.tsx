@@ -143,6 +143,7 @@ const AnimalsPage = (): React.ReactElement => {
       animals.push({
         id: undefined,
         parentId: undefined,
+        owner: undefined,
         name: animal.name,
         species: animal.species,
         breed: animal.breed,

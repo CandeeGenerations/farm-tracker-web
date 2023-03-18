@@ -1,6 +1,4 @@
 import Button from '@/components/Button'
-import Card from '@/components/Card'
-import SmallLoader from '@/components/SmallLoader'
 import type {GetServerSidePropsContext} from 'next'
 import {getServerSession} from 'next-auth/next'
 import {signIn} from 'next-auth/react'

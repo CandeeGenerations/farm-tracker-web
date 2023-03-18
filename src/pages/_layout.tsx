@@ -1,14 +1,14 @@
 import {classNames, setPageState} from '@/helpers'
 import {Disclosure, Menu, Transition} from '@headlessui/react'
 import {Bars3Icon, HomeIcon, XMarkIcon} from '@heroicons/react/24/outline'
+import Avvvatars from 'avvvatars-react'
 import dayjs from 'dayjs'
+import {signOut, useSession} from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {Fragment, useEffect, useState} from 'react'
-import Avvvatars from 'avvvatars-react'
-import {useSession, signOut} from 'next-auth/react'
 
 interface IPageState {
   activeNavigation?: string
