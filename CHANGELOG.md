@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.6...v0.1.7) (2023-03-21)
+
+
+### Features
+
+* added impersonator feature ([c8ae160](https://github.com/CandeeGenerations/farm-tracker/commit/c8ae16006dc5bb0e5fc5d6a81fb597fccf3b368e))
+
 ### [0.1.6](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.5...v0.1.6) (2023-03-18)
 
 
