@@ -1,10 +1,9 @@
+import {getUserEmail} from '@/pages/api/_common/helpers'
 import {IAnimal, morphAnimal, morphAnimalDb} from '@/pages/api/_morphs/animal.morph'
 import {Animal, PrismaClient} from '@prisma/client'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getServerSession} from 'next-auth/next'
-import {authOptions} from '../auth/[...nextauth]'
 
 const prisma = new PrismaClient()
 
@@ -15,7 +14,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IAnima
     return
   }
 
-  const session = await getServerSession(req, res, authOptions)
+  const userEmail = await getUserEmail(req, res)
   const existingAnimals = await prisma.animal.findMany()
   const existingSpecies = _uniq(existingAnimals.map(x => x.species))
   const existingBreeds = _uniqBy(
@@ -45,7 +44,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IAnima
       animal.breed = breed
     }
 
-    animal.owner = session.user.email
+    animal.owner = userEmail
 
     const newAnimal = await prisma.animal.create({data: morphAnimal(animal)})
 

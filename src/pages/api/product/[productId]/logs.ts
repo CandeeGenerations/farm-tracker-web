@@ -1,8 +1,7 @@
+import {getUserEmail} from '@/pages/api/_common/helpers'
 import {ILoggedProduct, morphLoggedProductDb} from '@/pages/api/_morphs/product.morph'
 import {PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getServerSession} from 'next-auth/next'
-import {authOptions} from '../../auth/[...nextauth]'
 
 const prisma = new PrismaClient()
 
@@ -13,15 +12,15 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<ILogge
     return
   }
 
-  const session = await getServerSession(req, res, authOptions)
+  const userEmail = await getUserEmail(req, res)
 
-  if (!session) {
+  if (!userEmail) {
     res.status(500).send({error: 'Not authenticated'})
     return
   }
 
   const productId = req.query.productId.toString()
-  const loggedProducts = await prisma.loggedProduct.findMany({where: {productId, owner: session.user.email}})
+  const loggedProducts = await prisma.loggedProduct.findMany({where: {productId, owner: userEmail}})
 
   res.json(loggedProducts.map(morphLoggedProductDb))
 }

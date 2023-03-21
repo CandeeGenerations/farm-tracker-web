@@ -3,6 +3,7 @@ import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import Layout from '@/pages/_layout'
 import {IAnimal} from '@/pages/api/_morphs/animal.morph'
+import {useUser} from '@/providers/user.provider'
 import axios from 'axios'
 import _uniq from 'lodash/uniq'
 import {useRouter} from 'next/router'
@@ -15,6 +16,7 @@ interface IPageState {
 
 const AddAnimalPage = (): React.ReactElement => {
   const {push} = useRouter()
+  const {attachUserEmail} = useUser()
   const [animals, setAnimals] = useState<{loading: boolean; animals: IAnimal[]}>({
     loading: true,
     animals: [],
@@ -22,7 +24,7 @@ const AddAnimalPage = (): React.ReactElement => {
   const [pageState, stateFunc] = useState<IPageState>({})
 
   const getAnimals = async () => {
-    const animals = await axios.get<IAnimal[]>('/api/animals')
+    const animals = await axios.get<IAnimal[]>(attachUserEmail('/api/animals'))
     setAnimals({loading: false, animals: animals.data})
   }
 
@@ -34,7 +36,7 @@ const AddAnimalPage = (): React.ReactElement => {
 
   const handleSubmit = async data => {
     try {
-      await axios.post(`/api/product`, data)
+      await axios.post(attachUserEmail('/api/product'), data)
       await push('/products')
     } catch (e) {
       setState({errorMessage: getErrorMessage(e)})

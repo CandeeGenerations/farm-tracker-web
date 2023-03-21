@@ -9,6 +9,7 @@ import {addCommas, setPageState} from '@/helpers'
 import {DEBOUNCE} from '@/helpers/constants'
 import Layout from '@/pages/_layout'
 import {IProduct} from '@/pages/api/_morphs/product.morph'
+import {useUser} from '@/providers/user.provider'
 import axios from 'axios'
 import _debounce from 'lodash/debounce'
 import _sum from 'lodash/sum'
@@ -26,6 +27,7 @@ interface IPageState {
 
 const ProductsPage = (): React.ReactElement => {
   const router = useRouter()
+  const {attachUserEmail} = useUser()
   const [pageState, stateFunc] = useState<IPageState>({
     loading: true,
     products: [],
@@ -35,7 +37,7 @@ const ProductsPage = (): React.ReactElement => {
   })
 
   const getProducts = async () => {
-    const products = await axios.get<IProduct[]>(`/api/products`)
+    const products = await axios.get<IProduct[]>(attachUserEmail('/api/products'))
 
     setState({loading: false, products: products.data, originalProducts: [...products.data]})
   }
@@ -86,7 +88,7 @@ const ProductsPage = (): React.ReactElement => {
       })
     }
 
-    await axios.post(`/api/product/import`, products)
+    await axios.post(attachUserEmail('/api/product/import'), products)
 
     router.reload()
   }

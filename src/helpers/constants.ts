@@ -8,6 +8,7 @@ export const DEBOUNCE = 500
 export const EXPENSES_CHART_LOCAL_STORAGE = 'expenses-chart'
 export const LOGS_CHART_LOCAL_STORAGE = 'logs-chart'
 export const LAST_LOGGED_PRODUCT_ID = 'last-logged-product-id'
+export const IMPERSONATOR_EMAIL = 'impersonator-email'
 
 export const CHART_TYPES = [
   {id: 'previousMonths', name: 'Previous months'},

@@ -10,6 +10,7 @@ import {setPageState} from '@/helpers'
 import {DEBOUNCE} from '@/helpers/constants'
 import Layout from '@/pages/_layout'
 import {IAnimal} from '@/pages/api/_morphs/animal.morph'
+import {useUser} from '@/providers/user.provider'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import _debounce from 'lodash/debounce'
@@ -50,6 +51,7 @@ const defaultFilters = {
 
 const AnimalsPage = (): React.ReactElement => {
   const router = useRouter()
+  const {attachUserEmail} = useUser()
   const [pageState, stateFunc] = useState<IPageState>({
     loading: true,
     animals: [],
@@ -60,7 +62,7 @@ const AnimalsPage = (): React.ReactElement => {
   })
 
   const getAnimals = async () => {
-    const animals = await axios.get('/api/animals')
+    const animals = await axios.get(attachUserEmail('/api/animals'))
 
     setState({loading: false, animals: animals.data, originalAnimals: [...animals.data]})
   }
@@ -155,7 +157,7 @@ const AnimalsPage = (): React.ReactElement => {
       })
     }
 
-    await axios.post(`/api/animal/import`, animals)
+    await axios.post(attachUserEmail('/api/animal/import'), animals)
 
     router.reload()
   }

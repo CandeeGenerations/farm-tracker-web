@@ -4,6 +4,7 @@ import TabNav from '@/components/TabNav'
 import {getErrorMessage, setPageState} from '@/helpers'
 import Layout from '@/pages/_layout'
 import {IAnimalWithChildren} from '@/pages/api/_morphs/animal.morph'
+import {useUser} from '@/providers/user.provider'
 import axios from 'axios'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
@@ -19,6 +20,7 @@ interface IPageState {
 
 const EditAnimalPage = (): React.ReactElement => {
   const {push, query} = useRouter()
+  const {attachUserEmail} = useUser()
   const [animals, setAnimals] = useState<{loading: boolean; animals: IAnimalWithChildren[]}>({
     loading: true,
     animals: [],
@@ -32,13 +34,12 @@ const EditAnimalPage = (): React.ReactElement => {
   })
 
   const getAnimal = async id => {
-    const animal = await axios.get(`/api/animal/${id}`)
-    console.log('animal.data :', animal.data)
+    const animal = await axios.get(attachUserEmail(`/api/animal/${id}`))
     setAnimal({loading: false, animal: animal.data})
   }
 
   const getAnimals = async () => {
-    const animals = await axios.get('/api/animals')
+    const animals = await axios.get(attachUserEmail('/api/animals'))
     setAnimals({loading: false, animals: animals.data})
   }
 
@@ -56,7 +57,7 @@ const EditAnimalPage = (): React.ReactElement => {
   // eslint-disable-next-line no-unused-vars
   const handleSubmit = async ({children, ...data}: IAnimalWithChildren) => {
     try {
-      await axios.post(`/api/animal/${data.id}`, data)
+      await axios.post(attachUserEmail(`/api/animal/${data.id}`), data)
       await push('/animals')
     } catch (e) {
       setState({errorMessage: getErrorMessage(e)})
@@ -65,7 +66,7 @@ const EditAnimalPage = (): React.ReactElement => {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`/api/animal/${id}`)
+      await axios.delete(attachUserEmail(`/api/animal/${id}`))
       await push('/animals')
     } catch (e) {
       setState({errorMessage: getErrorMessage(e)})

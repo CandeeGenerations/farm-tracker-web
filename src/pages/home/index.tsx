@@ -6,6 +6,7 @@ import Layout from '@/pages/_layout'
 import {IAnimal} from '@/pages/api/_morphs/animal.morph'
 import {ILoggedProduct, IProduct} from '@/pages/api/_morphs/product.morph'
 import LogProductModal from '@/pages/products/_components/LogProductModal'
+import {useUser} from '@/providers/user.provider'
 import {ExclamationTriangleIcon} from '@heroicons/react/24/outline'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -19,6 +20,7 @@ interface IPageState {
 }
 
 const HomePage = (): React.ReactElement => {
+  const {attachUserEmail} = useUser()
   const [products, setProducts] = useState<{loading: boolean; products: IProduct[]}>({
     loading: false,
     products: [],
@@ -33,12 +35,12 @@ const HomePage = (): React.ReactElement => {
   })
 
   const getProducts = async () => {
-    const products = await axios.get<IProduct[]>('/api/products')
+    const products = await axios.get<IProduct[]>(attachUserEmail('/api/products'))
     setProducts({loading: false, products: products.data})
   }
 
   const getAnimals = async () => {
-    const animals = await axios.get<IAnimal[]>('/api/animals')
+    const animals = await axios.get<IAnimal[]>(attachUserEmail('/api/animals'))
     setAnimals({loading: false, animals: animals.data})
   }
 
@@ -59,7 +61,7 @@ const HomePage = (): React.ReactElement => {
     try {
       setState({loggedProductErrorMessage: undefined})
 
-      await axios.post(`/api/product/${loggedProduct.productId}/log`, loggedProduct)
+      await axios.post(attachUserEmail(`/api/product/${loggedProduct.productId}/log`), loggedProduct)
     } catch (e) {
       setState({loggedProductErrorMessage: getErrorMessage(e)})
     }
@@ -91,7 +93,7 @@ const HomePage = (): React.ReactElement => {
       })
     }
 
-    await axios.post(`/api/log/import`, logs)
+    await axios.post(attachUserEmail('/api/log/import'), logs)
   }
 
   return (

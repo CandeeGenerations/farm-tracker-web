@@ -1,10 +1,9 @@
+import {getUserEmail} from '@/pages/api/_common/helpers'
 import {ILoggedProduct, morphLoggedProduct, morphLoggedProductDb} from '@/pages/api/_morphs/product.morph'
 import {LoggedProduct, PrismaClient} from '@prisma/client'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getServerSession} from 'next-auth/next'
-import {authOptions} from '../auth/[...nextauth]'
 
 const prisma = new PrismaClient()
 
@@ -15,7 +14,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<ILogge
     return
   }
 
-  const session = await getServerSession(req, res, authOptions)
+  const userEmail = await getUserEmail(req, res)
   const existingProducts = await prisma.product.findMany()
   const existingAnimals = await prisma.animal.findMany()
   const existingSpecies = _uniq(existingAnimals.map(x => x.species))
@@ -49,7 +48,7 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<ILogge
       loggedProduct.breed = breed
     }
 
-    loggedProduct.owner = session.user.email
+    loggedProduct.owner = userEmail
 
     const newLoggedProduct = await prisma.loggedProduct.create({data: morphLoggedProduct(loggedProduct)})
 

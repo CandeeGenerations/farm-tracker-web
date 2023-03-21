@@ -15,6 +15,7 @@ import {
   morphExpenseDb,
   morphLoggedProductDb,
 } from '@/pages/api/_morphs/product.morph'
+import {useUser} from '@/providers/user.provider'
 import {Expense, LoggedProduct} from '@prisma/client'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -59,6 +60,7 @@ interface IPageState {
 
 const EditAnimalPage = (): React.ReactElement => {
   const router = useRouter()
+  const {attachUserEmail} = useUser()
   const [product, setProduct] = useState<{loading: boolean; product: IProduct}>({loading: true, product: undefined})
   const [products, setProducts] = useState<{loading: boolean; products: IProduct[]}>({loading: true, products: []})
   const [animals, setAnimals] = useState<{loading: boolean; animals: IAnimal[]}>({loading: true, animals: []})
@@ -83,19 +85,19 @@ const EditAnimalPage = (): React.ReactElement => {
   })
 
   const getProduct = async id => {
-    const result = await axios.get(`/api/product/${id}`)
+    const result = await axios.get(attachUserEmail(`/api/product/${id}`))
     setProduct({loading: false, product: result.data})
     setExpensesState({expenses: result.data.expenses})
     setLoggedProductsState({loggedProducts: result.data.loggedProducts})
   }
 
   const getProducts = async () => {
-    const result = await axios.get('/api/products')
+    const result = await axios.get(attachUserEmail('/api/products'))
     setProducts({loading: false, products: result.data})
   }
 
   const getAnimals = async () => {
-    const result = await axios.get('/api/animals')
+    const result = await axios.get(attachUserEmail('/api/animals'))
     setAnimals({loading: false, animals: result.data})
   }
 
@@ -117,7 +119,7 @@ const EditAnimalPage = (): React.ReactElement => {
 
   const handleSubmit = async (data: IProduct) => {
     try {
-      await axios.post(`/api/product/${data.id}`, data)
+      await axios.post(attachUserEmail(`/api/product/${data.id}`), data)
       await router.push('/products')
     } catch (e) {
       setState({errorMessage: getErrorMessage(e)})
@@ -126,7 +128,7 @@ const EditAnimalPage = (): React.ReactElement => {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`/api/product/${id}`)
+      await axios.delete(attachUserEmail(`/api/product/${id}`))
       await router.push('/products')
     } catch (e) {
       setState({errorMessage: getErrorMessage(e)})
@@ -137,7 +139,7 @@ const EditAnimalPage = (): React.ReactElement => {
     setExpensesState({expensesLoading: true})
 
     try {
-      const {data} = await axios.get<Expense[]>(`/api/product/${product.product.id}/expenses`)
+      const {data} = await axios.get<Expense[]>(attachUserEmail(`/api/product/${product.product.id}/expenses`))
       setExpensesState({
         expenses: data.map(morphExpenseDb),
         ...{
@@ -160,7 +162,10 @@ const EditAnimalPage = (): React.ReactElement => {
 
   const handleCompleteExpense = async (expense: IExpense) => {
     try {
-      await axios.post(`/api/product/${product.product.id}/expense${expense.id ? `/${expense.id}` : ''}`, expense)
+      await axios.post(
+        attachUserEmail(`/api/product/${product.product.id}/expense${expense.id ? `/${expense.id}` : ''}`),
+        expense,
+      )
       await handleLoadExpenses()
     } catch (e) {
       setExpensesState({expenseErrorMessage: getErrorMessage(e)})
@@ -177,7 +182,7 @@ const EditAnimalPage = (): React.ReactElement => {
     setExpensesState({deleteExpenseLoading: true})
 
     try {
-      await axios.delete(`/api/product/${product.product.id}/expense/${expensesState.deleteExpenseId}`)
+      await axios.delete(attachUserEmail(`/api/product/${product.product.id}/expense/${expensesState.deleteExpenseId}`))
       await handleLoadExpenses()
     } catch (e) {
       setExpensesState({expenseErrorMessage: getErrorMessage(e)})
@@ -212,7 +217,7 @@ const EditAnimalPage = (): React.ReactElement => {
       })
     }
 
-    await axios.post(`/api/product/${product.product.id}/expense/import`, expenses)
+    await axios.post(attachUserEmail(`/api/product/${product.product.id}/expense/import`), expenses)
     await handleLoadExpenses()
   }
 
@@ -220,7 +225,7 @@ const EditAnimalPage = (): React.ReactElement => {
     setLoggedProductsState({loggedProductsLoading: true})
 
     try {
-      const {data} = await axios.get<LoggedProduct[]>(`/api/product/${product.product.id}/logs`)
+      const {data} = await axios.get<LoggedProduct[]>(attachUserEmail(`/api/product/${product.product.id}/logs`))
       setLoggedProductsState({
         loggedProducts: data.map(morphLoggedProductDb),
         ...{
@@ -244,7 +249,7 @@ const EditAnimalPage = (): React.ReactElement => {
   const handleCompleteLoggedProduct = async (loggedProduct: ILoggedProduct) => {
     try {
       await axios.post(
-        `/api/product/${loggedProduct.productId}/log${loggedProduct.id ? `/${loggedProduct.id}` : ''}`,
+        attachUserEmail(`/api/product/${loggedProduct.productId}/log${loggedProduct.id ? `/${loggedProduct.id}` : ''}`),
         loggedProduct,
       )
       await handleLoadLoggedProducts()
@@ -268,7 +273,9 @@ const EditAnimalPage = (): React.ReactElement => {
     }
 
     try {
-      await axios.delete(`/api/product/${product.product.id}/log/${loggedProductsState.deleteLoggedProductId}`)
+      await axios.delete(
+        attachUserEmail(`/api/product/${product.product.id}/log/${loggedProductsState.deleteLoggedProductId}`),
+      )
       await handleLoadLoggedProducts()
     } catch (e) {
       setLoggedProductsState({loggedProductErrorMessage: getErrorMessage(e), ...stateUpdate})
@@ -300,7 +307,7 @@ const EditAnimalPage = (): React.ReactElement => {
       })
     }
 
-    await axios.post(`/api/log/import`, logs)
+    await axios.post(attachUserEmail('/api/log/import'), logs)
     await handleLoadLoggedProducts()
   }
 

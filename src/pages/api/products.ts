@@ -1,8 +1,7 @@
+import {getUserEmail} from '@/pages/api/_common/helpers'
 import {IProduct, morphProductDb} from '@/pages/api/_morphs/product.morph'
 import {PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getServerSession} from 'next-auth/next'
-import {authOptions} from './auth/[...nextauth]'
 
 const prisma = new PrismaClient()
 
@@ -13,15 +12,15 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IProdu
     return
   }
 
-  const session = await getServerSession(req, res, authOptions)
+  const userEmail = await getUserEmail(req, res)
 
-  if (!session) {
+  if (!userEmail) {
     res.status(500).send({error: 'Not authenticated'})
     return
   }
 
   const products = await prisma.product.findMany({
-    where: {owner: session.user.email},
+    where: {owner: userEmail},
     include: {expenses: true, loggedProducts: true},
   })
 

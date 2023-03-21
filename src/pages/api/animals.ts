@@ -1,8 +1,7 @@
+import {getUserEmail} from '@/pages/api/_common/helpers'
 import {IAnimal, morphAnimalDb} from '@/pages/api/_morphs/animal.morph'
 import {PrismaClient} from '@prisma/client'
 import {NextApiRequest, NextApiResponse} from 'next'
-import {getServerSession} from 'next-auth/next'
-import {authOptions} from './auth/[...nextauth]'
 
 const prisma = new PrismaClient()
 
@@ -13,14 +12,14 @@ const handle = async (req: NextApiRequest, res: NextApiResponse): Promise<IAnima
     return
   }
 
-  const session = await getServerSession(req, res, authOptions)
+  const userEmail = await getUserEmail(req, res)
 
-  if (!session) {
+  if (!userEmail) {
     res.status(500).send({error: 'Not authenticated'})
     return
   }
 
-  const animals = await prisma.animal.findMany({where: {owner: session.user.email}})
+  const animals = await prisma.animal.findMany({where: {owner: userEmail}})
 
   res.json(animals.map(morphAnimalDb))
 }

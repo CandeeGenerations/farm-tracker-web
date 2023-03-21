@@ -1,9 +1,12 @@
+import Button from '@/components/Button'
+import FormInput from '@/components/FormInput'
+import {Modal, ModalBody, ModalFooter} from '@/components/Modal'
 import {classNames, setPageState} from '@/helpers'
-import {Disclosure, Menu, Transition} from '@headlessui/react'
+import {useUser} from '@/providers/user.provider'
+import {Dialog, Disclosure, Menu, Transition} from '@headlessui/react'
 import {Bars3Icon, HomeIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import Avvvatars from 'avvvatars-react'
 import dayjs from 'dayjs'
-import {signOut, useSession} from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -12,6 +15,8 @@ import React, {Fragment, useEffect, useState} from 'react'
 
 interface IPageState {
   activeNavigation?: string
+  showImpersonateModal?: boolean
+  impersonateUserEmail?: string
 }
 
 interface ILayout {
@@ -35,29 +40,28 @@ const navigation: {id: string; name: string}[] = [
 
 const Layout = ({title, description, children, breadcrumbs}: ILayout): React.ReactElement => {
   const router = useRouter()
-  const {data: session} = useSession()
-  const [pageState, stateFunc] = useState<IPageState>({})
-  const [userInfo, setUserInfo] = useState<{initials?: string; name?: string; image?: string; email?: string}>({})
+  const {userInfo, logOut, impersonate} = useUser()
+  const [pageState, stateFunc] = useState<IPageState>({
+    showImpersonateModal: false,
+    impersonateUserEmail: '',
+  })
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
   useEffect(() => {
-    if (session && session.user) {
-      const firstName = session.user.name.split(' ').slice(0, -1).join(' ')
-      const lastName = session.user.name.split(' ').slice(-1)[0]
-
-      setUserInfo({
-        initials: `${firstName[0]}${lastName[0]}`,
-        email: session.user.email,
-        name: session.user.name,
-        image: session.user.image,
-      })
-    }
-  }, [session])
-
-  useEffect(() => {
     setState({activeNavigation: router.pathname.split('/')[1]})
   }, [router.pathname])
+
+  const handleShowImpersonateModal = () => setState({showImpersonateModal: true})
+
+  const handleHideImpersonateModal = () => setState({showImpersonateModal: false})
+
+  const handleUpdateUserEmail = impersonateUserEmail => setState({impersonateUserEmail})
+
+  const handleImpersonate = () => {
+    impersonate(pageState.impersonateUserEmail)
+    window.location.href = '/'
+  }
 
   const year = dayjs().format('YYYY')
 
@@ -68,7 +72,10 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
       </Head>
 
       <div className="min-h-full">
-        <Disclosure as="nav" className="bg-primary-dark">
+        <Disclosure
+          as="nav"
+          className={classNames('bg-primary-dark', userInfo.impersonating ? 'border-b-4 border-danger' : '')}
+        >
           {({open}) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -113,7 +120,14 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
                       <Menu as="div" className="relative ml-3">
                         <div>
                           {userInfo.name && userInfo.initials && (
-                            <Menu.Button className="flex max-w-xs items-center rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-medium focus:ring-offset-2 focus:ring-offset-primary-medium">
+                            <Menu.Button
+                              className={classNames(
+                                'flex max-w-xs items-center rounded-lg text-sm focus:outline-none',
+                                userInfo.impersonating
+                                  ? 'ring-2 ring-danger-medium ring-offset-2 ring-offset-danger-medium'
+                                  : 'focus:ring-2 focus:ring-primary-medium focus:ring-offset-2 focus:ring-offset-primary-medium',
+                              )}
+                            >
                               <span className="sr-only">Open user menu</span>
 
                               <div className="flex items-center px-3 py-1">
@@ -152,11 +166,18 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            {userInfo.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
+                              <Menu.Item>
+                                <div
+                                  className="cursor-pointer block px-4 py-2 text-sm"
+                                  onClick={handleShowImpersonateModal}
+                                >
+                                  Impersonate
+                                </div>
+                              </Menu.Item>
+                            )}
                             <Menu.Item>
-                              <div
-                                className="cursor-pointer text-danger block px-4 py-2 text-sm"
-                                onClick={() => signOut()}
-                              >
+                              <div className="cursor-pointer text-danger block px-4 py-2 text-sm" onClick={logOut}>
                                 Sign out
                               </div>
                             </Menu.Item>
@@ -203,19 +224,19 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
                 <div className="border-t border-muted-medium pt-4 pb-3">
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
-                      <Avvvatars value={'BC'} displayValue={'Becky Candee'} />
+                      <Avvvatars value={userInfo.name} displayValue={userInfo.initials} />
                     </div>
 
                     <div className="ml-3">
-                      <div className="text-base font-medium leading-none text-white">{'Becky Candee'}</div>
-                      <div className="text-sm font-medium leading-none text-muted-light">{'candeemama@gmail.com'}</div>
+                      <div className="text-base font-medium leading-none text-white">{userInfo.name}</div>
+                      <div className="text-sm font-medium leading-none text-muted-light">{userInfo.email}</div>
                     </div>
                   </div>
 
                   <div className="mt-3 space-y-1 px-2">
                     <Disclosure.Button
                       className="block rounded-md px-3 py-2 text-base font-medium text-muted-light"
-                      onClick={() => signOut()}
+                      onClick={logOut}
                     >
                       Sign out
                     </Disclosure.Button>
@@ -297,6 +318,40 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
           </div>
         </footer>
       </div>
+
+      <Modal open={pageState.showImpersonateModal} onClose={handleHideImpersonateModal}>
+        <ModalBody notFlex className="sm:my-8 px-4 pt-5 pb-4 mx-4">
+          <div className="mt-3 text-center sm:mt-0 sm:text-left">
+            <Dialog.Title as="h3" className="text-2xl leading-6 font-light text-muted-dark">
+              Impersonate user
+            </Dialog.Title>
+
+            <form
+              onSubmit={e => {
+                e.preventDefault()
+                handleHideImpersonateModal()
+              }}
+            >
+              <div className="mt-5 space-y-6">
+                <FormInput
+                  label="User email"
+                  name="userEmail"
+                  required
+                  vertical
+                  staticValue={pageState.impersonateUserEmail}
+                  onChange={(_, value) => handleUpdateUserEmail(value)}
+                />
+              </div>
+            </form>
+          </div>
+        </ModalBody>
+
+        <ModalFooter onClose={handleHideImpersonateModal}>
+          <Button onClick={handleImpersonate} type="primary">
+            Impersonate
+          </Button>
+        </ModalFooter>
+      </Modal>
     </>
   )
 }

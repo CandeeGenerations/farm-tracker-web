@@ -1,3 +1,4 @@
+import UserProvider from '@/providers/user.provider'
 import {SessionProvider} from 'next-auth/react'
 import type {AppProps} from 'next/app'
 import React from 'react'
@@ -21,7 +22,9 @@ ${sep}`)
 const FarmTrackerApp = ({Component, pageProps: {session, ...pageProps}}: AppProps): React.ReactElement => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <UserProvider>
+        <Component {...pageProps} />
+      </UserProvider>
     </SessionProvider>
   )
 }
