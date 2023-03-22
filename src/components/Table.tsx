@@ -1,3 +1,4 @@
+import Pagination from '@/components/Pagination'
 import {applySort, classNames} from '@/helpers'
 import {DEFAULT_PAGE_SIZE} from '@/helpers/constants'
 import {ArrowSmallDownIcon, ArrowSmallUpIcon, CheckIcon, XMarkIcon} from '@heroicons/react/24/outline'
@@ -64,10 +65,11 @@ const Table = ({
   useEffect(() => {
     if (columns.length > 0 && (sort === undefined || columns.findIndex(x => x.id === sort.column) < 0)) {
       const columnExists = defaultSortColumn && columns.find(({id}) => id === defaultSortColumn)
+      const sortColumn = columnExists ? columns.find(({id}) => id === defaultSortColumn) : columns[0]
 
       setSort({
-        column: columnExists ? defaultSortColumn : columns[0].id,
-        asc: defaultSortOrder ? defaultSortColumn === 'asc' : true,
+        column: sortColumn ? sortColumn.sortOverride || sortColumn.id : columns[0].id,
+        asc: defaultSortOrder ? defaultSortOrder === 'asc' : true,
       })
     }
   }, [columns])
@@ -195,6 +197,8 @@ const Table = ({
             </tbody>
           </table>
         </div>
+
+        <Pagination totalCount={data.length} pageNumber={pageNumber} onPageChange={setPageNumber} />
       </div>
     </Card>
   )

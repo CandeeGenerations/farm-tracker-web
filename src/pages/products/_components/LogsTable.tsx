@@ -46,7 +46,7 @@ const LogsTable = ({logs, onShowLoggedProductModal, onOpenImporter, product}: IL
       <Table
         actions={{idColumn: 'id'}}
         columns={[
-          {name: 'Log Date', id: 'logDate'},
+          {name: 'Log Date', id: 'logDate', sortOverride: 'logDateSort'},
           {name: 'Quantity', id: 'quantity'},
           {name: 'Breed (Species)', id: 'breed', maintainCase: true},
         ]}
@@ -57,6 +57,7 @@ const LogsTable = ({logs, onShowLoggedProductModal, onOpenImporter, product}: IL
         data={logs?.map(x => ({
           ...x,
           quantity: `${addCommas(x.quantity)} ${product?.unit}`,
+          logDateSort: dayjs(x.logDate).format(),
           logDate: formatDate(x.logDate),
           breed: `${x.breed || '-'} (${x.species || product?.species})`,
         }))}

@@ -147,6 +147,7 @@ const ProductsPage = (): React.ReactElement => {
               {name: 'Species', id: 'species'},
               {name: 'Logged Amount', id: 'totalLogged'},
               {name: 'Expenses', id: 'expensesAmount'},
+              {name: 'Cost Per', id: 'costPer'},
             ]}
             keyName="id"
             linkKey="name"
@@ -160,6 +161,9 @@ const ProductsPage = (): React.ReactElement => {
                   : undefined,
               totalLogged:
                 x.loggedProducts.length > 0 ? `${addCommas(_sum(x.loggedProducts.map(y => y.quantity)))} ${x.unit}` : 0,
+              costPer: `$${addCommas(
+                _sum(x.expenses.map(y => y.amount * y.quantity)) / _sum(x.loggedProducts.map(y => y.quantity)),
+              )}`,
             }))}
           />
         </div>

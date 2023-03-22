@@ -4,6 +4,7 @@ import {addCommas, formatDate} from '@/helpers'
 import {IExpense} from '@/pages/api/_morphs/product.morph'
 import _sum from 'lodash/sum'
 import React from 'react'
+import dayjs from 'dayjs'
 
 interface IExpensesTable {
   expenses: IExpense[]
@@ -37,7 +38,7 @@ const ExpensesTable = ({expenses, onShowExpenseModal, onOpenImporter}: IExpenses
           {name: 'Quantity', id: 'quantity'},
           {name: 'Cost per item', id: 'amount'},
           {name: 'Total cost', id: 'totalCost'},
-          {name: 'Purchase Date', id: 'purchaseDate'},
+          {name: 'Purchase Date', id: 'purchaseDate', sortOverride: 'purchaseDateSort'},
         ]}
         keyName="id"
         linkKey="item"
@@ -48,6 +49,7 @@ const ExpensesTable = ({expenses, onShowExpenseModal, onOpenImporter}: IExpenses
           ...x,
           amount: `$${addCommas(x.amount)}`,
           purchaseDate: formatDate(x.purchaseDate),
+          purchaseDateSort: dayjs(x.purchaseDate).format(),
           totalCost: `$${addCommas(x.amount * x.quantity)}`,
         }))}
       />

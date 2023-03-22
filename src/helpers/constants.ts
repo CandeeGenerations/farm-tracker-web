@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 
 export const DEFAULT_PAGE_SIZE = 10
+export const DEFAULT_PAGINATION_LIMIT = 5
 export const DEFAULT_DATE_FORMAT = 'M/D/YYYY'
 export const DEFAULT_DATE_TIME_FORMAT = 'M/D/YYYY h:mm:ss A'
 export const LOADER_TIMEOUT = 300

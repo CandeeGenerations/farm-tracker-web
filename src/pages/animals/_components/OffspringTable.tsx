@@ -2,6 +2,7 @@ import Table from '@/components/Table'
 import {formatDate} from '@/helpers'
 import {IAnimal} from '@/pages/api/_morphs/animal.morph'
 import React from 'react'
+import dayjs from 'dayjs'
 
 interface IOffspringTable {
   children: IAnimal[]
@@ -16,7 +17,7 @@ const OffspringTable = ({children}: IOffspringTable): React.ReactElement => {
         actions={{idColumn: 'id', parent: '/animals'}}
         columns={[
           {name: 'Name', id: 'name'},
-          {name: 'Birthdate', id: 'birthDate'},
+          {name: 'Birthdate', id: 'birthDate', sortOverride: 'birthDateSort'},
           {name: 'Deceased', id: 'deceased'},
           {name: 'Sold', id: 'sold'},
         ]}
@@ -25,6 +26,7 @@ const OffspringTable = ({children}: IOffspringTable): React.ReactElement => {
         data={children?.map(x => ({
           ...x,
           birthDate: formatDate(x.birthDate),
+          birthDateSort: dayjs(x.birthDate).format(),
         }))}
       />
     </div>
