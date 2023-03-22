@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.7...v0.1.8) (2023-03-22)
+
+
+### Features
+
+* fixed table sorting, fixed pagination, added cost per product ([c521961](https://github.com/CandeeGenerations/farm-tracker/commit/c521961ae299198dfe4803feb012f35053318fa6))
+
 ### [0.1.7](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.6...v0.1.7) (2023-03-21)
 
 
