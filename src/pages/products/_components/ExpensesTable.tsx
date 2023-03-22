@@ -2,9 +2,9 @@ import Button from '@/components/Button'
 import Table from '@/components/Table'
 import {addCommas, formatDate} from '@/helpers'
 import {IExpense} from '@/pages/api/_morphs/product.morph'
+import dayjs from 'dayjs'
 import _sum from 'lodash/sum'
 import React from 'react'
-import dayjs from 'dayjs'
 
 interface IExpensesTable {
   expenses: IExpense[]
