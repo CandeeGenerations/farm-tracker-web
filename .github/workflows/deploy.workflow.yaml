@@ -94,7 +94,7 @@ jobs:
 
       - uses: azure/webapps-deploy@v2.2.6
         with:
-          app-name: farm-tracker-server
+          app-name: ${{ env.APP_NAME }}
           images: ${{ env.AZURE_REGISTRY_LOGIN_SERVER }}/${{ env.APP_NAME }}:latest
           resource-group-name: ${{ env.AZURE_RESOURCE_GROUP }}
 
