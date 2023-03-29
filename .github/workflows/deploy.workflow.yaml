@@ -109,7 +109,7 @@ jobs:
           channel: '#release'
 
   end-notify:
-    needs: [test, build, deploy]
+    needs: [build, deploy]
     name: Notify of Deploy Complete
     runs-on: ubuntu-latest
     env:
