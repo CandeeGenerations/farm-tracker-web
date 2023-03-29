@@ -50,6 +50,8 @@ const ButtonInput = forwardRef<HTMLButtonElement>(
   ),
 )
 
+ButtonInput.displayName = 'ButtonInput'
+
 const DatePicker = ({
   control,
   name,

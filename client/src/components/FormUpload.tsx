@@ -2,7 +2,7 @@ import {ArrowUpTrayIcon, DocumentTextIcon, XMarkIcon} from '@heroicons/react/24/
 import React, {useEffect, useState} from 'react'
 import {Accept, useDropzone} from 'react-dropzone'
 import {Control, Controller, UseFormSetValue} from 'react-hook-form'
-import {getFileSize, setPageState} from '../helpers'
+import {getFileSize, setPageState} from '@/helpers'
 
 interface IFormUpload {
   name: string
@@ -14,6 +14,7 @@ interface IFormUpload {
   control: Control<any, Object>
   reset: number
   accept?: Accept
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setValue?: UseFormSetValue<any>
   alert?: React.ReactElement
 }

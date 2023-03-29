@@ -5,13 +5,13 @@ import React from 'react'
 import Table from '../../../components/Table'
 
 interface IOffspringTable {
-  children: IAnimal[]
+  offspring: IAnimal[]
 }
 
-const OffspringTable = ({children}: IOffspringTable): React.ReactElement => {
+const OffspringTable = ({offspring}: IOffspringTable): React.ReactElement => {
   return (
     <div>
-      <h1 className="text-3xl mb-5 mt-6">Offspring ({children?.length})</h1>
+      <h1 className="text-3xl mb-5 mt-6">Offspring ({offspring?.length})</h1>
 
       <Table
         actions={{idColumn: 'id', parent: '/animals'}}
@@ -23,7 +23,7 @@ const OffspringTable = ({children}: IOffspringTable): React.ReactElement => {
         ]}
         keyName="id"
         linkKey="name"
-        data={children?.map(x => ({
+        data={offspring?.map(x => ({
           ...x,
           birthDate: formatDate(x.birthDate),
           birthDateSort: dayjs(x.birthDate).format(),

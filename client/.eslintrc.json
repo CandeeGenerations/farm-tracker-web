@@ -17,6 +17,8 @@
   "rules": {
     "prettier/prettier": ["error", {"singleQuote": true}],
 
+    "react-hooks/exhaustive-deps": 0,
+
     "@typescript-eslint/no-empty-function": 0,
     "@typescript-eslint/no-parameter-properties": 0,
     "@typescript-eslint/ban-types": 0,

@@ -4,29 +4,6 @@ import {DEFAULT_DATE_FORMAT, DEFAULT_DATE_TIME_FORMAT} from './constants'
 
 export const classNames = (...classes) => classes.filter(Boolean).join(' ')
 
-export const generateString = (
-  length = 6,
-  includeUpperCharacters = false,
-  includeSpecialCharacters = false,
-): string => {
-  let result = ''
-  let characters = 'abcdefghijklmnopqrstuvwxyz'
-
-  if (includeUpperCharacters) {
-    characters = `${characters}ABCDEFGHIJKLMNOPQRSTUVWXYZ`
-  }
-
-  if (includeSpecialCharacters) {
-    characters = `${characters}0123456789!@#$%^&*()_+-=[];",./{}|:<>?`
-  }
-
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length))
-  }
-
-  return result
-}
-
 // eslint-disable-next-line no-unused-vars
 export function setPageState<T>(setState: (updates: T) => void, current: T, updates: T): T {
   const newState = {...current, ...updates}
@@ -36,6 +13,7 @@ export function setPageState<T>(setState: (updates: T) => void, current: T, upda
   return newState
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const applySort = (sort: {column: string; asc: boolean}, dataset: any) =>
   dataset.slice().sort((a, b) =>
     ((sort.asc ? a : b)[sort.column] || '').toString().localeCompare((sort.asc ? b : a)[sort.column] || '', undefined, {
@@ -52,7 +30,7 @@ export const formatDateTime = (dateTime?: string): string =>
 
 export const getErrorMessage = e => ((e as AxiosError).response.data as {error: string}).error
 
-export const addCommas = (num: number, fixed: number = 2): string =>
+export const addCommas = (num: number, fixed = 2): string =>
   num
     .toFixed(fixed)
     .toString()

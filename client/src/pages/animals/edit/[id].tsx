@@ -52,7 +52,7 @@ const EditAnimalPage = (): React.ReactElement => {
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const handleSubmit = async ({children, ...data}: IAnimalWithChildren) => {
     try {
       await axios.post(`/animal/${data.id}`, data)
@@ -128,7 +128,7 @@ const EditAnimalPage = (): React.ReactElement => {
 
           {pageState.currentTab === 2 && (
             <div className="mt-10">
-              <OffspringTable children={animal.animal.children || []} />
+              <OffspringTable offspring={animal.animal.children || []} />
             </div>
           )}
         </div>

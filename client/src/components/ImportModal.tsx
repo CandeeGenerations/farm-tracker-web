@@ -3,7 +3,7 @@ import {CheckCircleIcon} from '@heroicons/react/24/outline'
 import Papa from 'papaparse'
 import React, {useEffect, useState} from 'react'
 import {SubmitHandler, useForm} from 'react-hook-form'
-import {classNames, setPageState} from '../helpers'
+import {classNames, setPageState} from '@/helpers'
 import Alert from './Alert'
 import Button from './Button'
 import Card from './Card'
@@ -23,7 +23,7 @@ interface IImportModal {
   metadata?: {[key: string]: string}
   open: boolean
   onClose: () => void
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
   onSave: (data: any[]) => void
   notReloading?: boolean
 }

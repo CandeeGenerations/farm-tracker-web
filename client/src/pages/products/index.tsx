@@ -35,7 +35,7 @@ const ProductsPage = (): React.ReactElement => {
   })
 
   const getProducts = async () => {
-    const products: AxiosResponse<{data: IProduct[]}> = await axios.get<IProduct[]>('/product')
+    const products: AxiosResponse<{data: IProduct[]}> = await axios.get('/product')
 
     setState({loading: false, products: products.data.data, originalProducts: [...products.data.data]})
   }
