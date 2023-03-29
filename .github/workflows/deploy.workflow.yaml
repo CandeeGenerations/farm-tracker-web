@@ -82,7 +82,7 @@ jobs:
       APP_NAME: ${{ secrets.APP_NAME }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
 
-      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_SERVICE_APP_CREDENTIALS }}
       AZURE_REGISTRY_LOGIN_SERVER: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}
 
     steps:
