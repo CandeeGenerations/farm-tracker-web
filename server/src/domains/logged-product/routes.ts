@@ -1,4 +1,4 @@
-import {LoggedProduct, PrismaClient} from '@prisma/client'
+import {LoggedProduct} from '@prisma/client'
 import express, {Request, Response} from 'express'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
@@ -10,8 +10,6 @@ import {morphLoggedProduct, morphLoggedProductDb} from './morphs'
 import service from './service'
 import {ILoggedProduct} from './types'
 
-const prisma = new PrismaClient()
-
 export const logImporter = express
   .Router()
 
@@ -22,8 +20,8 @@ export const logImporter = express
   .post('/import', async (req: Request<{productId: string}>, res: Response) => {
     try {
       const email = getEmail(req, res)
-      const existingProducts = await productService.getAll(prisma)(email)
-      const existingAnimals = await animalService.getAll(prisma)(email)
+      const existingProducts = await productService.getAll(email)
+      const existingAnimals = await animalService.getAll(email)
       const existingSpecies = _uniq(existingAnimals.map(x => x.species))
       const existingBreeds = _uniqBy(
         existingAnimals.map(x => ({
@@ -63,7 +61,7 @@ export const logImporter = express
 
         loggedProduct.owner = email
 
-        const newLoggedProduct = await service.create(prisma)(morphLoggedProduct(loggedProduct))
+        const newLoggedProduct = await service.create(morphLoggedProduct(loggedProduct))
 
         createdLoggedProducts.push(newLoggedProduct)
       }
@@ -71,8 +69,6 @@ export const logImporter = express
       handleSuccess(res, createdLoggedProducts.map(morphLoggedProductDb))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -87,13 +83,11 @@ export default express
   .get('/', async (req: Request<{productId: string}>, res: Response) => {
     try {
       const email = getEmail(req, res)
-      const loggedProducts = await service.getAll(prisma)(email, req.params.productId)
+      const loggedProducts = await service.getAll(email, req.params.productId)
 
       handleSuccess(res, loggedProducts.map(morphLoggedProductDb))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -105,7 +99,7 @@ export default express
    */
   .get('/:loggedProductId', async (req: Request<{productId: string; loggedProductId: string}>, res: Response) => {
     try {
-      const loggedProduct = await service.getSingle(prisma)(req.params.loggedProductId)
+      const loggedProduct = await service.getSingle(req.params.loggedProductId)
 
       if (!loggedProduct) {
         handleError(res, {name: 'LoggedProduct not found', message: 'LoggedProduct not found'})
@@ -115,8 +109,6 @@ export default express
       handleSuccess(res, morphLoggedProductDb(loggedProduct))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -134,13 +126,11 @@ export default express
       newLoggedProduct.owner = email
       newLoggedProduct.productId = req.params.productId
 
-      const loggedProduct = await service.create(prisma)(morphLoggedProduct(newLoggedProduct))
+      const loggedProduct = await service.create(morphLoggedProduct(newLoggedProduct))
 
       handleSuccess(res, morphLoggedProductDb(loggedProduct))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -155,7 +145,7 @@ export default express
     try {
       const updatedLoggedProduct: ILoggedProduct = req.body
       const id: string = req.params.loggedProductId
-      let loggedProduct = await service.getSingle(prisma)(id)
+      let loggedProduct = await service.getSingle(id)
 
       if (!loggedProduct) {
         handleError(res, {name: 'LoggedProduct not found', message: 'LoggedProduct not found'})
@@ -164,13 +154,11 @@ export default express
 
       loggedProduct = {...loggedProduct, ...morphLoggedProduct(updatedLoggedProduct)}
 
-      await service.update(prisma)(id, loggedProduct)
+      await service.update(id, loggedProduct)
 
       handleSuccess(res, morphLoggedProductDb(loggedProduct))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -182,12 +170,10 @@ export default express
    */
   .delete('/:loggedProductId', async (req: Request<{productId: string; loggedProductId: string}>, res: Response) => {
     try {
-      await service.remove(prisma)(req.params.loggedProductId)
+      await service.remove(req.params.loggedProductId)
 
       handleSuccess(res)
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })

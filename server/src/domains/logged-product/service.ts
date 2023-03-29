@@ -1,29 +1,19 @@
-import {LoggedProduct, PrismaClient} from '@prisma/client'
+import {LoggedProduct} from '@prisma/client'
+import client from '../../common/client'
 
-const getAll =
-  (prisma: PrismaClient) =>
-  async (owner: string, productId: string): Promise<LoggedProduct[]> =>
-    await prisma.loggedProduct.findMany({where: {owner, productId}})
+const getAll = async (owner: string, productId: string): Promise<LoggedProduct[]> =>
+  await client.loggedProduct.findMany({where: {owner, productId}})
 
-const getSingle =
-  (prisma: PrismaClient) =>
-  async (id: string): Promise<LoggedProduct | null> =>
-    await prisma.loggedProduct.findFirst({where: {id}})
+const getSingle = async (id: string): Promise<LoggedProduct | null> =>
+  await client.loggedProduct.findFirst({where: {id}})
 
-const create =
-  (prisma: PrismaClient) =>
-  async (data: LoggedProduct): Promise<LoggedProduct> =>
-    await prisma.loggedProduct.create({data})
+const create = async (data: LoggedProduct): Promise<LoggedProduct> => await client.loggedProduct.create({data})
 
 const update =
-  (prisma: PrismaClient) =>
   // eslint-disable-next-line no-unused-vars
   async (id: string, {id: _, ...data}: LoggedProduct): Promise<LoggedProduct> =>
-    await prisma.loggedProduct.update({where: {id}, data})
+    await client.loggedProduct.update({where: {id}, data})
 
-const remove =
-  (prisma: PrismaClient) =>
-  async (id: string): Promise<LoggedProduct> =>
-    await prisma.loggedProduct.delete({where: {id}})
+const remove = async (id: string): Promise<LoggedProduct> => await client.loggedProduct.delete({where: {id}})
 
 export default {getAll, getSingle, create, update, remove}

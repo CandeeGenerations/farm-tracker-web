@@ -7,10 +7,10 @@
   "version": "0.1.9",
   "private": true,
   "scripts": {
+    "start": "doppler run --command='yarn generate && NODE_ENV=development tsc-watch --onSuccess \"node dist/index.js\"'",
+    "build": "rm -rf dist && yarn generate && NODE_ENV=production tsc",
     "generate": "npx prisma format && npx prisma generate",
     "db:push": "doppler run --command='npx prisma db push'",
-    "build": "rm -rf dist && yarn generate && NODE_ENV=production tsc",
-    "start": "doppler run --command='yarn generate && NODE_ENV=development tsc-watch --onSuccess \"node dist/index.js\"'",
     "lint": "eslint 'src/**/*.ts'"
   },
   "dependencies": {

@@ -1,12 +1,10 @@
-import {Expense, PrismaClient} from '@prisma/client'
+import {Expense} from '@prisma/client'
 import express, {Request, Response} from 'express'
 import {getEmail, handleError, handleSuccess} from '../../common/helpers'
 import {IException} from '../../types/logger'
 import {morphExpense, morphExpenseDb} from './morphs'
 import service from './service'
 import {IExpense} from './types'
-
-const prisma = new PrismaClient()
 
 export default express
   .Router()
@@ -19,13 +17,11 @@ export default express
   .get('/', async (req: Request<{productId: string}>, res: Response) => {
     try {
       const email = getEmail(req, res)
-      const expenses = await service.getAll(prisma)(email, req.params.productId)
+      const expenses = await service.getAll(email, req.params.productId)
 
       handleSuccess(res, expenses.map(morphExpenseDb))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -37,7 +33,7 @@ export default express
    */
   .get('/:expenseId', async (req: Request<{productId: string; expenseId: string}>, res: Response) => {
     try {
-      const expense = await service.getSingle(prisma)(req.params.expenseId)
+      const expense = await service.getSingle(req.params.expenseId)
 
       if (!expense) {
         handleError(res, {name: 'Expense not found', message: 'Expense not found'})
@@ -47,8 +43,6 @@ export default express
       handleSuccess(res, morphExpenseDb(expense))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -66,13 +60,11 @@ export default express
       newExpense.owner = email
       newExpense.productId = req.params.productId
 
-      const expense = await service.create(prisma)(morphExpense(newExpense))
+      const expense = await service.create(morphExpense(newExpense))
 
       handleSuccess(res, morphExpenseDb(expense))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -87,7 +79,7 @@ export default express
     try {
       const updatedExpense: IExpense = req.body
       const id: string = req.params.expenseId
-      let expense = await service.getSingle(prisma)(id)
+      let expense = await service.getSingle(id)
 
       if (!expense) {
         handleError(res, {name: 'Expense not found', message: 'Expense not found'})
@@ -96,13 +88,11 @@ export default express
 
       expense = {...expense, ...morphExpense(updatedExpense)}
 
-      await service.update(prisma)(id, expense)
+      await service.update(id, expense)
 
       handleSuccess(res, morphExpenseDb(expense))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -123,7 +113,7 @@ export default express
         expense.owner = email
         expense.productId = productId
 
-        const newExpense = await service.create(prisma)(morphExpense(expense))
+        const newExpense = await service.create(morphExpense(expense))
 
         createdExpenses.push(newExpense)
       }
@@ -131,8 +121,6 @@ export default express
       handleSuccess(res, createdExpenses.map(morphExpenseDb))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -144,12 +132,10 @@ export default express
    */
   .delete('/:expenseId', async (req: Request<{productId: string; expenseId: string}>, res: Response) => {
     try {
-      await service.remove(prisma)(req.params.expenseId)
+      await service.remove(req.params.expenseId)
 
       handleSuccess(res)
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })

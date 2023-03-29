@@ -1,4 +1,4 @@
-import {Animal, PrismaClient} from '@prisma/client'
+import {Animal} from '@prisma/client'
 import express, {Request, Response} from 'express'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
@@ -7,8 +7,6 @@ import {IException} from '../../types/logger'
 import {morphAnimal, morphAnimalDb} from './morphs'
 import service from './service'
 import {IAnimal} from './types'
-
-const prisma = new PrismaClient()
 
 export default express
   .Router()
@@ -19,13 +17,11 @@ export default express
   .get('/', async (req: Request, res: Response) => {
     try {
       const email = getEmail(req, res)
-      const animals = await service.getAll(prisma)(email)
+      const animals = await service.getAll(email)
 
       handleSuccess(res, animals.map(morphAnimalDb))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -36,7 +32,7 @@ export default express
    */
   .get('/:animalId', async (req: Request<{animalId: string}>, res: Response) => {
     try {
-      const animal = await service.getSingle(prisma)(req.params.animalId)
+      const animal = await service.getSingle(req.params.animalId)
 
       if (!animal) {
         handleError(res, {name: 'Animal not found', message: 'Animal not found'})
@@ -46,8 +42,6 @@ export default express
       handleSuccess(res, morphAnimalDb(animal))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -62,13 +56,11 @@ export default express
 
       newAnimal.owner = email
 
-      const animal = await service.create(prisma)(morphAnimal(newAnimal))
+      const animal = await service.create(morphAnimal(newAnimal))
 
       handleSuccess(res, morphAnimalDb(animal))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -82,7 +74,7 @@ export default express
     try {
       const updatedAnimal: IAnimal = req.body
       const id: string = req.params.animalId
-      let animal = await service.getSingle(prisma)(id)
+      let animal = await service.getSingle(id)
 
       if (!animal) {
         handleError(res, {name: 'Animal not found', message: 'Animal not found'})
@@ -92,13 +84,11 @@ export default express
       animal = {...animal, ...morphAnimal(updatedAnimal)}
       delete animal.children
 
-      await service.update(prisma)(id, animal)
+      await service.update(id, animal)
 
       handleSuccess(res, morphAnimalDb(animal))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -109,7 +99,7 @@ export default express
   .post('/import', async (req: Request, res: Response) => {
     try {
       const email = getEmail(req, res)
-      const existingAnimals = await service.getAll(prisma)(email)
+      const existingAnimals = await service.getAll(email)
       const existingSpecies = _uniq(existingAnimals.map(x => x.species))
       const existingBreeds = _uniqBy(
         existingAnimals.map(x => ({
@@ -140,7 +130,7 @@ export default express
 
         animal.owner = email
 
-        const newAnimal = await service.create(prisma)(morphAnimal(animal))
+        const newAnimal = await service.create(morphAnimal(animal))
 
         createdAnimals.push(newAnimal)
       }
@@ -148,8 +138,6 @@ export default express
       handleSuccess(res, createdAnimals.map(morphAnimalDb))
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
 
@@ -160,12 +148,10 @@ export default express
    */
   .delete('/:animalId', async (req: Request<{animalId: string}>, res: Response) => {
     try {
-      await service.remove(prisma)(req.params.animalId)
+      await service.remove(req.params.animalId)
 
       handleSuccess(res)
     } catch (e) {
       handleError(res, e as IException)
-    } finally {
-      await prisma.$disconnect()
     }
   })
