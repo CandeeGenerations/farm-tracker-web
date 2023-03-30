@@ -44,6 +44,12 @@ jobs:
         uses: culshaw/read-package-node-version-actions@v1
         id: read-package-json
 
+      - name: Set image tag
+        env:
+          IMAGE_TAG: ${{ steps.read-package-json.outputs.version }}
+        id: image-tag
+        run: echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
+
       - name: Login via Azure CLI
         uses: azure/login@v1
         with:
@@ -60,7 +66,7 @@ jobs:
         env:
           REGISTRY: ${{ env.AZURE_REGISTRY_LOGIN_SERVER }}
           REPOSITORY: ${{ env.APP_NAME }}
-          IMAGE_TAG: ${{ steps.read-package-json.outputs.version }}
+          IMAGE_TAG: ${{ steps.image-tag.outputs.IMAGE_TAG }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:latest -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:latest
@@ -80,6 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APP_NAME: ${{ secrets.APP_NAME }}
+      IMAGE_TAG: ${{ steps.image-tag.outputs.IMAGE_TAG }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
 
       AZURE_CREDENTIALS: ${{ secrets.AZURE_SERVICE_APP_CREDENTIALS }}
@@ -87,16 +94,12 @@ jobs:
       AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
 
     steps:
-      - name: Read node from package.json
-        uses: culshaw/read-package-node-version-actions@v1
-        id: read-package-json
-
       - name: Azure deployment
         uses: azure/webapps-deploy@v2.2.6
         with:
           publish-profile: ${{ env.AZURE_CREDENTIALS }}
           app-name: ${{ env.APP_NAME }}
-          images: ${{ env.AZURE_REGISTRY_LOGIN_SERVER }}/${{ env.APP_NAME }}:${{ steps.read-package-json.outputs.version }}
+          images: ${{ env.AZURE_REGISTRY_LOGIN_SERVER }}/${{ env.APP_NAME }}:${{ env.IMAGE_TAG }}
           resource-group-name: ${{ env.AZURE_RESOURCE_GROUP }}
 
       - name: Notify of failed deploy
