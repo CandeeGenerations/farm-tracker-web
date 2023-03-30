@@ -6,6 +6,7 @@ import config from './common/config'
 import animalRoutes from './domains/animal/routes'
 import expenseRoutes from './domains/expense/routes'
 import loggedProductRoutes, {logImporter} from './domains/logged-product/routes'
+import pingRoutes from './domains/ping/routes'
 import productRoutes from './domains/product/routes'
 
 const app = express()
@@ -49,7 +50,7 @@ const useRoute = (routeObject: any, parentRouteName?: string): void => {
   app.use(route, routeObject[Object.keys(routeObject)[0]])
 }
 
-for (const routeObject of [{animalRoutes}, {productRoutes}]) {
+for (const routeObject of [{pingRoutes}, {animalRoutes}, {productRoutes}]) {
   useRoute(routeObject)
 }
 
