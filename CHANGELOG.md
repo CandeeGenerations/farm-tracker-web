@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.9...v0.1.10) (2023-03-30)
+
+
+### Features
+
+* added ping route ([f980a0e](https://github.com/CandeeGenerations/farm-tracker/commit/f980a0ec34230d84c7955e432eca76abd510515c))
+* finished deploy changes ([8b46322](https://github.com/CandeeGenerations/farm-tracker/commit/8b46322492cbbc0d81486b11bca9bc00e810a6d6))
+* moved to client and server monorepo ([69b2f92](https://github.com/CandeeGenerations/farm-tracker/commit/69b2f92e4a4a1435450329c80b8786e49e600464))
+
+
+### Bug Fixes
+
+* build fix ([c468870](https://github.com/CandeeGenerations/farm-tracker/commit/c46887005193e91387626b665aa6d51b4ec1a9ff))
+* build fix ([6e79bac](https://github.com/CandeeGenerations/farm-tracker/commit/6e79bacafe2bb7c9ec4299824505428814057fd5))
+* build fixes ([52ba4f9](https://github.com/CandeeGenerations/farm-tracker/commit/52ba4f98cb6f72d7db5cb9cf9a1dda31dcb51f8a))
+* deployment fix ([7c7b1e0](https://github.com/CandeeGenerations/farm-tracker/commit/7c7b1e003b3ea1d062983d025131263ae722609e))
+
 ### [0.1.9](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.8...v0.1.9) (2023-03-24)
 
 
