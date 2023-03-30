@@ -87,12 +87,16 @@ jobs:
       AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
 
     steps:
+      - name: Read node from package.json
+        uses: culshaw/read-package-node-version-actions@v1
+        id: read-package-json
+
       - name: Azure deployment
         uses: azure/webapps-deploy@v2.2.6
         with:
           publish-profile: ${{ env.AZURE_CREDENTIALS }}
           app-name: ${{ env.APP_NAME }}
-          images: ${{ env.AZURE_REGISTRY_LOGIN_SERVER }}/${{ env.APP_NAME }}:latest
+          images: ${{ env.AZURE_REGISTRY_LOGIN_SERVER }}/${{ env.APP_NAME }}:${{ steps.read-package-json.outputs.version }}
           resource-group-name: ${{ env.AZURE_RESOURCE_GROUP }}
 
       - name: Notify of failed deploy
