@@ -72,6 +72,8 @@ export const logImporter = express
     }
   })
 
+const route = '/:productId/logged-product'
+
 export default express
   .Router()
 
@@ -80,7 +82,7 @@ export default express
    * QUERY:
    *        - :productId : `641546e3e6dffedba604e2b3`
    */
-  .get('/', async (req: Request<{productId: string}>, res: Response) => {
+  .get(`${route}/`, async (req: Request<{productId: string}>, res: Response) => {
     try {
       const email = getEmail(req, res)
       const loggedProducts = await service.getAll(email, req.params.productId)
@@ -97,20 +99,23 @@ export default express
    *        - :productId : `641546e3e6dffedba604e2b3`
    *        - :loggedProductId : `641546e3e6dffedba604e2b3`
    */
-  .get('/:loggedProductId', async (req: Request<{productId: string; loggedProductId: string}>, res: Response) => {
-    try {
-      const loggedProduct = await service.getSingle(req.params.loggedProductId)
+  .get(
+    `${route}:loggedProductId`,
+    async (req: Request<{productId: string; loggedProductId: string}>, res: Response) => {
+      try {
+        const loggedProduct = await service.getSingle(req.params.loggedProductId)
 
-      if (!loggedProduct) {
-        handleError(res, {name: 'LoggedProduct not found', message: 'LoggedProduct not found'})
-        return
+        if (!loggedProduct) {
+          handleError(res, {name: 'LoggedProduct not found', message: 'LoggedProduct not found'})
+          return
+        }
+
+        handleSuccess(res, morphLoggedProductDb(loggedProduct))
+      } catch (e) {
+        handleError(res, e as IException)
       }
-
-      handleSuccess(res, morphLoggedProductDb(loggedProduct))
-    } catch (e) {
-      handleError(res, e as IException)
-    }
-  })
+    },
+  )
 
   /*
    * POST:    `/api/product/:productId/logged-product`
@@ -118,7 +123,7 @@ export default express
    *        - :productId : `641546e3e6dffedba604e2b3`
    * PAYLOAD: ILoggedProduct
    */
-  .post('/', async (req: Request<{productId: string}>, res: Response) => {
+  .post(`${route}`, async (req: Request<{productId: string}>, res: Response) => {
     try {
       const email = getEmail(req, res)
       const newLoggedProduct: ILoggedProduct = req.body
@@ -141,26 +146,29 @@ export default express
    *          - :loggedProductId : `641546e3e6dffedba604e2b3`
    * PAYLOAD: ILoggedProduct
    */
-  .post('/:loggedProductId', async (req: Request<{productId: string; loggedProductId: string}>, res: Response) => {
-    try {
-      const updatedLoggedProduct: ILoggedProduct = req.body
-      const id: string = req.params.loggedProductId
-      let loggedProduct = await service.getSingle(id)
+  .post(
+    `${route}/:loggedProductId`,
+    async (req: Request<{productId: string; loggedProductId: string}>, res: Response) => {
+      try {
+        const updatedLoggedProduct: ILoggedProduct = req.body
+        const id: string = req.params.loggedProductId
+        let loggedProduct = await service.getSingle(id)
 
-      if (!loggedProduct) {
-        handleError(res, {name: 'LoggedProduct not found', message: 'LoggedProduct not found'})
-        return
+        if (!loggedProduct) {
+          handleError(res, {name: 'LoggedProduct not found', message: 'LoggedProduct not found'})
+          return
+        }
+
+        loggedProduct = {...loggedProduct, ...morphLoggedProduct(updatedLoggedProduct)}
+
+        await service.update(id, loggedProduct)
+
+        handleSuccess(res, morphLoggedProductDb(loggedProduct))
+      } catch (e) {
+        handleError(res, e as IException)
       }
-
-      loggedProduct = {...loggedProduct, ...morphLoggedProduct(updatedLoggedProduct)}
-
-      await service.update(id, loggedProduct)
-
-      handleSuccess(res, morphLoggedProductDb(loggedProduct))
-    } catch (e) {
-      handleError(res, e as IException)
-    }
-  })
+    },
+  )
 
   /*
    * DELETE:  `/api/product/:productId/logged-product/:loggedProductId`
@@ -168,12 +176,15 @@ export default express
    *          - :productId : `641546e3e6dffedba604e2b3`
    *          - :loggedProductId : `641546e3e6dffedba604e2b3`
    */
-  .delete('/:loggedProductId', async (req: Request<{productId: string; loggedProductId: string}>, res: Response) => {
-    try {
-      await service.remove(req.params.loggedProductId)
+  .delete(
+    `${route}/:loggedProductId`,
+    async (req: Request<{productId: string; loggedProductId: string}>, res: Response) => {
+      try {
+        await service.remove(req.params.loggedProductId)
 
-      handleSuccess(res)
-    } catch (e) {
-      handleError(res, e as IException)
-    }
-  })
+        handleSuccess(res)
+      } catch (e) {
+        handleError(res, e as IException)
+      }
+    },
+  )

@@ -6,6 +6,8 @@ import {morphExpense, morphExpenseDb} from './morphs'
 import service from './service'
 import {IExpense} from './types'
 
+const route = '/:productId/expense'
+
 export default express
   .Router()
 
@@ -14,7 +16,7 @@ export default express
    * QUERY:
    *        - :productId : `641546e3e6dffedba604e2b3`
    */
-  .get('/', async (req: Request<{productId: string}>, res: Response) => {
+  .get(`${route}/`, async (req: Request<{productId: string}>, res: Response) => {
     try {
       const email = getEmail(req, res)
       const expenses = await service.getAll(email, req.params.productId)
@@ -31,7 +33,7 @@ export default express
    *        - :productId : `641546e3e6dffedba604e2b3`
    *        - :expenseId : `641546e3e6dffedba604e2b3`
    */
-  .get('/:expenseId', async (req: Request<{productId: string; expenseId: string}>, res: Response) => {
+  .get(`${route}/:expenseId`, async (req: Request<{productId: string; expenseId: string}>, res: Response) => {
     try {
       const expense = await service.getSingle(req.params.expenseId)
 
@@ -52,7 +54,7 @@ export default express
    *        - :productId : `641546e3e6dffedba604e2b3`
    * PAYLOAD: IExpense
    */
-  .post('/', async (req: Request<{productId: string}>, res: Response) => {
+  .post(`${route}/`, async (req: Request<{productId: string}>, res: Response) => {
     try {
       const email = getEmail(req, res)
       const newExpense: IExpense = req.body
@@ -75,7 +77,7 @@ export default express
    *          - :expenseId : `641546e3e6dffedba604e2b3`
    * PAYLOAD: IExpense
    */
-  .post('/:expenseId', async (req: Request<{productId: string; expenseId: string}>, res: Response) => {
+  .post(`${route}/:expenseId`, async (req: Request<{productId: string; expenseId: string}>, res: Response) => {
     try {
       const updatedExpense: IExpense = req.body
       const id: string = req.params.expenseId
@@ -102,7 +104,7 @@ export default express
    *        - :productId : `641546e3e6dffedba604e2b3`
    * PAYLOAD: IExpense[]
    */
-  .post('/import', async (req: Request<{productId: string}>, res: Response) => {
+  .post(`${route}/import`, async (req: Request<{productId: string}>, res: Response) => {
     try {
       const email = getEmail(req, res)
       const productId = req.params.productId
@@ -130,7 +132,7 @@ export default express
    *          - :productId : `641546e3e6dffedba604e2b3`
    *          - :expenseId : `641546e3e6dffedba604e2b3`
    */
-  .delete('/:expenseId', async (req: Request<{productId: string; expenseId: string}>, res: Response) => {
+  .delete(`${route}/:expenseId`, async (req: Request<{productId: string; expenseId: string}>, res: Response) => {
     try {
       await service.remove(req.params.expenseId)
 

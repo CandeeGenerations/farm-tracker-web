@@ -52,10 +52,14 @@ const useRoute = (routeObject: any, parentRouteName?: string): void => {
 
 for (const routeObject of [{pingRoutes}, {animalRoutes}, {productRoutes}]) {
   useRoute(routeObject)
-}
 
-for (const routeObject of [{expenseRoutes}, {loggedProductRoutes}]) {
-  useRoute(routeObject, 'product/:productId')
+  if (cleanseRouteName(routeObject) === 'product') {
+    console.log(' - /api/product/:productId/logged-product')
+    console.log(' - /api/product/:productId/expense')
+
+    app.use('/api/product', loggedProductRoutes)
+    app.use('/api/product', expenseRoutes)
+  }
 }
 
 console.log(' - /api/logged-product')
