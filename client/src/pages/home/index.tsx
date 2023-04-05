@@ -60,7 +60,7 @@ const HomePage = (): React.ReactElement => {
     try {
       setState({loggedProductErrorMessage: undefined})
 
-      await axios.post(`/product/${loggedProduct.productId}/log`, loggedProduct)
+      await axios.post(`/product/${loggedProduct.productId}/logged-product`, loggedProduct)
     } catch (e) {
       setState({loggedProductErrorMessage: getErrorMessage(e)})
     }
