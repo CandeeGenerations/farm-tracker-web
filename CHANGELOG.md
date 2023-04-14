@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.13](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.12...v0.1.13) (2023-04-14)
+
+
+### Bug Fixes
+
+* add ping route ([39ed7c7](https://github.com/CandeeGenerations/farm-tracker/commit/39ed7c7b3ed4b103bc1ee9ce64597c43a2920c25))
+
 ### [0.1.12](https://github.com/CandeeGenerations/farm-tracker/compare/v0.1.11...v0.1.12) (2023-04-05)
 
 
