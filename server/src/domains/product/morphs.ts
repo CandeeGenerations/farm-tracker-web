@@ -5,6 +5,7 @@ import {morphism} from 'morphism'
 import {generateString} from '../../common/helpers'
 import {morphExpenseDb} from '../expense/morphs'
 import {morphLoggedProductDb} from '../logged-product/morphs'
+import {morphSaleDb} from '../sale/morphs'
 import {IProduct, ProductWithExpenses} from './types'
 
 export const morphProductDb = (source: ProductWithExpenses): IProduct =>
@@ -18,6 +19,7 @@ export const morphProductDb = (source: ProductWithExpenses): IProduct =>
       owner: ({owner}: ProductWithExpenses) => owner,
       expenses: ({expenses}: ProductWithExpenses) => (expenses || []).map(morphExpenseDb),
       loggedProducts: ({loggedProducts}: ProductWithExpenses) => (loggedProducts || []).map(morphLoggedProductDb),
+      sales: ({sales}: ProductWithExpenses) => (sales || []).map(morphSaleDb),
     },
     source as any,
   ) as IProduct

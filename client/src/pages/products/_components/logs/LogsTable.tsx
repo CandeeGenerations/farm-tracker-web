@@ -1,11 +1,11 @@
+import Button from '@/components/Button'
+import Table from '@/components/Table'
 import {addCommas, formatDate} from '@/helpers'
 import {ILoggedProduct} from '@/types/loggedProduct'
 import {IProduct} from '@/types/product'
 import dayjs from 'dayjs'
 import _sum from 'lodash/sum'
 import React from 'react'
-import Button from '../../../components/Button'
-import Table from '../../../components/Table'
 
 interface ILogsTable {
   logs: ILoggedProduct[]

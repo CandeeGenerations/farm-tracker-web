@@ -1,8 +1,8 @@
+import Table from '@/components/Table'
 import {formatDate} from '@/helpers'
 import {IAnimal} from '@/types/animal'
 import dayjs from 'dayjs'
 import React from 'react'
-import Table from '../../../components/Table'
 
 interface IOffspringTable {
   offspring: IAnimal[]

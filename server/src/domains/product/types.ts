@@ -1,7 +1,8 @@
-import {Expense, LoggedProduct, Product} from '@prisma/client'
+import {Expense, LoggedProduct, Product, Sale} from '@prisma/client'
 import {Breed} from '../animal/types'
 import {IExpense} from '../expense/types'
 import {ILoggedProduct} from '../logged-product/types'
+import {ISale} from '../sale/types'
 
 export interface IProduct {
   id: string
@@ -11,6 +12,7 @@ export interface IProduct {
   unit: string
   expenses: IExpense[]
   loggedProducts: ILoggedProduct[]
+  sales: ISale[]
   owner: string
 }
 
@@ -21,6 +23,7 @@ export type ProductMetadata = {
 }
 
 export type ProductWithExpenses = {
-  expenses: Expense[]
-  loggedProducts: LoggedProduct[]
+  expenses?: Expense[]
+  loggedProducts?: LoggedProduct[]
+  sales?: Sale[]
 } & Product

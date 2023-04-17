@@ -1,11 +1,11 @@
+import Card from '@/components/Card'
+import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import {IAnimal} from '@/types/animal'
 import axios, {AxiosResponse} from 'axios'
 import _uniq from 'lodash/uniq'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
-import Card from '../../../components/Card'
-import TableLoader from '../../../components/TableLoader'
 import Layout from '../../_layout'
 import ProductForm from '../_components/ProductForm'
 

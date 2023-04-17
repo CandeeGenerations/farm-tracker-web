@@ -1,8 +1,8 @@
+import {getFileSize, setPageState} from '@/helpers'
 import {ArrowUpTrayIcon, DocumentTextIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import React, {useEffect, useState} from 'react'
 import {Accept, useDropzone} from 'react-dropzone'
 import {Control, Controller, UseFormSetValue} from 'react-hook-form'
-import {getFileSize, setPageState} from '@/helpers'
 
 interface IFormUpload {
   name: string

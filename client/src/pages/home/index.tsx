@@ -1,3 +1,6 @@
+import Button from '@/components/Button'
+import Card from '@/components/Card'
+import ImportModal from '@/components/ImportModal'
 import {getErrorMessage, setPageState} from '@/helpers'
 import {IAnimal} from '@/types/animal'
 import {ILoggedProduct} from '@/types/loggedProduct'
@@ -7,11 +10,8 @@ import axios, {AxiosResponse} from 'axios'
 import dayjs from 'dayjs'
 import _uniqBy from 'lodash/uniqBy'
 import React, {useEffect, useState} from 'react'
-import Button from '../../components/Button'
-import Card from '../../components/Card'
-import ImportModal from '../../components/ImportModal'
 import Layout from '../_layout'
-import LogProductModal from '../products/_components/LogProductModal'
+import LogProductModal from '../products/_components/logs/LogProductModal'
 
 interface IPageState {
   showLoggedProductModal?: boolean

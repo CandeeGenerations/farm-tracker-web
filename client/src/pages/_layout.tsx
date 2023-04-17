@@ -1,3 +1,8 @@
+import Button from '@/components/Button'
+import FormInput from '@/components/FormInput'
+import {Modal, ModalBody, ModalFooter} from '@/components/Modal'
+import {classNames, setPageState} from '@/helpers'
+import {useUser} from '@/providers/user.provider'
 import {Dialog, Disclosure, Menu, Transition} from '@headlessui/react'
 import {Bars3Icon, HomeIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import Avvvatars from 'avvvatars-react'
@@ -7,11 +12,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {Fragment, useEffect, useState} from 'react'
-import Button from '../components/Button'
-import FormInput from '../components/FormInput'
-import {Modal, ModalBody, ModalFooter} from '../components/Modal'
-import {classNames, setPageState} from '../helpers'
-import {useUser} from '../providers/user.provider'
 
 interface IPageState {
   activeNavigation?: string

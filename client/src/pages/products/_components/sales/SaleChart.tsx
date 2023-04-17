@@ -1,16 +1,16 @@
+import Button from '@/components/Button'
+import Card from '@/components/Card'
+import Divider from '@/components/Divider'
+import FormInput from '@/components/FormInput'
+import FormSelect, {IFormSelectItem} from '@/components/FormSelect'
 import {setPageState} from '@/helpers'
-import {CHART_TYPES, LOGS_CHART_LOCAL_STORAGE, MONTHS, YEARS} from '@/helpers/constants'
-import {ILoggedProduct} from '@/types/loggedProduct'
+import {EXPENSES_CHART_LOCAL_STORAGE} from '@/helpers/constants'
+import {ISale} from '@/types/sale'
 import {CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip} from 'chart.js'
 import dayjs from 'dayjs'
 import _sum from 'lodash/sum'
 import React, {useEffect, useState} from 'react'
 import {Line} from 'react-chartjs-2'
-import Button from '../../../components/Button'
-import Card from '../../../components/Card'
-import Divider from '../../../components/Divider'
-import FormInput from '../../../components/FormInput'
-import FormSelect, {IFormSelectItem} from '../../../components/FormSelect'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
@@ -23,11 +23,21 @@ interface IPageState {
   labels?: string[]
 }
 
-interface ILogsChart {
-  logs: ILoggedProduct[]
+interface ISaleChart {
+  sales: ISale[]
 }
 
-const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
+const chartTypes = [
+  {id: 'previousMonths', name: 'Previous months'},
+  {id: 'yearly', name: 'Yearly'},
+  {id: 'monthly', name: 'Monthly'},
+]
+
+const years = Array.from(new Array(100), (v, i) => i).map(x => dayjs().subtract(x, 'year').format('YYYY'))
+
+const months = Array.from(new Array(12), (v, i) => i).map(x => dayjs().startOf('year').add(x, 'month').format('M'))
+
+const SaleChart = ({sales}: ISaleChart): React.ReactElement => {
   const [pageState, stateFunc] = useState<IPageState>({
     year: dayjs().year(),
     month: dayjs().month(),
@@ -58,8 +68,8 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
     return (dayArray || getAmountArray(dayObject.day())).map(x => dayObject.subtract(x, 'day').format('ddd, D'))
   }
 
-  const getChartEntry = (loggedProducts: ILoggedProduct[]): string =>
-    loggedProducts.length == 0 ? (0).toString() : _sum(loggedProducts.map(x => x.quantity)).toFixed(2)
+  const getChartEntry = (sales: ISale[]): string =>
+    sales.length == 0 ? (0).toString() : _sum(sales.map(x => x.amount)).toFixed(2)
 
   const previousMonthsChart = (stateValues?: IPageState) => {
     const months = getAmountArray(stateValues?.numberOfMonths || pageState.numberOfMonths)
@@ -68,9 +78,9 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
 
     for (const month of months) {
       const dayObject = dayjs().subtract(month, 'month')
-      const monthlyLogs = logs.filter(x => dayjs(x.logDate).isSame(dayObject, 'month'))
+      const monthlySales = sales.filter(x => dayjs(x.saleDate).isSame(dayObject, 'month'))
 
-      dataset.push(getChartEntry(monthlyLogs))
+      dataset.push(getChartEntry(monthlySales))
     }
 
     setState({...stateValues, labels, dataset})
@@ -83,9 +93,9 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
 
     for (const month of months) {
       const dayObject = dayjs().set('year', stateValues.year).endOf('year').subtract(month, 'month')
-      const monthlyLogs = logs.filter(x => dayjs(x.logDate).isSame(dayObject, 'month'))
+      const monthlySales = sales.filter(x => dayjs(x.saleDate).isSame(dayObject, 'month'))
 
-      dataset.push(getChartEntry(monthlyLogs))
+      dataset.push(getChartEntry(monthlySales))
     }
 
     setState({...stateValues, labels, dataset})
@@ -102,22 +112,22 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
 
     for (const day of days) {
       const dayObject = date.subtract(day, 'day')
-      const monthlyLogs = logs.filter(x => dayjs(x.logDate).isSame(dayObject, 'day'))
+      const monthlySales = sales.filter(x => dayjs(x.saleDate).isSame(dayObject, 'day'))
 
-      dataset.push(getChartEntry(monthlyLogs))
+      dataset.push(getChartEntry(monthlySales))
     }
 
     setState({...stateValues, labels, dataset})
   }
 
   const handleGenerateChart = (stateValues?: IPageState) => {
-    const chartType = stateValues?.chartType || pageState.chartType || CHART_TYPES[0]
+    const chartType = stateValues?.chartType || pageState.chartType || chartTypes[0]
     const numberOfMonths = stateValues?.numberOfMonths || pageState.numberOfMonths || 12
     const year = stateValues?.year || pageState.year || dayjs().year()
     const month = stateValues?.month || pageState.month || dayjs().month()
     const newValues = {chartType, numberOfMonths, year, month}
 
-    localStorage.setItem(LOGS_CHART_LOCAL_STORAGE, JSON.stringify({...newValues, chartType: chartType.id}))
+    localStorage.setItem(EXPENSES_CHART_LOCAL_STORAGE, JSON.stringify({...newValues, chartType: chartType.id}))
 
     switch (chartType.id) {
       case 'previousMonths': {
@@ -138,9 +148,9 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
   }
 
   useEffect(() => {
-    const storage = localStorage.getItem(LOGS_CHART_LOCAL_STORAGE)
+    const storage = localStorage.getItem(EXPENSES_CHART_LOCAL_STORAGE)
     let stateValues = {
-      chartType: CHART_TYPES[0],
+      chartType: chartTypes[0],
       numberOfMonths: 12,
       year: dayjs().year(),
       month: dayjs().month() + 1,
@@ -150,7 +160,7 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
       const savedValues = JSON.parse(storage)
 
       stateValues = {
-        chartType: CHART_TYPES.find(x => x.id === savedValues.chartType) || stateValues.chartType,
+        chartType: chartTypes.find(x => x.id === savedValues.chartType) || stateValues.chartType,
         numberOfMonths: savedValues.numberOfMonths || stateValues.numberOfMonths,
         year: savedValues.year || stateValues.year,
         month: savedValues.month || stateValues.month,
@@ -162,13 +172,13 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
 
   return (
     <div className="mt-20">
-      <h1 className="mb-5 text-3xl">Logged Products</h1>
+      <h1 className="mb-5 text-3xl">Sales</h1>
 
       <Card>
         <div className="flex space-x-6 items-end">
           <div>
             <FormSelect
-              items={CHART_TYPES}
+              items={chartTypes}
               name="chartType"
               vertical
               label="Chart type"
@@ -194,7 +204,7 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
               {pageState.chartType?.id === 'monthly' && (
                 <div>
                   <FormSelect
-                    items={MONTHS.map(x => ({
+                    items={months.map(x => ({
                       id: Number(x),
                       name: dayjs()
                         .month(Number(x) - 1)
@@ -212,7 +222,7 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
 
               <div>
                 <FormSelect
-                  items={YEARS.map(x => ({id: Number(x), name: x}))}
+                  items={years.map(x => ({id: Number(x), name: x}))}
                   name="year"
                   vertical
                   noSort
@@ -244,7 +254,7 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
             scales: {
               y: {
                 ticks: {
-                  callback: value => `${value}`,
+                  callback: value => `$${value}`,
                 },
               },
             },
@@ -254,7 +264,7 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
               },
               tooltip: {
                 callbacks: {
-                  label: ({dataset: {label}, parsed: {y}}) => `${label || y}`,
+                  label: ({dataset: {label}, parsed: {y}}) => `$${label || y}`,
                 },
               },
             },
@@ -275,4 +285,4 @@ const LogsChart = ({logs}: ILogsChart): React.ReactElement => {
   )
 }
 
-export default LogsChart
+export default SaleChart

@@ -1,11 +1,11 @@
+import Button from '@/components/Button'
+import FormInput from '@/components/FormInput'
+import {Modal, ModalBody, ModalFooter} from '@/components/Modal'
 import {Dialog} from '@headlessui/react'
 import {yupResolver} from '@hookform/resolvers/yup'
 import React, {useEffect} from 'react'
 import {SubmitHandler, useForm} from 'react-hook-form'
 import * as yup from 'yup'
-import Button from '../../../components/Button'
-import FormInput from '../../../components/FormInput'
-import {Modal, ModalBody, ModalFooter} from '../../../components/Modal'
 
 interface IAddNewModal {
   newType: string

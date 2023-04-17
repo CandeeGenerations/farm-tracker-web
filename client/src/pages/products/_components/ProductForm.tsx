@@ -1,3 +1,8 @@
+import Alert from '@/components/Alert'
+import Card from '@/components/Card'
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal'
+import FormInput from '@/components/FormInput'
+import FormSelect from '@/components/FormSelect'
 import {setPageState} from '@/helpers'
 import {IProduct, ProductMetadata} from '@/types/product'
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -5,11 +10,6 @@ import {useRouter} from 'next/router'
 import React, {useState} from 'react'
 import {SubmitHandler, useForm} from 'react-hook-form'
 import * as yup from 'yup'
-import Alert from '../../../components/Alert'
-import Card from '../../../components/Card'
-import ConfirmDeleteModal from '../../../components/ConfirmDeleteModal'
-import FormInput from '../../../components/FormInput'
-import FormSelect from '../../../components/FormSelect'
 
 interface IPageState {
   species?: string[]

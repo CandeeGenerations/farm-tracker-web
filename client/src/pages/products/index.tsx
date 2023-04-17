@@ -1,3 +1,10 @@
+import Button from '@/components/Button'
+import Card from '@/components/Card'
+import EmptyState from '@/components/EmptyState'
+import ImportModal from '@/components/ImportModal'
+import Search from '@/components/Search'
+import Table from '@/components/Table'
+import TableLoader from '@/components/TableLoader'
 import {addCommas, setPageState} from '@/helpers'
 import {DEBOUNCE} from '@/helpers/constants'
 import {IProduct} from '@/types/product'
@@ -7,13 +14,6 @@ import _sum from 'lodash/sum'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
-import Button from '../../components/Button'
-import Card from '../../components/Card'
-import EmptyState from '../../components/EmptyState'
-import ImportModal from '../../components/ImportModal'
-import Search from '../../components/Search'
-import Table from '../../components/Table'
-import TableLoader from '../../components/TableLoader'
 import Layout from '../_layout'
 
 interface IPageState {
@@ -83,6 +83,7 @@ const ProductsPage = (): React.ReactElement => {
         unit: product.unit,
         expenses: [],
         loggedProducts: [],
+        sales: [],
       })
     }
 
@@ -146,6 +147,7 @@ const ProductsPage = (): React.ReactElement => {
               {name: 'Logged Amount', id: 'totalLogged'},
               {name: 'Expenses', id: 'expensesAmount'},
               {name: 'Cost Per', id: 'costPer'},
+              {name: 'Sales', id: 'salesAmount'},
             ]}
             keyName="id"
             linkKey="name"
@@ -162,6 +164,11 @@ const ProductsPage = (): React.ReactElement => {
               costPer: `$${addCommas(
                 _sum(x.expenses.map(y => y.amount * y.quantity)) / _sum(x.loggedProducts.map(y => y.quantity)),
               )}`,
+              salesAmount: `$${addCommas(_sum(x.sales.map(y => y.amount)))} (${addCommas(
+                _sum(x.sales.map(y => y.quantity)),
+              )} sold / $${addCommas(
+                _sum(x.sales.map(y => y.amount)) / _sum(x.sales.map(y => y.quantity)),
+              )} per product)`,
             }))}
           />
         </div>

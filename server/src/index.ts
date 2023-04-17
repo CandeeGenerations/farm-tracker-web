@@ -8,6 +8,7 @@ import expenseRoutes from './domains/expense/routes'
 import loggedProductRoutes, {logImporter} from './domains/logged-product/routes'
 import pingRoutes from './domains/ping/routes'
 import productRoutes from './domains/product/routes'
+import saleRoutes from './domains/sale/routes'
 
 const app = express()
 const {port} = config
@@ -56,9 +57,11 @@ for (const routeObject of [{pingRoutes}, {animalRoutes}, {productRoutes}]) {
   if (cleanseRouteName(routeObject) === 'product') {
     console.log(' - /api/product/:productId/logged-product')
     console.log(' - /api/product/:productId/expense')
+    console.log(' - /api/product/:productId/sale')
 
     app.use('/api/product', loggedProductRoutes)
     app.use('/api/product', expenseRoutes)
+    app.use('/api/product', saleRoutes)
   }
 }
 

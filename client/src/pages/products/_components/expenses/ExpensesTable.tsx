@@ -1,10 +1,10 @@
+import Button from '@/components/Button'
+import Table from '@/components/Table'
 import {addCommas, formatDate} from '@/helpers'
 import {IExpense} from '@/types/expense'
 import dayjs from 'dayjs'
 import _sum from 'lodash/sum'
 import React from 'react'
-import Button from '../../../components/Button'
-import Table from '../../../components/Table'
 
 interface IExpensesTable {
   expenses: IExpense[]
