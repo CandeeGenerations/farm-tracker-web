@@ -39,7 +39,7 @@ const SalesTable = ({sales, onShowSaleModal, onOpenImporter}: ISalesTable): Reac
           {name: 'Sale Amount', id: 'amount'},
         ]}
         keyName="id"
-        linkKey="item"
+        linkKey="saleDate"
         defaultSortColumn="saleDate"
         defaultSortOrder="desc"
         onEdit={id => onShowSaleModal(sales.find(x => x.id === id))}

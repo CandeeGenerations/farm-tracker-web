@@ -31,7 +31,7 @@ export const formatDateTime = (dateTime?: string): string =>
 export const getErrorMessage = e => ((e as AxiosError).response.data as {error: string}).error
 
 export const addCommas = (num: number, fixed = 2): string =>
-  num
+  (isNaN(num) ? 0 : num)
     .toFixed(fixed)
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
