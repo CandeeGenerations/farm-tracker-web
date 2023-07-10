@@ -30,6 +30,7 @@ const SaleModal = ({sale, errorMessage, open, onClose, onDelete, onSubmit}: ISal
   const {handleSubmit, register, control, formState, setFocus, reset} = useForm<ISale>({
     defaultValues: sale || defaultValues,
     mode: 'onChange',
+    // @ts-ignore
     resolver: yupResolver(
       yup.object().shape({
         amount: yup

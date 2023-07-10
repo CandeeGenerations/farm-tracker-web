@@ -62,6 +62,7 @@ const LogProductModal = ({
   const {handleSubmit, register, control, formState, setFocus, reset, watch, setValue} = useForm<ILoggedProduct>({
     defaultValues: loggedProduct || defaultValues,
     mode: 'onChange',
+    // @ts-ignore
     resolver: yupResolver(
       yup.object().shape({
         quantity: yup

@@ -44,6 +44,7 @@ const ProductForm = ({product, metadata, errorMessage, onSubmit, onDelete}: IPro
   const {formState, control, register, handleSubmit} = useForm<IProduct>({
     defaultValues: product || {},
     mode: 'onChange',
+    // @ts-ignore
     resolver: yupResolver(
       yup.object().shape({
         name: yup.string().required().label('Name'),

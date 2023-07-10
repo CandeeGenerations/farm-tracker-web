@@ -39,6 +39,7 @@ const ExpenseModal = ({
   const {handleSubmit, register, control, formState, setFocus, reset} = useForm<IExpense>({
     defaultValues: expense || defaultValues,
     mode: 'onChange',
+    // @ts-ignore
     resolver: yupResolver(
       yup.object().shape({
         item: yup.string().required().label('Item'),

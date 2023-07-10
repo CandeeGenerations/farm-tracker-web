@@ -46,6 +46,7 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
   const {formState, reset, control, register, watch, setValue, getValues, handleSubmit, trigger} = useForm<IAnimal>({
     defaultValues: animal || {},
     mode: 'onChange',
+    // @ts-ignore
     resolver: yupResolver(
       yup.object().shape({
         name: yup.string().required().label('Name'),
