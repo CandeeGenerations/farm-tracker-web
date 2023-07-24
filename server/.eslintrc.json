@@ -1,6 +1,6 @@
 {
-  "extends": ["plugin:@typescript-eslint/recommended", "eslint:recommended", "prettier", "plugin:prettier/recommended"],
-  "plugins": ["@typescript-eslint", "prettier"],
+  "extends": ["plugin:@typescript-eslint/recommended", "eslint:recommended", "prettier"],
+  "plugins": ["@typescript-eslint"],
   "env": {
     "browser": true,
     "jasmine": true,
@@ -9,8 +9,6 @@
     "es6": true
   },
   "rules": {
-    "prettier/prettier": ["error", {"singleQuote": true}],
-
     "@typescript-eslint/no-parameter-properties": 0,
     "@typescript-eslint/ban-types": 0,
 
