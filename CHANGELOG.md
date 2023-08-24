@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.1.0...v1.2.0) (2023-08-24)
+
+
+### Features
+
+* updated the charts ([adcb7c1](https://github.com/CandeeGenerations/farm-tracker/commit/adcb7c1059c9d58326d31e61b08684207ea1b599))
+
+
+### Bug Fixes
+
+* fixed sales amount on the sales table ([35c4c06](https://github.com/CandeeGenerations/farm-tracker/commit/35c4c06bb6ca4e0eddd7856eef09e141d5948bbc))
+
 ## [1.1.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.0.4...v1.1.0) (2023-08-24)
 
 
