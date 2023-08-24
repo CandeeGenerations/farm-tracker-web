@@ -14,12 +14,13 @@ interface ISalesTable {
 }
 
 const SalesTable = ({sales, onShowSaleModal, onOpenImporter}: ISalesTable): React.ReactElement => {
+  const totalSold = _sum((sales || []).map(x => x.quantity))
+
   return (
     <div>
       <div className="flex items-center mb-5 mt-10">
         <h1 className="flex-1 text-3xl">
-          Sales ({sales?.length} item{sales?.length === 1 ? '' : 's'} - $
-          {addCommas(_sum(sales?.map(x => x.amount * x.quantity)))})
+          Sales ({totalSold} item{totalSold === 1 ? '' : 's'} - ${addCommas(_sum((sales || []).map(x => x.amount)))})
         </h1>
 
         <Button type="secondary" className="mr-4" onClick={onOpenImporter}>
