@@ -4,13 +4,13 @@ import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
 import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
-import SaleChart from '@/pages/products/_components/sales/SaleChart'
 import SaleModal from '@/pages/products/_components/sales/SaleModal'
 import SalesTable from '@/pages/products/_components/sales/SalesTable'
-import {ISale} from '@/types/sale'
 import {IProduct} from '@/types/product'
+import {ISale} from '@/types/sale'
 import axios, {AxiosResponse} from 'axios'
 import React, {useState} from 'react'
+import Chart from '../_Chart'
 
 interface IPageState {
   showModal?: boolean
@@ -150,7 +150,7 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
               onOpenImporter={handleOpenSaleImporter}
             />
 
-            <SaleChart sales={pageState.sales} />
+            <Chart data={pageState.sales.map(x => ({date: x.saleDate, amount: x.amount}))} title="Sales" />
           </>
         )}
       </div>

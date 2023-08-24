@@ -1,6 +1,6 @@
 import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/24/outline'
 import dayjs from 'dayjs'
-import React, {forwardRef, MouseEventHandler} from 'react'
+import React, {MouseEventHandler, forwardRef} from 'react'
 import ReactDatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import {Control, Controller, FieldError} from 'react-hook-form'
@@ -86,6 +86,7 @@ const DatePicker = ({
                 previousMonthButtonLabel="<"
                 popperClassName="react-datepicker-left"
                 customInput={<ButtonInput />}
+                wrapperClassName="w-full"
                 renderCustomHeader={({
                   date,
                   decreaseMonth,

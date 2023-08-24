@@ -5,7 +5,6 @@ import ImportModal from '@/components/ImportModal'
 import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import LogProductModal from '@/pages/products/_components/logs/LogProductModal'
-import LogsChart from '@/pages/products/_components/logs/LogsChart'
 import LogsTable from '@/pages/products/_components/logs/LogsTable'
 import {Breed} from '@/types/animal'
 import {ILoggedProduct} from '@/types/loggedProduct'
@@ -13,6 +12,7 @@ import {IProduct} from '@/types/product'
 import axios, {AxiosResponse} from 'axios'
 import dayjs from 'dayjs'
 import React, {useState} from 'react'
+import Chart from '../_Chart'
 
 interface IPageState {
   loggedProducts?: ILoggedProduct[]
@@ -175,7 +175,12 @@ const LoggedProductsPage = ({product, products, breeds}: ILoggedProductsPage): R
               onOpenImporter={handleOpenLoggedProductImporter}
             />
 
-            <LogsChart logs={pageState.loggedProducts} />
+            <Chart
+              data={(pageState.loggedProducts || []).map(x => ({date: x.logDate, amount: x.quantity}))}
+              title="Logged Products"
+              label="Quantity"
+              notMoney
+            />
           </>
         )}
       </div>

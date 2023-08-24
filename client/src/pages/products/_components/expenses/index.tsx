@@ -4,13 +4,13 @@ import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
 import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
-import ExpenseChart from '@/pages/products/_components/expenses/ExpenseChart'
 import ExpenseModal from '@/pages/products/_components/expenses/ExpenseModal'
 import ExpensesTable from '@/pages/products/_components/expenses/ExpensesTable'
 import {IExpense} from '@/types/expense'
 import {IProduct} from '@/types/product'
 import axios, {AxiosResponse} from 'axios'
 import React, {useState} from 'react'
+import Chart from '../_Chart'
 
 interface IPageState {
   showModal?: boolean
@@ -151,7 +151,7 @@ const ExpensesPage = ({product}: IExpensesPage): React.ReactElement => {
               onOpenImporter={handleOpenExpenseImporter}
             />
 
-            <ExpenseChart expenses={pageState.expenses} />
+            <Chart data={pageState.expenses.map(x => ({date: x.purchaseDate, amount: x.amount}))} title="Expenses" />
           </>
         )}
       </div>
