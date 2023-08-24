@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.0.4...v1.1.0) (2023-08-24)
+
+
+### Features
+
+* limited deceased and sold animals and allowed 0 amount for sales ([6e2afd6](https://github.com/CandeeGenerations/farm-tracker/commit/6e2afd64e2affaa8700a0b9b8224e7eeb7675870))
+
+
+### Bug Fixes
+
+* package updates ([023e7eb](https://github.com/CandeeGenerations/farm-tracker/commit/023e7eb477eac93565c3d77a4f8fedd6a73fe9e2))
+
 ### [1.0.4](https://github.com/CandeeGenerations/farm-tracker/compare/v1.0.3...v1.0.4) (2023-08-07)
 
 
