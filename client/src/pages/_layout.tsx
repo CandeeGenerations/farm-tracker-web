@@ -312,8 +312,8 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
               </div>
 
               <div className="flex flex-grow-0 text-sm">
-                &copy; 2022{year !== '2022' && ` - ${year}`}{' '}
-                <a href="https://candeegenerations.com?ref=farm.cgen.cc" target="_blank">
+                &copy; 2022{year !== '2022' && ` - ${year}`}
+                <a href="https://candeegenerations.com?ref=farm.cgen.cc" target="_blank" className="pl-1">
                   Candee Generations
                 </a>
               </div>

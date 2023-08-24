@@ -137,10 +137,12 @@ const HomePage = (): React.ReactElement => {
       <LogProductModal
         products={products.products}
         dbBreeds={_uniqBy(
-          animals.animals.map(x => ({
-            name: x.breed,
-            species: x.species,
-          })),
+          animals.animals
+            .filter(x => !x.deceased && !x.sold)
+            .map(x => ({
+              name: x.breed,
+              species: x.species,
+            })),
           'name',
         )}
         errorMessage={pageState.loggedProductErrorMessage}

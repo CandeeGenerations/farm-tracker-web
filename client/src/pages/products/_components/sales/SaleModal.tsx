@@ -23,6 +23,7 @@ interface ISaleModal {
 }
 
 const defaultValues = {
+  amount: 0,
   saleDate: dayjs().format(),
 }
 
@@ -33,11 +34,7 @@ const SaleModal = ({sale, errorMessage, open, onClose, onDelete, onSubmit}: ISal
     // @ts-ignore
     resolver: yupResolver(
       yup.object().shape({
-        amount: yup
-          .number()
-          .typeError('Cost must be a dollar amount')
-          .positive('Cost must be a dollar amount')
-          .required(),
+        amount: yup.number().typeError('Cost must be a dollar amount'),
         quantity: yup
           .number()
           .typeError('Quantity must be a positive number')

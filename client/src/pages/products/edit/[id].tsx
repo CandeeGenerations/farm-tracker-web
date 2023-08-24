@@ -1,6 +1,6 @@
 import Card from '@/components/Card'
-import TableLoader from '@/components/TableLoader'
 import TabNav from '@/components/TabNav'
+import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import ExpensesPage from '@/pages/products/_components/expenses'
 import LoggedProductsPage from '@/pages/products/_components/logs'
@@ -133,10 +133,12 @@ const EditAnimalPage = (): React.ReactElement => {
               product={product.product}
               products={products.products}
               breeds={_uniqBy(
-                animals.animals.map(x => ({
-                  name: x.breed,
-                  species: x.species,
-                })),
+                animals.animals
+                  .filter(x => !x.deceased && !x.sold)
+                  .map(x => ({
+                    name: x.breed,
+                    species: x.species,
+                  })),
                 'name',
               )}
             />
