@@ -21,6 +21,7 @@ const AddNewModal = ({newType, open, onClose, onSubmit}: IAddNewModal): React.Re
       name: '',
     },
     mode: 'onChange',
+    // @ts-ignore
     resolver: yupResolver(
       yup.object().shape({
         name: yup.string().required().label('Name'),
