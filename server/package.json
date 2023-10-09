@@ -17,7 +17,7 @@
     "@prisma/client": "^5.4.1",
     "axios": "^1.5.1",
     "body-parser": "^1.20.2",
-    "change-case": "^5.0.2",
+    "change-case": "^4.1.2",
     "cors": "^2.8.5",
     "dayjs": "^1.11.10",
     "express": "^4.18.2",
