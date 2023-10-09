@@ -337,7 +337,7 @@
   resolved "https://registry.yarnpkg.com/@netlify/node-cookies/-/node-cookies-0.1.0.tgz#dda912ba618527695cf519fafa221c5e6777c612"
   integrity sha512-OAs1xG+FfLX0LoRASpqzVntVV/RpYkgpI0VrUnw2u0Q1qiZUzcPffxRK8HF3gc4GjuhG5ahOEMJ9bswBiZPq0g==
 
-"@netlify/plugin-nextjs@^4.40.2":
+"@netlify/plugin-nextjs@^4.40.1":
   version "4.40.2"
   resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-4.40.2.tgz#6f6ac96f9e1da440907e2b3d039c988ca371a8a6"
   integrity sha512-0yQsTDZRQ2XRsFMUtVMH+UaPwfjk91Xv28U8U9Ld57EPVDD9DRh0EUdD+8obDqD9oioh2DA0RH38oe8Oo+W4Bw==
@@ -2977,7 +2977,7 @@ next-auth@^4.23.2:
     preact-render-to-string "^5.1.19"
     uuid "^8.3.2"
 
-next@^13.5.4:
+next@^13.4.19:
   version "13.5.4"
   resolved "https://registry.yarnpkg.com/next/-/next-13.5.4.tgz#7e6a93c9c2b9a2c78bf6906a6c5cc73ae02d5b4d"
   integrity sha512-+93un5S779gho8y9ASQhb/bTkQF17FNQOtXLKAj3lsNgltEcF0C5PMLLncDmH+8X1EnJH1kbqAERa29nRXqhjA==
