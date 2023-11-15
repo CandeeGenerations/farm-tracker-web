@@ -1,5 +1,5 @@
 {
-  "extends": ["plugin:@typescript-eslint/recommended", "eslint:recommended", "prettier"],
+  "extends": ["plugin:@typescript-eslint/recommended", "eslint:recommended"],
   "plugins": ["@typescript-eslint"],
   "env": {
     "browser": true,

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Product} from '@prisma/client'
-import {paramCase} from 'change-case'
+import changeCase from 'change-case'
 import {morphism} from 'morphism'
 import {generateString} from '../../common/helpers'
 import {morphExpenseDb} from '../expense/morphs'
@@ -28,7 +28,8 @@ export const morphProduct = (source: IProduct): Product =>
   morphism(
     {
       id: ({id}: IProduct) => id,
-      productKey: ({productKey, name}: IProduct) => productKey || `${paramCase(name.trim())}-${generateString()}`,
+      productKey: ({productKey, name}: IProduct) =>
+        productKey || `${changeCase.kebabCase(name.trim())}-${generateString()}`,
       name: ({name}: IProduct) => name.trim(),
       species: ({species}: IProduct) => species,
       unit: ({unit}: IProduct) => unit.trim().toLowerCase(),
