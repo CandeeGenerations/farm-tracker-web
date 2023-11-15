@@ -1,5 +1,5 @@
 import {LoggedProduct} from '@prisma/client'
-import client from '../../common/client'
+import client from '../../common/client.js'
 
 const getAll = async (owner: string, productId: string): Promise<LoggedProduct[]> =>
   await client.loggedProduct.findMany({where: {owner, productId}})
@@ -10,7 +10,7 @@ const getSingle = async (id: string): Promise<LoggedProduct | null> =>
 const create = async (data: LoggedProduct): Promise<LoggedProduct> => await client.loggedProduct.create({data})
 
 const update =
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   async (id: string, {id: _, ...data}: LoggedProduct): Promise<LoggedProduct> =>
     await client.loggedProduct.update({where: {id}, data})
 

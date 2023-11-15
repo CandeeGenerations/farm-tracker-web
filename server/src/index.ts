@@ -2,14 +2,17 @@ import cors from 'cors'
 import express from 'express'
 import fs from 'fs'
 import path from 'path'
-import config from './common/config'
-import animalRoutes from './domains/animal/routes'
-import expenseRoutes from './domains/expense/routes'
-import loggedProductRoutes, {logImporter} from './domains/logged-product/routes'
-import pingRoutes from './domains/ping/routes'
-import productRoutes from './domains/product/routes'
-import saleRoutes from './domains/sale/routes'
+import {fileURLToPath} from 'url'
+import config from './common/config.js'
+import animalRoutes from './domains/animal/routes.js'
+import expenseRoutes from './domains/expense/routes.js'
+import loggedProductRoutes, {logImporter} from './domains/logged-product/routes.js'
+import pingRoutes from './domains/ping/routes.js'
+import productRoutes from './domains/product/routes.js'
+import saleRoutes from './domains/sale/routes.js'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const app = express()
 const {port} = config
 const pjson = JSON.parse(fs.readFileSync(path.join(__dirname, '../', 'package.json'), 'utf8'))
@@ -19,19 +22,20 @@ app.use(express.json({limit: '50mb'}))
 app.use(cors())
 
 console.log(`
-   _____    _____                
-  / ____|  / ____|               
- | |      | |  __  ___ _ __  
- | |      | | |_ |/ _ \\ '_ \\ 
+   _____    _____
+  / ____|  / ____|
+ | |      | |  __  ___ _ __
+ | |      | | |_ |/ _ \\ '_ \\
  | |____  | |__| |  __/ | | |
   \\_____|  \\_____|\\___|_| |_|
-     
+
 ${sep}
  Farm Tracker Server | v${pjson.version || '_dev'}
  🚀 Server ready on PORT: ${port}
 ${sep}
  Routes:`)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cleanseRouteName = (routeObject: any): string => {
   const routeName = Object.keys(routeObject)[0]
 
@@ -41,6 +45,7 @@ const cleanseRouteName = (routeObject: any): string => {
     .toLowerCase()
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useRoute = (routeObject: any, parentRouteName?: string): void => {
   const routeName = cleanseRouteName(routeObject)
   const route = `/api/${parentRouteName ? `${parentRouteName}/` : ''}${routeName}`

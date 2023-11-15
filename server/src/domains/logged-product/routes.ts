@@ -1,14 +1,13 @@
 import {LoggedProduct} from '@prisma/client'
 import express, {Request, Response} from 'express'
-import _uniq from 'lodash/uniq'
-import _uniqBy from 'lodash/uniqBy'
-import {getEmail, handleError, handleSuccess} from '../../common/helpers'
-import {IException} from '../../types/logger'
-import animalService from '../animal/service'
-import productService from '../product/service'
-import {morphLoggedProduct, morphLoggedProductDb} from './morphs'
-import service from './service'
-import {ILoggedProduct} from './types'
+import lodash from 'lodash'
+import {getEmail, handleError, handleSuccess} from '../../common/helpers.js'
+import {IException} from '../../types/logger.js'
+import animalService from '../animal/service.js'
+import productService from '../product/service.js'
+import {morphLoggedProduct, morphLoggedProductDb} from './morphs.js'
+import service from './service.js'
+import {ILoggedProduct} from './types.js'
 
 export const logImporter = express
   .Router()
@@ -22,8 +21,8 @@ export const logImporter = express
       const email = getEmail(req, res)
       const existingProducts = await productService.getAll(email)
       const existingAnimals = await animalService.getAll(email)
-      const existingSpecies = _uniq(existingAnimals.map(x => x.species))
-      const existingBreeds = _uniqBy(
+      const existingSpecies = lodash.uniq(existingAnimals.map(x => x.species))
+      const existingBreeds = lodash.uniqBy(
         existingAnimals.map(x => ({
           name: x.breed,
           species: x.species,

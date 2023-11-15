@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Animal} from '@prisma/client'
 import dayjs from 'dayjs'
-import {morphism} from 'morphism'
-import {AnimalWithChildren, IAnimal, IAnimalWithChildren} from './types'
+import morphism from 'morphism'
+import {AnimalWithChildren, IAnimal, IAnimalWithChildren} from './types.js'
 
 export const morphAnimalDb = (source: AnimalWithChildren): IAnimalWithChildren =>
-  morphism(
+  morphism.morphism(
     {
       id: ({id}: AnimalWithChildren) => id,
       name: ({name}: AnimalWithChildren) => name,
@@ -24,7 +24,7 @@ export const morphAnimalDb = (source: AnimalWithChildren): IAnimalWithChildren =
   ) as IAnimalWithChildren
 
 export const morphAnimal = (source: IAnimal): Animal =>
-  morphism(
+  morphism.morphism(
     {
       id: ({id}: IAnimal) => id,
       name: ({name}: IAnimal) => name.trim(),

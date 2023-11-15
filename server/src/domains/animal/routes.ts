@@ -1,12 +1,11 @@
 import {Animal} from '@prisma/client'
 import express, {Request, Response} from 'express'
-import _uniq from 'lodash/uniq'
-import _uniqBy from 'lodash/uniqBy'
-import {getEmail, handleError, handleSuccess} from '../../common/helpers'
-import {IException} from '../../types/logger'
-import {morphAnimal, morphAnimalDb} from './morphs'
-import service from './service'
-import {IAnimal} from './types'
+import lodash from 'lodash'
+import {getEmail, handleError, handleSuccess} from '../../common/helpers.js'
+import {IException} from '../../types/logger.js'
+import {morphAnimal, morphAnimalDb} from './morphs.js'
+import service from './service.js'
+import {IAnimal} from './types.js'
 
 export default express
   .Router()
@@ -100,8 +99,8 @@ export default express
     try {
       const email = getEmail(req, res)
       const existingAnimals = await service.getAll(email)
-      const existingSpecies = _uniq(existingAnimals.map(x => x.species))
-      const existingBreeds = _uniqBy(
+      const existingSpecies = lodash.uniq(existingAnimals.map(x => x.species))
+      const existingBreeds = lodash.uniqBy(
         existingAnimals.map(x => ({
           name: x.breed,
           species: x.species,

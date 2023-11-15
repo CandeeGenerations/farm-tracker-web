@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Expense} from '@prisma/client'
 import dayjs from 'dayjs'
-import {morphism} from 'morphism'
-import {IExpense} from './types'
+import morphism from 'morphism'
+import {IExpense} from './types.js'
 
 export const morphExpenseDb = (source: Expense): IExpense =>
-  morphism(
+  morphism.morphism(
     {
       id: ({id}: Expense) => id,
       productId: ({productId}: Expense) => productId,
@@ -19,7 +19,7 @@ export const morphExpenseDb = (source: Expense): IExpense =>
   ) as IExpense
 
 export const morphExpense = (source: IExpense): Expense =>
-  morphism(
+  morphism.morphism(
     {
       id: ({id}: IExpense) => id,
       productId: ({productId}: IExpense) => productId,

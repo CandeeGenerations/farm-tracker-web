@@ -1,11 +1,11 @@
 import {Product} from '@prisma/client'
 import express, {Request, Response} from 'express'
-import _uniq from 'lodash/uniq'
-import {getEmail, handleError, handleSuccess} from '../../common/helpers'
-import {IException} from '../../types/logger'
-import {morphProduct, morphProductDb} from './morphs'
-import service from './service'
-import {IProduct} from './types'
+import lodash from 'lodash'
+import {getEmail, handleError, handleSuccess} from '../../common/helpers.js'
+import {IException} from '../../types/logger.js'
+import {morphProduct, morphProductDb} from './morphs.js'
+import service from './service.js'
+import {IProduct} from './types.js'
 
 export default express
   .Router()
@@ -100,7 +100,7 @@ export default express
     try {
       const email = getEmail(req, res)
       const existingProducts = await service.getAll(email)
-      const existingSpecies = _uniq(existingProducts.map(x => x.species))
+      const existingSpecies = lodash.uniq(existingProducts.map(x => x.species))
 
       const products: IProduct[] = req.body
       const createdProducts: Product[] = []
