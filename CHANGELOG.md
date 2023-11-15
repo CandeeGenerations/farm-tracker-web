@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.2.4...v1.3.0) (2023-11-15)
+
+
+### Features
+
+* migrated to esm ([a1523fe](https://github.com/CandeeGenerations/farm-tracker/commit/a1523fe25a7f76f805d6c4771bdfc364a55fc759))
+
 ### [1.2.4](https://github.com/CandeeGenerations/farm-tracker/compare/v1.2.3...v1.2.4) (2023-11-15)
 
 
