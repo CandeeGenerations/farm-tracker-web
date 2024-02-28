@@ -3,7 +3,7 @@ import {Dialog} from '@headlessui/react'
 import {CheckCircleIcon} from '@heroicons/react/24/outline'
 import Papa from 'papaparse'
 import React, {useEffect, useState} from 'react'
-import {SubmitHandler, useForm} from 'react-hook-form'
+import {FieldValues, SubmitHandler, useForm} from 'react-hook-form'
 import Alert from './Alert'
 import Button from './Button'
 import Card from './Card'
@@ -51,7 +51,7 @@ const ImportModal = ({
     },
   })
 
-  const submitHandler: SubmitHandler<{fileData: File}> = async ({fileData}) => {
+  const submitHandler: SubmitHandler<FieldValues> = async ({fileData}: {fileData: File}) => {
     setState({
       uploadError: undefined,
     })

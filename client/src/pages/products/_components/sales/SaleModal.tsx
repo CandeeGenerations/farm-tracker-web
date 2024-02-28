@@ -8,7 +8,7 @@ import {Dialog} from '@headlessui/react'
 import {yupResolver} from '@hookform/resolvers/yup'
 import dayjs from 'dayjs'
 import React, {useEffect} from 'react'
-import {SubmitHandler, useForm} from 'react-hook-form'
+import {FieldValues, SubmitHandler, useForm} from 'react-hook-form'
 import * as yup from 'yup'
 
 interface ISaleModal {
@@ -45,7 +45,7 @@ const SaleModal = ({sale, errorMessage, open, onClose, onDelete, onSubmit}: ISal
     ),
   })
 
-  const submitHandler: SubmitHandler<ISale> = async data => onSubmit(data)
+  const submitHandler: SubmitHandler<FieldValues> = async (data: ISale) => onSubmit(data)
 
   useEffect(() => {
     if (!open) return

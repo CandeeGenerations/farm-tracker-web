@@ -15,7 +15,7 @@ import {CheckIcon} from '@heroicons/react/24/outline'
 import {yupResolver} from '@hookform/resolvers/yup'
 import dayjs from 'dayjs'
 import React, {useEffect, useState} from 'react'
-import {SubmitHandler, useForm} from 'react-hook-form'
+import {FieldValues, SubmitHandler, useForm} from 'react-hook-form'
 import * as yup from 'yup'
 
 interface ILogProductModal {
@@ -78,7 +78,7 @@ const LogProductModal = ({
   const productId = watch('productId')
   const species = watch('species')
 
-  const submitHandler: SubmitHandler<ILoggedProduct> = async data => {
+  const submitHandler: SubmitHandler<FieldValues> = async (data: ILoggedProduct) => {
     await onSubmit(data)
 
     localStorage.setItem(LAST_LOGGED_PRODUCT_ID, data.productId.toString())

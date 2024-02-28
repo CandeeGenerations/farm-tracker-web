@@ -4,7 +4,7 @@ import {Modal, ModalBody, ModalFooter} from '@/components/Modal'
 import {Dialog} from '@headlessui/react'
 import {yupResolver} from '@hookform/resolvers/yup'
 import React, {useEffect} from 'react'
-import {SubmitHandler, useForm} from 'react-hook-form'
+import {FieldValues, SubmitHandler, useForm} from 'react-hook-form'
 import * as yup from 'yup'
 
 interface IAddNewModal {
@@ -29,7 +29,7 @@ const AddNewModal = ({newType, open, onClose, onSubmit}: IAddNewModal): React.Re
     ),
   })
 
-  const submitHandler: SubmitHandler<{name: string}> = async data => onSubmit(data.name)
+  const submitHandler: SubmitHandler<FieldValues> = async (data: {name: string}) => onSubmit(data.name)
 
   useEffect(() => {
     if (!open) return

@@ -10,7 +10,7 @@ import {AnimalMetadata, Breed, DbAnimal, IAnimal} from '@/types/animal'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
-import {SubmitHandler, useForm} from 'react-hook-form'
+import {FieldValues, SubmitHandler, useForm} from 'react-hook-form'
 import * as yup from 'yup'
 import AddNewModal from './AddNewModal'
 
@@ -65,7 +65,7 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
   const species = watch('species')
   const breed = watch('breed')
 
-  const submitHandler: SubmitHandler<IAnimal> = async data => onSubmit(data)
+  const submitHandler: SubmitHandler<FieldValues> = async (data: IAnimal) => onSubmit(data)
 
   const handleOpenNewModal = (newModalType: string) => setState({newModalType})
 

@@ -8,7 +8,7 @@ import {IProduct, ProductMetadata} from '@/types/product'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {useRouter} from 'next/router'
 import React, {useState} from 'react'
-import {SubmitHandler, useForm} from 'react-hook-form'
+import {FieldValues, SubmitHandler, useForm} from 'react-hook-form'
 import * as yup from 'yup'
 
 interface IPageState {
@@ -54,7 +54,7 @@ const ProductForm = ({product, metadata, errorMessage, onSubmit, onDelete}: IPro
     ),
   })
 
-  const submitHandler: SubmitHandler<IProduct> = async data => onSubmit(data)
+  const submitHandler: SubmitHandler<FieldValues> = async (data: IProduct) => onSubmit(data)
 
   const handleShowDeleteModal = () => setState({showDeleteModal: true})
 
