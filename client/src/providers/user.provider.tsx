@@ -2,7 +2,7 @@ import MainPage from '@/components/MainPage'
 import {IMPERSONATOR_EMAIL} from '@/helpers/constants'
 import axios from 'axios'
 import {signOut, useSession} from 'next-auth/react'
-import React, {createContext, ReactElement, ReactNode, useContext, useEffect, useState} from 'react'
+import {ReactElement, ReactNode, createContext, useContext, useEffect, useState} from 'react'
 
 interface IUserContext {
   userInfo: IUserInfo
@@ -33,6 +33,7 @@ const UserProvider = ({children}: {children: ReactNode}): ReactElement => {
   useEffect(() => {
     const impersonatorEmail = localStorage.getItem(IMPERSONATOR_EMAIL)
 
+    // eslint-disable-next-line no-undef
     axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL
 
     if (impersonatorEmail) {

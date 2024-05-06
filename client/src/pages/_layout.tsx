@@ -38,6 +38,11 @@ const navigation: {id: string; name: string}[] = [
   {id: 'products', name: 'Products'},
 ]
 
+/* eslint-disable no-undef */
+const version = process.env.NEXT_PUBLIC_APP_VERSION
+const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL
+/* eslint-enable no-undef */
+
 const Layout = ({title, description, children, breadcrumbs}: ILayout): React.ReactElement => {
   const router = useRouter()
   const {userInfo, logOut, impersonate} = useUser()
@@ -166,7 +171,7 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
                           leaveTo="transform opacity-0 scale-95"
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {userInfo.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
+                            {userInfo.email === adminEmail && (
                               <Menu.Item>
                                 <div
                                   className="cursor-pointer block px-4 py-2 text-sm"
@@ -307,9 +312,7 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
             <div className="relative border border-secondary-300 mt-24 mb-12" />
 
             <div className="relative flex items-center content-between lg:pb-20 pb-10 lg:flex-row flex-col text-muted">
-              <div className="flex-grow pb-3 lg:pb-0 text-center lg:text-left text-sm">
-                v{process.env.NEXT_PUBLIC_APP_VERSION || '_dev'}
-              </div>
+              <div className="flex-grow pb-3 lg:pb-0 text-center lg:text-left text-sm">v{version || '_dev'}</div>
 
               <div className="flex flex-grow-0 text-sm">
                 &copy; 2022{year !== '2022' && ` - ${year}`}
