@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.10](https://github.com/CandeeGenerations/farm-tracker/compare/v1.3.9...v1.3.10) (2024-05-21)
+
+
+### Bug Fixes
+
+* migrated to eslint v9 ([ef95b9d](https://github.com/CandeeGenerations/farm-tracker/commit/ef95b9dc066bb53c8e95d02f0b4cda82c617bb15))
+* package updates ([bd3b80e](https://github.com/CandeeGenerations/farm-tracker/commit/bd3b80e057920e223227a728585f3db9d0c0f22b))
+
 ### [1.3.9](https://github.com/CandeeGenerations/farm-tracker/compare/v1.3.8...v1.3.9) (2024-05-06)
 
 
