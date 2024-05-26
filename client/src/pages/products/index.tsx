@@ -5,7 +5,7 @@ import ImportModal from '@/components/ImportModal'
 import Search from '@/components/Search'
 import Table from '@/components/Table'
 import TableLoader from '@/components/TableLoader'
-import {addCommas, setPageState} from '@/helpers'
+import {addCommas, classNames, setPageState} from '@/helpers'
 import {DEBOUNCE} from '@/helpers/constants'
 import {IProduct} from '@/types/product'
 import axios, {AxiosResponse} from 'axios'
@@ -148,28 +148,46 @@ const ProductsPage = (): React.ReactElement => {
               {name: 'Expenses', id: 'expensesAmount'},
               {name: 'Cost Per', id: 'costPer'},
               {name: 'Sales', id: 'salesAmount'},
+              {name: 'Profit', id: 'profitAmount'},
             ]}
             keyName="id"
             linkKey="name"
-            data={pageState.products.map(x => ({
-              ...x,
-              expensesAmount:
-                x.expenses.length > 0
-                  ? `$${addCommas(_sum(x.expenses.map(y => y.amount * y.quantity)))} (${x.expenses.length} item${
-                      x.expenses.length === 1 ? '' : 's'
-                    })`
-                  : undefined,
-              totalLogged:
-                x.loggedProducts.length > 0 ? `${addCommas(_sum(x.loggedProducts.map(y => y.quantity)))} ${x.unit}` : 0,
-              costPer: `$${addCommas(
-                _sum(x.expenses.map(y => y.amount * y.quantity)) / _sum(x.loggedProducts.map(y => y.quantity)),
-              )}`,
-              salesAmount: `$${addCommas(_sum(x.sales.map(y => y.amount)))} (${addCommas(
-                _sum(x.sales.map(y => y.quantity)),
-              )} sold / $${addCommas(
-                _sum(x.sales.map(y => y.amount)) / _sum(x.sales.map(y => y.quantity)),
-              )} per product)`,
-            }))}
+            data={pageState.products.map(x => {
+              const salesAmount = _sum(x.sales.map(y => y.amount))
+              const expensesAmount = _sum(x.expenses.map(y => y.amount * y.quantity))
+              const profitAmount = salesAmount - expensesAmount
+
+              return {
+                ...x,
+                expensesAmount:
+                  x.expenses.length > 0
+                    ? `$${addCommas(_sum(x.expenses.map(y => y.amount * y.quantity)))} (${x.expenses.length} item${
+                        x.expenses.length === 1 ? '' : 's'
+                      })`
+                    : undefined,
+                totalLogged:
+                  x.loggedProducts.length > 0
+                    ? `${addCommas(_sum(x.loggedProducts.map(y => y.quantity)))} ${x.unit}`
+                    : 0,
+                costPer: `$${addCommas(
+                  x.expenses.length > 0 && x.loggedProducts.length > 0
+                    ? _sum(x.expenses.map(y => y.amount * y.quantity)) / _sum(x.loggedProducts.map(y => y.quantity))
+                    : 0,
+                )}`,
+                salesAmount: `$${addCommas(salesAmount)} (${addCommas(
+                  _sum(x.sales.map(y => y.quantity)),
+                )} sold / $${addCommas(_sum(x.sales.map(y => y.amount)) / _sum(x.sales.map(y => y.quantity)))} per)`,
+                profitAmount: (
+                  <span
+                    className={classNames(
+                      profitAmount > 0 ? 'text-success-medium' : profitAmount < 0 ? 'text-warning-medium' : undefined,
+                    )}
+                  >
+                    ${addCommas(profitAmount)}
+                  </span>
+                ),
+              }
+            })}
           />
         </div>
       )}
