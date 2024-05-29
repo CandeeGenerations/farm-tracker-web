@@ -19,9 +19,7 @@ const SalesTable = ({sales, onShowSaleModal, onOpenImporter}: ISalesTable): Reac
   return (
     <div>
       <div className="flex items-center mb-5 mt-10">
-        <h1 className="flex-1 text-3xl">
-          Sales ({totalSold} item{totalSold === 1 ? '' : 's'} - ${addCommas(_sum((sales || []).map(x => x.amount)))})
-        </h1>
+        <h1 className="flex-1 text-3xl">Sales</h1>
 
         <Button type="secondary" className="mr-4" onClick={onOpenImporter}>
           Import sales
@@ -38,6 +36,10 @@ const SalesTable = ({sales, onShowSaleModal, onOpenImporter}: ISalesTable): Reac
           {name: 'Sale Date', id: 'saleDate', sortOverride: 'saleDateSort'},
           {name: 'Quantity', id: 'quantity'},
           {name: 'Sale Amount', id: 'amount'},
+        ]}
+        totalRow={[
+          {id: 'quantity', value: `${totalSold}`},
+          {id: 'amount', value: `$${addCommas(_sum(sales.map(x => x.amount)))}`},
         ]}
         keyName="id"
         linkKey="saleDate"

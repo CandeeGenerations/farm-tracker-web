@@ -93,6 +93,9 @@ const ProductsPage = (): React.ReactElement => {
   }
 
   const debounceSearch = _debounce(handleSearch, DEBOUNCE)
+  const totalProfit =
+    _sum(pageState.originalProducts.map(x => _sum(x.sales.map(y => y.amount)))) -
+    _sum(pageState.originalProducts.map(x => _sum(x.expenses.map(y => y.amount * y.quantity))))
 
   return (
     <Layout
@@ -148,35 +151,57 @@ const ProductsPage = (): React.ReactElement => {
               {name: 'Expenses', id: 'expensesAmount'},
               {name: 'Cost Per', id: 'costPer'},
               {name: 'Sales', id: 'salesAmount'},
-              {name: 'Profit', id: 'profitAmount'},
+              {name: 'Profit', id: 'profitAmount', sortOverride: 'profitSort'},
+            ]}
+            totalRow={[
+              {
+                id: 'totalLogged',
+                value: addCommas(
+                  _sum(pageState.originalProducts.map(x => _sum(x.loggedProducts.map(y => y.quantity)))),
+                ),
+              },
+              {
+                id: 'expensesAmount',
+                value: `$${addCommas(_sum(pageState.originalProducts.map(x => _sum(x.expenses.map(y => y.amount * y.quantity)))))}`,
+              },
+              {
+                id: 'salesAmount',
+                value: `$${addCommas(_sum(pageState.originalProducts.map(x => _sum(x.sales.map(y => y.amount)))))}`,
+              },
+              {
+                id: 'profitAmount',
+                value: (
+                  <span
+                    className={classNames(
+                      totalProfit > 0 ? 'text-success-medium' : totalProfit < 0 ? 'text-warning-medium' : undefined,
+                    )}
+                  >
+                    ${addCommas(totalProfit)}
+                  </span>
+                ),
+              },
             ]}
             keyName="id"
             linkKey="name"
             data={pageState.products.map(x => {
               const salesAmount = _sum(x.sales.map(y => y.amount))
+              const salesQuantity = _sum(x.sales.map(y => y.quantity))
               const expensesAmount = _sum(x.expenses.map(y => y.amount * y.quantity))
+              const loggedProductsAmount = _sum(x.loggedProducts.map(y => y.quantity))
               const profitAmount = salesAmount - expensesAmount
+              const anyExpenses = x.expenses.length > 0
+              const anyLoggedProducts = x.loggedProducts.length > 0
 
               return {
                 ...x,
-                expensesAmount:
-                  x.expenses.length > 0
-                    ? `$${addCommas(_sum(x.expenses.map(y => y.amount * y.quantity)))} (${x.expenses.length} item${
-                        x.expenses.length === 1 ? '' : 's'
-                      })`
-                    : undefined,
-                totalLogged:
-                  x.loggedProducts.length > 0
-                    ? `${addCommas(_sum(x.loggedProducts.map(y => y.quantity)))} ${x.unit}`
-                    : 0,
-                costPer: `$${addCommas(
-                  x.expenses.length > 0 && x.loggedProducts.length > 0
-                    ? _sum(x.expenses.map(y => y.amount * y.quantity)) / _sum(x.loggedProducts.map(y => y.quantity))
-                    : 0,
-                )}`,
+                expensesAmount: anyExpenses
+                  ? `$${addCommas(expensesAmount)} (${x.expenses.length} item${x.expenses.length === 1 ? '' : 's'})`
+                  : undefined,
+                totalLogged: anyLoggedProducts ? `${addCommas(loggedProductsAmount)} ${x.unit}` : 0,
+                costPer: `$${addCommas(anyExpenses && anyLoggedProducts ? expensesAmount / loggedProductsAmount : 0)}`,
                 salesAmount: `$${addCommas(salesAmount)} (${addCommas(
-                  _sum(x.sales.map(y => y.quantity)),
-                )} sold / $${addCommas(_sum(x.sales.map(y => y.amount)) / _sum(x.sales.map(y => y.quantity)))} per)`,
+                  salesQuantity,
+                )} sold / $${addCommas(salesAmount / salesQuantity)} per)`,
                 profitAmount: (
                   <span
                     className={classNames(
@@ -186,6 +211,7 @@ const ProductsPage = (): React.ReactElement => {
                     ${addCommas(profitAmount)}
                   </span>
                 ),
+                profitSort: profitAmount,
               }
             })}
           />

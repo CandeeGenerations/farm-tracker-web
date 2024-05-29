@@ -41,3 +41,7 @@
 .react-datepicker__day--keyboard-selected:hover {
   @apply bg-primary-medium !important;
 }
+
+.total-border {
+  border-top: 4px double #cbd5e1 !important;
+}

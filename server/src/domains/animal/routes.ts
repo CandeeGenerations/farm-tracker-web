@@ -11,6 +11,55 @@ export default express
   .Router()
 
   /*
+   * POST:    `/api/animal/import`
+   * PAYLOAD: IAnimal[]
+   */
+  .post('/import', async (req: Request, res: Response) => {
+    try {
+      const email = getEmail(req, res)
+      const existingAnimals = await service.getAll(email)
+      const existingSpecies = lodash.uniq(existingAnimals.map(x => x.species))
+      const existingBreeds = lodash.uniqBy(
+        existingAnimals.map(x => ({
+          name: x.breed,
+          species: x.species,
+        })),
+        'name',
+      )
+
+      const animals: IAnimal[] = req.body
+      const createdAnimals: Animal[] = []
+
+      for (const animal of animals) {
+        const species = existingSpecies.find(x => x.toLowerCase().trim() === animal.species.toLowerCase())
+
+        if (species) {
+          animal.species = species
+        }
+
+        const breed = existingBreeds
+          .filter(x => x.species === animal.species)
+          .map(x => x.name)
+          .find(x => x.toLowerCase().trim() === animal.breed.toLowerCase())
+
+        if (breed) {
+          animal.breed = breed
+        }
+
+        animal.owner = email
+
+        const newAnimal = await service.create(morphAnimal(animal))
+
+        createdAnimals.push(newAnimal)
+      }
+
+      handleSuccess(res, createdAnimals.map(morphAnimalDb))
+    } catch (e) {
+      handleError(res, e as IException)
+    }
+  })
+
+  /*
    * GET: `/api/animal`
    */
   .get('/', async (req: Request, res: Response) => {
@@ -86,55 +135,6 @@ export default express
       await service.update(id, animal)
 
       handleSuccess(res, morphAnimalDb(animal))
-    } catch (e) {
-      handleError(res, e as IException)
-    }
-  })
-
-  /*
-   * POST:    `/api/animal/import`
-   * PAYLOAD: IAnimal[]
-   */
-  .post('/import', async (req: Request, res: Response) => {
-    try {
-      const email = getEmail(req, res)
-      const existingAnimals = await service.getAll(email)
-      const existingSpecies = lodash.uniq(existingAnimals.map(x => x.species))
-      const existingBreeds = lodash.uniqBy(
-        existingAnimals.map(x => ({
-          name: x.breed,
-          species: x.species,
-        })),
-        'name',
-      )
-
-      const animals: IAnimal[] = req.body
-      const createdAnimals: Animal[] = []
-
-      for (const animal of animals) {
-        const species = existingSpecies.find(x => x.toLowerCase().trim() === animal.species.toLowerCase())
-
-        if (species) {
-          animal.species = species
-        }
-
-        const breed = existingBreeds
-          .filter(x => x.species === animal.species)
-          .map(x => x.name)
-          .find(x => x.toLowerCase().trim() === animal.breed.toLowerCase())
-
-        if (breed) {
-          animal.breed = breed
-        }
-
-        animal.owner = email
-
-        const newAnimal = await service.create(morphAnimal(animal))
-
-        createdAnimals.push(newAnimal)
-      }
-
-      handleSuccess(res, createdAnimals.map(morphAnimalDb))
     } catch (e) {
       handleError(res, e as IException)
     }

@@ -17,10 +17,7 @@ const ExpensesTable = ({expenses, onShowExpenseModal, onOpenImporter}: IExpenses
   return (
     <div>
       <div className="flex items-center mb-5 mt-10">
-        <h1 className="flex-1 text-3xl">
-          Expenses ({expenses?.length} item{expenses?.length === 1 ? '' : 's'} - $
-          {addCommas(_sum(expenses?.map(x => x.amount * x.quantity)))})
-        </h1>
+        <h1 className="flex-1 text-3xl">Expenses</h1>
 
         <Button type="secondary" className="mr-4" onClick={onOpenImporter}>
           Import expenses
@@ -40,6 +37,7 @@ const ExpensesTable = ({expenses, onShowExpenseModal, onOpenImporter}: IExpenses
           {name: 'Total cost', id: 'totalCost'},
           {name: 'Purchase Date', id: 'purchaseDate', sortOverride: 'purchaseDateSort'},
         ]}
+        totalRow={[{id: 'totalCost', value: `$${addCommas(_sum(expenses?.map(x => x.amount * x.quantity)))}`}]}
         keyName="id"
         linkKey="item"
         defaultSortColumn="purchaseDate"

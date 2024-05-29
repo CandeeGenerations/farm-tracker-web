@@ -11,6 +11,39 @@ export default express
   .Router()
 
   /*
+   * POST:    `/api/product/import`
+   * PAYLOAD: IProduct[]
+   */
+  .post('/import', async (req: Request, res: Response) => {
+    try {
+      const email = getEmail(req, res)
+      const existingProducts = await service.getAll(email)
+      const existingSpecies = lodash.uniq(existingProducts.map(x => x.species))
+
+      const products: IProduct[] = req.body
+      const createdProducts: Product[] = []
+
+      for (const product of products) {
+        const species = existingSpecies.find(x => x.toLowerCase().trim() === product.species.toLowerCase())
+
+        if (species) {
+          product.species = species
+        }
+
+        product.owner = email
+
+        const newProduct = await service.create(morphProduct(product))
+
+        createdProducts.push(newProduct)
+      }
+
+      handleSuccess(res, createdProducts.map(morphProductDb))
+    } catch (e) {
+      handleError(res, e as IException)
+    }
+  })
+
+  /*
    * GET: `/api/product`
    */
   .get('/', async (req: Request, res: Response) => {
@@ -87,39 +120,6 @@ export default express
       await service.update(id, product)
 
       handleSuccess(res, morphProductDb(product))
-    } catch (e) {
-      handleError(res, e as IException)
-    }
-  })
-
-  /*
-   * POST:    `/api/product/import`
-   * PAYLOAD: IProduct[]
-   */
-  .post('/import', async (req: Request, res: Response) => {
-    try {
-      const email = getEmail(req, res)
-      const existingProducts = await service.getAll(email)
-      const existingSpecies = lodash.uniq(existingProducts.map(x => x.species))
-
-      const products: IProduct[] = req.body
-      const createdProducts: Product[] = []
-
-      for (const product of products) {
-        const species = existingSpecies.find(x => x.toLowerCase().trim() === product.species.toLowerCase())
-
-        if (species) {
-          product.species = species
-        }
-
-        product.owner = email
-
-        const newProduct = await service.create(morphProduct(product))
-
-        createdProducts.push(newProduct)
-      }
-
-      handleSuccess(res, createdProducts.map(morphProductDb))
     } catch (e) {
       handleError(res, e as IException)
     }

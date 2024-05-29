@@ -21,8 +21,14 @@ export interface IColumnHeader {
   noSort?: boolean
 }
 
+export interface ITotalRow {
+  id: string
+  value: React.ReactNode
+}
+
 interface ITable {
   columns: IColumnHeader[]
+  totalRow?: ITotalRow[]
   actions?: IActions
   data: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
   keyName: string
@@ -44,6 +50,7 @@ const Table = ({
   actions,
   onEdit,
   editLink,
+  totalRow,
 }: ITable): React.ReactElement => {
   const [dataset, setDataset] = useState([])
   const [visibleData, setVisibleData] = useState([])
@@ -192,6 +199,22 @@ const Table = ({
                   <td colSpan={columns.length + 1} className="px-6 py-4 whitespace-nowrap text-muted">
                     Nothing to display
                   </td>
+                </tr>
+              )}
+
+              {totalRow && (
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap text-muted border-t-2 total-border">
+                    <strong>Total: {data.length}</strong>
+                  </td>
+
+                  {columns.map(({id}, index) => {
+                    return index === 0 ? undefined : (
+                      <td key={index} className="px-6 py-4 whitespace-nowrap text-muted border-t-2 total-border">
+                        {totalRow.find(x => x.id === id)?.value}
+                      </td>
+                    )
+                  })}
                 </tr>
               )}
             </tbody>

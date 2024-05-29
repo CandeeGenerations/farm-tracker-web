@@ -12,6 +12,34 @@ export default express
   .Router()
 
   /*
+   * POST:    `/api/product/:productId/sale/import`
+   * QUERY:
+   *        - :productId : `641546e3e6dffedba604e2b3`
+   * PAYLOAD: ISale[]
+   */
+  .post(`${route}/import`, async (req: Request<{productId: string}>, res: Response) => {
+    try {
+      const email = getEmail(req, res)
+      const productId = req.params.productId
+      const sales: ISale[] = req.body
+      const createdSales: Sale[] = []
+
+      for (const sale of sales) {
+        sale.owner = email
+        sale.productId = productId
+
+        const newSale = await service.create(morphSale(sale))
+
+        createdSales.push(newSale)
+      }
+
+      handleSuccess(res, createdSales.map(morphSaleDb))
+    } catch (e) {
+      handleError(res, e as IException)
+    }
+  })
+
+  /*
    * GET: `/api/product/:productId/sale`
    * QUERY:
    *        - :productId : `641546e3e6dffedba604e2b3`
@@ -93,34 +121,6 @@ export default express
       await service.update(id, sale)
 
       handleSuccess(res, morphSaleDb(sale))
-    } catch (e) {
-      handleError(res, e as IException)
-    }
-  })
-
-  /*
-   * POST:    `/api/product/:productId/sale/import`
-   * QUERY:
-   *        - :productId : `641546e3e6dffedba604e2b3`
-   * PAYLOAD: ISale[]
-   */
-  .post(`${route}/import`, async (req: Request<{productId: string}>, res: Response) => {
-    try {
-      const email = getEmail(req, res)
-      const productId = req.params.productId
-      const sales: ISale[] = req.body
-      const createdSales: Sale[] = []
-
-      for (const sale of sales) {
-        sale.owner = email
-        sale.productId = productId
-
-        const newSale = await service.create(morphSale(sale))
-
-        createdSales.push(newSale)
-      }
-
-      handleSuccess(res, createdSales.map(morphSaleDb))
     } catch (e) {
       handleError(res, e as IException)
     }

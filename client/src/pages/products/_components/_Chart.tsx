@@ -39,7 +39,7 @@ const Chart = ({data, title, label = 'Amount', notMoney = false}: IChart): React
       aggregatedArray.push({Date: date, [label]: aggregatedData[date]})
     }
 
-    setDataset(aggregatedArray)
+    setDataset(aggregatedArray.sort((a, b) => dayjs(a.Date, 'MMM DD, YYYY').diff(dayjs(b.Date, 'MMM DD, YYYY'))))
   }, [])
 
   const filterData = (startDate: dayjs.Dayjs) => {
