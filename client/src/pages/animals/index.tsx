@@ -7,7 +7,8 @@ import Search from '@/components/Search'
 import Table from '@/components/Table'
 import TableLoader from '@/components/TableLoader'
 import {setPageState} from '@/helpers'
-import {DEBOUNCE} from '@/helpers/constants'
+import {ANIMALS_FILTER, DEBOUNCE} from '@/helpers/constants'
+import * as storage from '@/helpers/localStorage'
 import {IAnimal} from '@/types/animal'
 import axios, {AxiosResponse} from 'axios'
 import dayjs from 'dayjs'
@@ -44,8 +45,8 @@ const filterOptions = [
 const defaultFilters = {
   species: filterOptions[0],
   breed: filterOptions[0],
-  deceased: filterOptions[0],
-  sold: filterOptions[0],
+  deceased: filterOptions[2],
+  sold: filterOptions[2],
 }
 
 const AnimalsPage = (): React.ReactElement => {
@@ -56,13 +57,17 @@ const AnimalsPage = (): React.ReactElement => {
     importerOpen: false,
     originalAnimals: [],
     resetSearch: 0,
-    filters: {...defaultFilters},
+    filters: storage.get(ANIMALS_FILTER) ? JSON.parse(storage.get(ANIMALS_FILTER)) : {...defaultFilters},
   })
 
   const getAnimals = async () => {
     const animals: AxiosResponse<{data: IAnimal[]}> = await axios.get('/animal')
 
-    setState({loading: false, animals: animals.data.data, originalAnimals: [...animals.data.data]})
+    setState({
+      loading: false,
+      animals: handleFilter(pageState.filters, true, animals.data.data),
+      originalAnimals: [...animals.data.data],
+    })
   }
 
   useEffect(() => {
@@ -71,8 +76,8 @@ const AnimalsPage = (): React.ReactElement => {
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
-  const handleFilter = (filterObject: IFilters, returnable = false) => {
-    let filteredAnimals = [...pageState.originalAnimals]
+  const handleFilter = (filterObject: IFilters, returnable = false, animals?: IAnimal[]) => {
+    let filteredAnimals = animals || [...pageState.originalAnimals]
     const filters = []
 
     if (filterObject.species.id !== 'all') {
@@ -95,6 +100,8 @@ const AnimalsPage = (): React.ReactElement => {
       filteredAnimals = filteredAnimals.filter(x => x[filter.key] === filter.value)
     }
 
+    storage.set(ANIMALS_FILTER, JSON.stringify(filterObject))
+
     if (returnable) {
       return filteredAnimals
     } else {
@@ -105,7 +112,7 @@ const AnimalsPage = (): React.ReactElement => {
   const handleReset = () =>
     setState({
       filters: {...defaultFilters},
-      animals: [...pageState.originalAnimals],
+      animals: handleFilter({...defaultFilters}, true),
       resetSearch: pageState.resetSearch + 1,
     })
 
@@ -192,8 +199,8 @@ const AnimalsPage = (): React.ReactElement => {
           }
         />
       ) : (
-        <div className="mx-auto mt-8 grid grid-cols-1 gap-6 lg:grid-flow-col-dense lg:grid-cols-5">
-          <div className="space-y-6 lg:col-span-1">
+        <div className="mx-auto sm:mt-8 grid grid-cols-1 gap-6 lg:grid-flow-col-dense lg:grid-cols-5">
+          <div className="space-y-6 lg:col-span-1 order-2 lg:order-1">
             <h1 className="text-2xl pt-5 pb-2.5">Filters</h1>
 
             <Card>
@@ -255,11 +262,11 @@ const AnimalsPage = (): React.ReactElement => {
             </Card>
           </div>
 
-          <div className="space-y-6 lg:col-span-4">
-            <div className="flex items-center">
+          <div className="space-y-6 lg:col-span-4 order-1 lg:order-2">
+            <div className="flex items-center flex-col sm:flex-row">
               <Search onSearch={(value, reset) => debounceSearch(value, reset)} resetSearch={pageState.resetSearch} />
 
-              <div className="pt-5 flex-1 text-right">
+              <div className="pt-5 sm:flex-1 w-full sm:w-auto text-right">
                 <Button type="secondary" className="mr-4" onClick={handleOpenImporter}>
                   Import animals
                 </Button>

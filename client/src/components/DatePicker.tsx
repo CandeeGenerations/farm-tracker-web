@@ -63,7 +63,12 @@ const DatePicker = ({
   vertical = false,
 }: IDatePicker): React.ReactElement => {
   return (
-    <div className={classNames(vertical ? '' : 'sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:pt-5', 'w-full')}>
+    <div
+      className={classNames(
+        vertical ? '' : 'grid grid-cols-1 sm:grid-cols-3 sm:items-start sm:gap-4 gap-2 pt-5',
+        'w-full',
+      )}
+    >
       <div>
         {label && (
           <FormLabel name={name} hasError={!!error} required={required}>
@@ -95,14 +100,26 @@ const DatePicker = ({
                   nextMonthButtonDisabled,
                 }) => (
                   <div className="flex items-center justify-between px-2 py-2">
-                    <span className="text-lg text-muted-medium">{dayjs(date).format('MMMM YYYY')}</span>
+                    <span className="text-lg text-muted-medium pr-4">{dayjs(date).format('MMMM YYYY')}</span>
 
-                    <div className="space-x-2">
-                      <Button size="xs" type="secondary" onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+                    <div className="space-x-2 flex flex-1 sm:flex-none flex-row">
+                      <Button
+                        size="xs"
+                        type="secondary"
+                        onClick={decreaseMonth}
+                        disabled={prevMonthButtonDisabled}
+                        noTopPadding
+                      >
                         <ChevronLeftIcon className="w-5 h-5 text-muted" />
                       </Button>
 
-                      <Button size="xs" type="secondary" onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+                      <Button
+                        size="xs"
+                        type="secondary"
+                        onClick={increaseMonth}
+                        disabled={nextMonthButtonDisabled}
+                        noTopPadding
+                      >
                         <ChevronRightIcon className="w-5 h-5 text-muted" />
                       </Button>
                     </div>
@@ -113,7 +130,7 @@ const DatePicker = ({
           )}
         />
 
-        {helpText && <p className="mt-2 text-muted">{helpText}</p>}
+        {helpText && <p className="mt-2 text-muted text-left">{helpText}</p>}
       </div>
     </div>
   )

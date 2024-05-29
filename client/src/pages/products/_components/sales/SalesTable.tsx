@@ -18,16 +18,18 @@ const SalesTable = ({sales, onShowSaleModal, onOpenImporter}: ISalesTable): Reac
 
   return (
     <div>
-      <div className="flex items-center mb-5 mt-10">
-        <h1 className="flex-1 text-3xl">Sales</h1>
+      <div className="flex items-center flex-col sm:flex-row mb-5 mt-10">
+        <h1 className="flex-1 text-3xl hidden sm:block">Sales</h1>
 
-        <Button type="secondary" className="mr-4" onClick={onOpenImporter}>
-          Import sales
-        </Button>
+        <div className="sm:pt-5 sm:flex-1 w-full sm:w-auto text-right">
+          <Button type="secondary" className="mr-4" onClick={onOpenImporter}>
+            Import sales
+          </Button>
 
-        <Button type="primary" onClick={() => onShowSaleModal()}>
-          Add sale
-        </Button>
+          <Button type="primary" onClick={() => onShowSaleModal()}>
+            Add sale
+          </Button>
+        </div>
       </div>
 
       <Table

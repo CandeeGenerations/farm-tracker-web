@@ -97,7 +97,7 @@ const HomePage = (): React.ReactElement => {
 
   return (
     <Layout title="Home">
-      <div className="grid grid-cols-3 gap-4 mt-12">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12">
         <div className="col-span-2 h-96 rounded-xl border-4 border-dashed border-gray-200 p-5">
           <div className="flex flex-col items-center py-10">
             <ExclamationTriangleIcon className="w-24 h-24 text-warning mb-5" />

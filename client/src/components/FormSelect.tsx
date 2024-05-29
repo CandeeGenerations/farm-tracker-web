@@ -145,7 +145,11 @@ const ListBoxControl = ({
         }}
       >
         {({open}) => (
-          <div className={classNames(vertical ? '' : 'sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:pt-5 w-full')}>
+          <div
+            className={classNames(
+              vertical ? 'text-left' : 'grid grid-cols-1 sm:grid-cols-3 items-start sm:gap-4 gap-2 pt-5 w-full',
+            )}
+          >
             <div>
               {label && (
                 <Listbox.Label
@@ -164,7 +168,7 @@ const ListBoxControl = ({
               {error && !vertical && <p className="mt-2 text-danger-dark">{error.message}</p>}
             </div>
 
-            <div className={classNames(vertical ? '' : 'sm:col-span-2 sm:mt-0 sm:relative')}>
+            <div className={classNames('relative', vertical ? '' : 'sm:col-span-2 sm:mt-0')}>
               {searchable ? (
                 <Listbox.Button as={Fragment}>
                   <FormInput

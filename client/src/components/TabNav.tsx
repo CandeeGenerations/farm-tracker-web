@@ -45,6 +45,7 @@ const TabNav = ({tabs, currentTab, onChange}: ITabNav): React.ReactElement => {
             name="tabs"
             staticSelected={{id: currentTab, name: tabs.find(x => x.id === currentTab).name}}
             onSelected={item => onChange(Number(item.id))}
+            noSort
           />
         </div>
 

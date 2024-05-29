@@ -2,7 +2,7 @@ import {ArrowSmallDownIcon, ArrowSmallUpIcon, CheckIcon, XMarkIcon} from '@heroi
 import {sentenceCase} from 'change-case'
 import Link from 'next/link'
 import React, {useEffect, useState} from 'react'
-import {applySort, classNames} from '../helpers'
+import {addCommas, applySort, classNames} from '../helpers'
 import {DEFAULT_PAGE_SIZE} from '../helpers/constants'
 import Card from './Card'
 import Pagination from './Pagination'
@@ -205,7 +205,7 @@ const Table = ({
               {totalRow && (
                 <tr>
                   <td className="px-6 py-4 whitespace-nowrap text-muted border-t-2 total-border">
-                    <strong>Total: {data.length}</strong>
+                    <strong>Total: {addCommas(data.length, 0)}</strong>
                   </td>
 
                   {columns.map(({id}, index) => {

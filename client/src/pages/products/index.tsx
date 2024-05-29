@@ -127,11 +127,11 @@ const ProductsPage = (): React.ReactElement => {
           }
         />
       ) : (
-        <div className="space-y-6 mt-8">
-          <div className="flex items-center">
+        <div className="space-y-6 mt-8 order-1 lg:order-2">
+          <div className="flex items-center flex-col sm:flex-row">
             <Search onSearch={(value, reset) => debounceSearch(value, reset)} resetSearch={pageState.resetSearch} />
 
-            <div className="pt-5 flex-1 text-right">
+            <div className="pt-5 sm:flex-1 w-full sm:w-auto text-right">
               <Button type="secondary" className="mr-4" onClick={handleOpenImporter}>
                 Import products
               </Button>

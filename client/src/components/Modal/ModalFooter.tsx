@@ -19,8 +19,8 @@ const ModalFooter = ({
   successText,
 }: IModalFooter): React.ReactElement => {
   return (
-    <div className="mt-4 px-4 py-6 bg-muted-lightest sm:px-10 sm:flex sm:items-center border-t border-muted-light">
-      <div className="flex-1">
+    <div className="mt-4 px-4 py-6 bg-muted-lightest sm:px-10 flex flex-col sm:flex-row sm:items-center border-t border-muted-light">
+      <div className="flex-1 order-2 sm:order-1">
         {onDelete && (
           <Button disabled={loading} type="danger" onClick={onDelete} className="mr-4">
             Delete
@@ -30,14 +30,14 @@ const ModalFooter = ({
         {successText}
       </div>
 
-      <div>
+      <div className="order-1 sm:order-2 flex flex-col sm:flex-row">
         {onClose && (
-          <Button disabled={loading} type="secondary" onClick={onClose} className="mr-4">
+          <Button disabled={loading} type="secondary" onClick={onClose} className="mr-4 order-2 sm:order-1">
             {closeText || 'Cancel'}
           </Button>
         )}
 
-        {children}
+        <div className="order-1 sm:order-2">{children}</div>
       </div>
     </div>
   )

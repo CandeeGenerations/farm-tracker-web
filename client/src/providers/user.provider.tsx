@@ -1,11 +1,13 @@
 import MainPage from '@/components/MainPage'
 import {IMPERSONATOR_EMAIL} from '@/helpers/constants'
+import * as storage from '@/helpers/localStorage'
 import axios from 'axios'
 import {signOut, useSession} from 'next-auth/react'
 import {ReactElement, ReactNode, createContext, useContext, useEffect, useState} from 'react'
 
 interface IUserContext {
   userInfo: IUserInfo
+  isSignedIn: boolean
   logOut: () => void
   // eslint-disable-next-line no-unused-vars
   impersonate: (email: string) => void
@@ -21,6 +23,7 @@ export interface IUserInfo {
 
 const UserContext = createContext<IUserContext>({
   userInfo: {},
+  isSignedIn: false,
   logOut: () => {},
   impersonate: () => {},
 })
@@ -31,7 +34,7 @@ const UserProvider = ({children}: {children: ReactNode}): ReactElement => {
   const [userInfo, setUserInfo] = useState<IUserInfo>({})
 
   useEffect(() => {
-    const impersonatorEmail = localStorage.getItem(IMPERSONATOR_EMAIL)
+    const impersonatorEmail = storage.get(IMPERSONATOR_EMAIL)
 
     // eslint-disable-next-line no-undef
     axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL
@@ -54,7 +57,7 @@ const UserProvider = ({children}: {children: ReactNode}): ReactElement => {
   }, [session])
 
   const logOut = () => {
-    localStorage.removeItem(IMPERSONATOR_EMAIL)
+    storage.remove(IMPERSONATOR_EMAIL)
     signOut()
   }
 
@@ -65,7 +68,7 @@ const UserProvider = ({children}: {children: ReactNode}): ReactElement => {
       name: 'Impersonator',
       impersonating: true,
     })
-    localStorage.setItem(IMPERSONATOR_EMAIL, email)
+    storage.set(IMPERSONATOR_EMAIL, email)
     axios.defaults.headers.common['email'] = email
   }
 
@@ -75,6 +78,7 @@ const UserProvider = ({children}: {children: ReactNode}): ReactElement => {
         userInfo,
         logOut,
         impersonate,
+        isSignedIn: !!session,
       }}
     >
       {['authenticated', 'loading'].includes(status) && (!userInfo || !userInfo.email) ? <MainPage /> : children}

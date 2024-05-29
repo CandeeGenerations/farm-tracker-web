@@ -16,16 +16,18 @@ interface IExpensesTable {
 const ExpensesTable = ({expenses, onShowExpenseModal, onOpenImporter}: IExpensesTable): React.ReactElement => {
   return (
     <div>
-      <div className="flex items-center mb-5 mt-10">
-        <h1 className="flex-1 text-3xl">Expenses</h1>
+      <div className="flex items-center flex-col sm:flex-row mb-5 mt-10">
+        <h1 className="flex-1 text-3xl hidden sm:block">Expenses</h1>
 
-        <Button type="secondary" className="mr-4" onClick={onOpenImporter}>
-          Import expenses
-        </Button>
+        <div className="sm:pt-5 sm:flex-1 w-full sm:w-auto text-right">
+          <Button type="secondary" className="mr-4" onClick={onOpenImporter}>
+            Import expenses
+          </Button>
 
-        <Button type="primary" onClick={() => onShowExpenseModal()}>
-          Add expense
-        </Button>
+          <Button type="primary" onClick={() => onShowExpenseModal()}>
+            Add expense
+          </Button>
+        </div>
       </div>
 
       <Table

@@ -98,8 +98,8 @@ const Card = ({
       </div>
 
       {(onSubmit || onBack) && (
-        <div className="px-4 py-3 border border-t-0 border-muted-light shadow rounded-b bg-muted-lightest sm:px-6 flex">
-          <div className="flex-1">
+        <div className="px-4 py-3 border border-t-0 border-muted-light shadow rounded-b bg-muted-lightest sm:px-6 flex sm:flex-row flex-col">
+          <div className="flex-1 order-2 sm:order-1">
             {onDelete && (
               <Button type="danger" outline onClick={onDelete} disabled={loading}>
                 Delete
@@ -107,15 +107,21 @@ const Card = ({
             )}
           </div>
 
-          <div>
+          <div className="order-1 sm:order-2 flex flex-col sm:flex-row">
             {onBack && (
-              <Button type="default" onClick={onBack} disabled={loading} className="mr-4">
+              <Button type="default" onClick={onBack} disabled={loading} className="mr-4 order-2 sm:order-1">
                 Back
               </Button>
             )}
 
             {onSubmit && (
-              <Button disabled={!submitEnabled} loading={loading} type="primary" onClick={onSubmit}>
+              <Button
+                disabled={!submitEnabled}
+                loading={loading}
+                type="primary"
+                onClick={onSubmit}
+                className="order-1 sm:order-2"
+              >
                 {submitText}
               </Button>
             )}

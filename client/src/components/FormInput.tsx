@@ -129,7 +129,12 @@ const FormInput = ({
       />
     )
   ) : (
-    <div className={classNames(vertical ? '' : 'sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:pt-5', 'w-full')}>
+    <div
+      className={classNames(
+        vertical ? '' : 'grid grid-cols-1 sm:grid-cols-3 items-start sm:gap-4 gap-2 pt-5',
+        'w-full',
+      )}
+    >
       {label && (
         <div>
           <FormLabel name={name} hasError={!!error} required={required} noTopPadding={vertical}>
@@ -177,7 +182,7 @@ const FormInput = ({
           input
         )}
 
-        {helpText && <p className="mt-2 text-muted">{helpText}</p>}
+        {helpText && <p className="mt-2 text-muted text-left">{helpText}</p>}
 
         {error && vertical && <p className="mt-2 text-danger-dark">{sentenceCase(error.message)}</p>}
       </div>

@@ -32,6 +32,7 @@ interface IButton {
   size?: ButtonSize
   block?: boolean
   outline?: boolean
+  noTopPadding?: boolean
 }
 
 const Button = ({
@@ -46,6 +47,7 @@ const Button = ({
   size = 'md',
   block = false,
   outline = false,
+  noTopPadding = false,
 }: IButton): React.ReactElement => {
   if (loading) {
     disabled = true
@@ -98,7 +100,8 @@ const Button = ({
           styles[type].common || '',
           sizes[size],
           block ? '' : 'sm:w-auto',
-          'focus:outline-none sm:mt-0 mt-3 w-full inline-flex justify-center rounded border shadow-sm font-medium transition-all',
+          noTopPadding ? '' : 'mt-3',
+          'focus:outline-none sm:mt-0 w-full inline-flex justify-center rounded border shadow-sm font-medium transition-all',
         ),
         className,
       )}

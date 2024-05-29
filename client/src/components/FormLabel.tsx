@@ -7,11 +7,13 @@ interface IFormLabel {
   children: React.ReactNode
   required?: boolean
   noTopPadding?: boolean
+  className?: string
 }
 
 const FormLabel = ({
   name,
   children,
+  className,
   hasError = false,
   required = false,
   noTopPadding = false,
@@ -22,7 +24,10 @@ const FormLabel = ({
       className={classNames(
         hasError ? 'text-danger-medium' : 'text-muted-medium',
         noTopPadding ? '' : 'sm:mt-px sm:pt-2',
-        'cursor-pointer block font-bold',
+        name ? 'cursor-pointer' : '',
+        'block font-bold',
+        className,
+        'flex flex-row items-center',
       )}
     >
       {children}

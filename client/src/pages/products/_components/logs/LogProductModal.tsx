@@ -7,6 +7,7 @@ import {Modal, ModalBody, ModalFooter} from '@/components/Modal'
 import ReadOnlyField from '@/components/ReadOnlyField'
 import {setPageState} from '@/helpers'
 import {LAST_LOGGED_PRODUCT_ID} from '@/helpers/constants'
+import * as storage from '@/helpers/localStorage'
 import {Breed} from '@/types/animal'
 import {ILoggedProduct} from '@/types/loggedProduct'
 import {IProduct} from '@/types/product'
@@ -81,7 +82,7 @@ const LogProductModal = ({
   const submitHandler: SubmitHandler<FieldValues> = async (data: ILoggedProduct) => {
     await onSubmit(data)
 
-    localStorage.setItem(LAST_LOGGED_PRODUCT_ID, data.productId.toString())
+    storage.set(LAST_LOGGED_PRODUCT_ID, data.productId.toString())
     reset({
       ...defaultValues,
       productId: data.productId,
@@ -109,7 +110,7 @@ const LogProductModal = ({
   useEffect(() => {
     if (!open) return
 
-    const storedProductId = loggedProduct?.productId || localStorage.getItem(LAST_LOGGED_PRODUCT_ID) || products[0]?.id
+    const storedProductId = loggedProduct?.productId || storage.get(LAST_LOGGED_PRODUCT_ID) || products[0]?.id
 
     reset({
       ...(loggedProduct || defaultValues),

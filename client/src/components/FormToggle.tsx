@@ -22,7 +22,7 @@ const FormToggle = ({
   disabled = false,
 }: IFormToggle): React.ReactElement => {
   return (
-    <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:pt-5 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-3 sm:items-start sm:gap-4 gap-2 pt-5 w-full">
       <FormLabel noTopPadding name={name}>
         {label}
       </FormLabel>
