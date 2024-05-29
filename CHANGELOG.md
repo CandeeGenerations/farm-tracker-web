@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.3.10...v1.4.0) (2024-05-29)
+
+
+### Features
+
+* added profit column ([1b26e43](https://github.com/CandeeGenerations/farm-tracker/commit/1b26e43404e2895c530087f6e933622a8d6ecc94))
+
+
+### Bug Fixes
+
+* ui adjustments, bug fixes ([8457ec1](https://github.com/CandeeGenerations/farm-tracker/commit/8457ec145c5dc40296bbdfdb16430ad061429319))
+
 ### [1.3.10](https://github.com/CandeeGenerations/farm-tracker/compare/v1.3.9...v1.3.10) (2024-05-21)
 
 
