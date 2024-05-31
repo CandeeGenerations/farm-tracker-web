@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.4.1...v1.5.0) (2024-05-31)
+
+
+### Features
+
+* added column filtering for products ([0f1a9fd](https://github.com/CandeeGenerations/farm-tracker/commit/0f1a9fd229b9ecc81aa4d1422560a26852f8c758))
+
 ### [1.4.2](https://github.com/CandeeGenerations/farm-tracker/compare/v1.4.1...v1.4.2) (2024-05-31)
 
 ### [1.4.1](https://github.com/CandeeGenerations/farm-tracker/compare/v1.4.0...v1.4.1) (2024-05-29)
