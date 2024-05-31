@@ -9,6 +9,7 @@ export const DEBOUNCE = 500
 export const LAST_LOGGED_PRODUCT_ID = 'last-logged-product-id'
 export const IMPERSONATOR_EMAIL = 'impersonator-email'
 export const ANIMALS_FILTER = 'animals-filter'
+export const PRODUCTS_COLUMNS = 'products-columns'
 
 export const YEARS = Array.from(new Array(100), (v, i) => i).map(x => dayjs().subtract(x, 'year').format('YYYY'))
 

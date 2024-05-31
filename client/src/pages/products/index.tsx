@@ -3,10 +3,11 @@ import Card from '@/components/Card'
 import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
 import Search from '@/components/Search'
-import Table from '@/components/Table'
+import Table, {IColumnHeader} from '@/components/Table'
 import TableLoader from '@/components/TableLoader'
 import {addCommas, classNames, setPageState} from '@/helpers'
-import {DEBOUNCE} from '@/helpers/constants'
+import {DEBOUNCE, PRODUCTS_COLUMNS} from '@/helpers/constants'
+import * as storage from '@/helpers/localStorage'
 import {IProduct} from '@/types/product'
 import axios, {AxiosResponse} from 'axios'
 import _debounce from 'lodash/debounce'
@@ -15,6 +16,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import Layout from '../_layout'
+import ColumnsModal from './_components/_ColumnsModal'
 
 interface IPageState {
   loading?: boolean
@@ -22,7 +24,18 @@ interface IPageState {
   originalProducts?: IProduct[]
   resetSearch?: number
   importerOpen?: boolean
+  columnsOpen?: boolean
+  visibleColumns?: string[]
 }
+
+const columns: IColumnHeader[] = [
+  {name: 'Species', id: 'species'},
+  {name: 'Logged Amount', id: 'totalLogged'},
+  {name: 'Expenses', id: 'expensesAmount'},
+  {name: 'Cost Per', id: 'costPer'},
+  {name: 'Sales', id: 'salesAmount'},
+  {name: 'Profit', id: 'profitAmount', sortOverride: 'profitSort'},
+]
 
 const ProductsPage = (): React.ReactElement => {
   const router = useRouter()
@@ -30,14 +43,22 @@ const ProductsPage = (): React.ReactElement => {
     loading: true,
     products: [],
     importerOpen: false,
+    columnsOpen: false,
     originalProducts: [],
     resetSearch: 0,
+    visibleColumns: [],
   })
 
   const getProducts = async () => {
     const products: AxiosResponse<{data: IProduct[]}> = await axios.get('/product')
+    const storedColumnsString = storage.get(PRODUCTS_COLUMNS)
 
-    setState({loading: false, products: products.data.data, originalProducts: [...products.data.data]})
+    setState({
+      loading: false,
+      products: products.data.data,
+      originalProducts: [...products.data.data],
+      visibleColumns: storedColumnsString ? storedColumnsString.split(',') : [],
+    })
   }
 
   useEffect(() => {
@@ -58,6 +79,14 @@ const ProductsPage = (): React.ReactElement => {
     }
 
     setState({products: newData})
+  }
+
+  const handleOpenColumns = () => setState({columnsOpen: true})
+
+  const handleCloseColumns = () => {
+    const storedColumnsString = storage.get(PRODUCTS_COLUMNS)
+
+    setState({columnsOpen: false, visibleColumns: storedColumnsString ? storedColumnsString.split(',') : []})
   }
 
   const handleOpenImporter = () => setState({importerOpen: true})
@@ -132,7 +161,11 @@ const ProductsPage = (): React.ReactElement => {
             <Search onSearch={(value, reset) => debounceSearch(value, reset)} resetSearch={pageState.resetSearch} />
 
             <div className="pt-5 sm:flex-1 w-full sm:w-auto text-right">
-              <Button type="secondary" className="mr-4" onClick={handleOpenImporter}>
+              <Button className="sm:mr-4" onClick={handleOpenColumns}>
+                Columns
+              </Button>
+
+              <Button type="secondary" className="sm:mr-4" onClick={handleOpenImporter}>
                 Import products
               </Button>
 
@@ -146,12 +179,9 @@ const ProductsPage = (): React.ReactElement => {
             actions={{idColumn: 'id', parent: 'products'}}
             columns={[
               {name: 'Name', id: 'name'},
-              {name: 'Species', id: 'species'},
-              {name: 'Logged Amount', id: 'totalLogged'},
-              {name: 'Expenses', id: 'expensesAmount'},
-              {name: 'Cost Per', id: 'costPer'},
-              {name: 'Sales', id: 'salesAmount'},
-              {name: 'Profit', id: 'profitAmount', sortOverride: 'profitSort'},
+              ...(pageState.visibleColumns.length > 0
+                ? columns.filter(x => pageState.visibleColumns.includes(x.id))
+                : columns),
             ]}
             totalRow={[
               {
@@ -225,6 +255,13 @@ const ProductsPage = (): React.ReactElement => {
         open={pageState.importerOpen}
         onClose={handleCloseImporter}
         onSave={handleImport}
+      />
+
+      <ColumnsModal
+        storageKey={PRODUCTS_COLUMNS}
+        columns={columns.map(x => ({...x, enabled: true}))}
+        onClose={handleCloseColumns}
+        open={pageState.columnsOpen}
       />
     </Layout>
   )
