@@ -16,7 +16,9 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import Layout from '../_layout'
+import Chart from './_components/_Chart'
 import ColumnsModal from './_components/_ColumnsModal'
+import ProfitLossChart from './_components/_ProfitLossChart'
 
 interface IPageState {
   loading?: boolean
@@ -245,6 +247,41 @@ const ProductsPage = (): React.ReactElement => {
               }
             })}
           />
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="col-span-1 sm:col-span-2">
+              <Chart
+                data={[
+                  ...pageState.products
+                    .map(x => [
+                      ...x.expenses.map(y => ({date: y.purchaseDate, Expenses: y.amount * y.quantity})),
+                      ...x.sales.map(y => ({date: y.saleDate, Sales: y.amount})),
+                    ])
+                    .flat(),
+                ]}
+                labels={['Expenses', 'Sales']}
+                colors={['rose', 'emerald']}
+                title="Expenses and Sales"
+                showLegend
+              />
+            </div>
+
+            <div className="col-span-1">
+              <ProfitLossChart
+                data={[
+                  ...pageState.products
+                    .map(x => [
+                      ...x.expenses.map(y => ({date: y.purchaseDate, Expenses: y.amount * y.quantity})),
+                      ...x.sales.map(y => ({date: y.saleDate, Sales: y.amount})),
+                    ])
+                    .flat(),
+                ]}
+                labels={['Expenses', 'Sales']}
+                colors={['rose', 'emerald']}
+                title="Profit & Loss"
+              />
+            </div>
+          </div>
         </div>
       )}
 

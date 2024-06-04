@@ -176,9 +176,9 @@ const LoggedProductsPage = ({product, products, breeds}: ILoggedProductsPage): R
             />
 
             <Chart
-              data={(pageState.loggedProducts || []).map(x => ({date: x.logDate, amount: x.quantity}))}
+              data={(pageState.loggedProducts || []).map(x => ({date: x.logDate, Quantity: x.quantity}))}
               title="Logged Products"
-              label="Quantity"
+              labels={['Quantity']}
               notMoney
             />
           </>

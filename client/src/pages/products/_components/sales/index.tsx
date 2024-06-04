@@ -150,7 +150,7 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
               onOpenImporter={handleOpenSaleImporter}
             />
 
-            <Chart data={pageState.sales.map(x => ({date: x.saleDate, amount: x.amount}))} title="Sales" />
+            <Chart data={pageState.sales.map(x => ({date: x.saleDate, Amount: x.amount}))} title="Sales" />
           </>
         )}
       </div>

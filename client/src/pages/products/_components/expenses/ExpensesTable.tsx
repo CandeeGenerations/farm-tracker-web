@@ -39,7 +39,10 @@ const ExpensesTable = ({expenses, onShowExpenseModal, onOpenImporter}: IExpenses
           {name: 'Total cost', id: 'totalCost'},
           {name: 'Purchase Date', id: 'purchaseDate', sortOverride: 'purchaseDateSort'},
         ]}
-        totalRow={[{id: 'totalCost', value: `$${addCommas(_sum(expenses?.map(x => x.amount * x.quantity)))}`}]}
+        totalRow={[
+          {id: 'quantity', value: _sum(expenses?.map(x => x.quantity))},
+          {id: 'totalCost', value: `$${addCommas(_sum(expenses?.map(x => x.amount * x.quantity)))}`},
+        ]}
         keyName="id"
         linkKey="item"
         defaultSortColumn="purchaseDate"

@@ -11,13 +11,23 @@ dayjs.extend(isSameOrAfter)
 const dataFormatter = (number: number) => `$ ${Intl.NumberFormat('us').format(number).toString()}`
 
 interface IChart {
-  data: {date: string; amount: number}[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any[]
   title: string
-  label?: string
+  labels?: string[]
+  colors?: string[]
   notMoney?: boolean
+  showLegend?: boolean
 }
 
-const Chart = ({data, title, label = 'Amount', notMoney = false}: IChart): React.ReactElement => {
+const Chart = ({
+  data,
+  title,
+  labels = ['Amount'],
+  colors = ['emerald'],
+  notMoney = false,
+  showLegend = false,
+}: IChart): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [dataset, setDataset] = useState([])
 
@@ -26,20 +36,26 @@ const Chart = ({data, title, label = 'Amount', notMoney = false}: IChart): React
     const aggregatedArray = []
 
     for (const item of data) {
-      const date = dayjs(item.date).format('MMM DD, YYYY')
+      const date = dayjs(item.date).format('MMM D, YYYY')
 
-      if (aggregatedData[date]) {
-        aggregatedData[date] += item.amount
-      } else {
-        aggregatedData[date] = item.amount
+      for (const label of labels) {
+        if (aggregatedData[date]) {
+          if (aggregatedData[date][label]) {
+            aggregatedData[date][label] += item[label] || 0
+          } else {
+            aggregatedData[date] = {...aggregatedData[date], [label]: item[label] || 0}
+          }
+        } else {
+          aggregatedData[date] = {[label]: item[label] || 0}
+        }
       }
     }
 
     for (const date in aggregatedData) {
-      aggregatedArray.push({Date: date, [label]: aggregatedData[date]})
+      aggregatedArray.push({Date: date, ...aggregatedData[date]})
     }
 
-    setDataset(aggregatedArray.sort((a, b) => dayjs(a.Date, 'MMM DD, YYYY').diff(dayjs(b.Date, 'MMM DD, YYYY'))))
+    setDataset(aggregatedArray.sort((a, b) => dayjs(a.Date, 'MMM DD, YYYY').diff(dayjs(b.Date, 'MMM D, YYYY'))))
   }, [])
 
   const filterData = (startDate: dayjs.Dayjs) => {
@@ -79,6 +95,8 @@ const Chart = ({data, title, label = 'Amount', notMoney = false}: IChart): React
     }
   }
 
+  console.log('dataset :', dataset)
+
   return (
     <Card className="mt-10">
       <Title>{title}</Title>
@@ -99,10 +117,10 @@ const Chart = ({data, title, label = 'Amount', notMoney = false}: IChart): React
                 className="mt-8"
                 data={getFilteredData(x)}
                 index="Date"
-                categories={[label]}
-                colors={['emerald']}
+                categories={labels}
+                colors={colors}
                 valueFormatter={num => (notMoney ? num.toString() : dataFormatter(num))}
-                showLegend={false}
+                showLegend={showLegend}
                 yAxisWidth={48}
                 curveType="monotone"
               />

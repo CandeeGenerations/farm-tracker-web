@@ -151,7 +151,10 @@ const ExpensesPage = ({product}: IExpensesPage): React.ReactElement => {
               onOpenImporter={handleOpenExpenseImporter}
             />
 
-            <Chart data={pageState.expenses.map(x => ({date: x.purchaseDate, amount: x.amount}))} title="Expenses" />
+            <Chart
+              data={pageState.expenses.map(x => ({date: x.purchaseDate, Amount: x.amount * x.quantity}))}
+              title="Expenses"
+            />
           </>
         )}
       </div>
