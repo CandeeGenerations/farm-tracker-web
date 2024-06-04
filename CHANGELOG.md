@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.5.0...v1.6.0) (2024-06-04)
+
+
+### Features
+
+* added charts on the products page ([690e649](https://github.com/CandeeGenerations/farm-tracker/commit/690e6497278926d0a73ec0986b6ab1b54707f209))
+
 ## [1.5.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.4.1...v1.5.0) (2024-05-31)
 
 
