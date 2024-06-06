@@ -31,6 +31,14 @@
       "problemMatcher": [],
       "label": "Release App",
       "detail": "standard-version -a -- --release-as minor"
+    },
+    {
+      "type": "npm",
+      "script": "generate",
+      "path": "server",
+      "problemMatcher": [],
+      "label": "Generate DB",
+      "detail": "npx prisma format && npx prisma generate"
     }
   ]
 }

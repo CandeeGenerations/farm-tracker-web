@@ -1,0 +1,14 @@
+model Sale {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+
+  owner String
+
+  amount Float
+
+  quantity Int
+
+  saleDate DateTime
+}
