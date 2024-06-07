@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.6.0...v1.7.0) (2024-06-07)
+
+
+### Features
+
+* add sales page ([f14dfe0](https://github.com/CandeeGenerations/farm-tracker/commit/f14dfe0847f1942d32677eb81fe56ec09b444eed))
+
+
+### Bug Fixes
+
+* moved prisma files around ([2df62c8](https://github.com/CandeeGenerations/farm-tracker/commit/2df62c83adb6e1985e3bb867e143708ab30dfdbc))
+
 ## [1.6.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.5.0...v1.6.0) (2024-06-04)
 
 
