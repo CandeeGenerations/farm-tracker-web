@@ -10,7 +10,7 @@ dayjs.extend(isSameOrAfter)
 
 const dataFormatter = (number: number) => `$ ${Intl.NumberFormat('us').format(number).toString()}`
 
-interface IChart {
+interface IProgressiveChart {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[]
   title: string
@@ -20,43 +20,48 @@ interface IChart {
   showLegend?: boolean
 }
 
-const Chart = ({
+const ProgressiveChart = ({
   data,
   title,
   labels = ['Amount'],
   colors = ['emerald'],
-  notMoney = false,
   showLegend = false,
-}: IChart): React.ReactElement => {
+}: IProgressiveChart): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [dataset, setDataset] = useState([])
 
   useEffect(() => {
-    const aggregatedData = {}
-    const aggregatedArray = []
+    const cumulativeData = {}
 
-    for (const item of data) {
+    data.forEach(item => {
       const date = dayjs(item.date).format('MMM D, YYYY')
 
-      for (const label of labels) {
-        if (aggregatedData[date]) {
-          if (aggregatedData[date][label]) {
-            aggregatedData[date][label] += item[label] || 0
-          } else {
-            aggregatedData[date] = {...aggregatedData[date], [label]: item[label] || 0}
-          }
-        } else {
-          aggregatedData[date] = {[label]: item[label] || 0}
+      labels.forEach(label => {
+        if (!cumulativeData[date]) {
+          cumulativeData[date] = {}
+          labels.forEach(lbl => (cumulativeData[date][lbl] = 0))
         }
-      }
-    }
 
-    for (const date in aggregatedData) {
-      aggregatedArray.push({Date: date, ...aggregatedData[date]})
-    }
+        cumulativeData[date][label] += item[label] || 0
+      })
+    })
 
-    setDataset(aggregatedArray.sort((a, b) => dayjs(a.Date, 'MMM DD, YYYY').diff(dayjs(b.Date, 'MMM D, YYYY'))))
-  }, [])
+    // Convert cumulative data into an array and calculate cumulative sums
+    const dates = Object.keys(cumulativeData).sort((a, b) => dayjs(a).diff(dayjs(b)))
+    const cumulativeResults = []
+    const runningTotals = labels.reduce((acc, label) => ({...acc, [label]: 0}), {})
+
+    dates.forEach(date => {
+      labels.forEach(label => {
+        runningTotals[label] += cumulativeData[date][label]
+        cumulativeData[date][label] = runningTotals[label]
+      })
+
+      cumulativeResults.push({Date: date, ...cumulativeData[date]})
+    })
+
+    setDataset(cumulativeResults)
+  }, [data, labels])
 
   const filterData = (startDate: dayjs.Dayjs) => {
     const endDate = dayjs()
@@ -109,25 +114,25 @@ const Chart = ({
         </TabList>
 
         <TabPanels>
-          {[1, 2, 6, 365, 999].map(x => (
-            <TabPanel key={x}>
-              <AreaChart
-                className="mt-8"
-                data={getFilteredData(x)}
-                index="Date"
-                categories={labels}
-                colors={colors}
-                valueFormatter={num => (notMoney ? num.toString() : dataFormatter(num))}
-                showLegend={showLegend}
-                yAxisWidth={48}
-                curveType="monotone"
-              />
-            </TabPanel>
-          ))}
+          {dataset.length &&
+            [1, 2, 6, 365, 999].map(period => (
+              <TabPanel key={period}>
+                <AreaChart
+                  data={getFilteredData(period)}
+                  index="Date"
+                  categories={labels}
+                  colors={colors}
+                  valueFormatter={dataFormatter}
+                  showLegend={showLegend}
+                  yAxisWidth={48}
+                  curveType="monotone"
+                />
+              </TabPanel>
+            ))}
         </TabPanels>
       </TabGroup>
     </Card>
   )
 }
 
-export default Chart
+export default ProgressiveChart

@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Sale} from '@prisma/client'
+import {Product, Sale} from '@prisma/client'
 import dayjs from 'dayjs'
 import morphism from 'morphism'
+import {morphProductDb} from '../product/morphs.js'
 import {ISale} from './types.js'
 
-export const morphSaleDb = (source: Sale): ISale =>
+export const morphSaleDb = (source: Sale & {product?: Product}): ISale =>
   morphism.morphism(
     {
       id: ({id}: Sale) => id,
@@ -13,6 +14,7 @@ export const morphSaleDb = (source: Sale): ISale =>
       owner: ({owner}: Sale) => owner,
       amount: ({amount}: Sale) => parseFloat(amount.toString()),
       saleDate: ({saleDate}: Sale) => (saleDate ? dayjs(saleDate).format() : null),
+      product: ({product}: Sale & {product?: Product}) => (product ? morphProductDb(product) : undefined),
     },
     source as any,
   ) as ISale

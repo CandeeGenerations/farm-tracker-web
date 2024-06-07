@@ -8,6 +8,7 @@ import animalRoutes from './domains/animal/routes.js'
 import expenseRoutes from './domains/expense/routes.js'
 import loggedProductRoutes, {logImporter} from './domains/logged-product/routes.js'
 import pingRoutes from './domains/ping/routes.js'
+import productSaleRoutes from './domains/product-sale/routes.js'
 import productRoutes from './domains/product/routes.js'
 import saleRoutes from './domains/sale/routes.js'
 
@@ -56,7 +57,7 @@ const useRoute = (routeObject: any, parentRouteName?: string): void => {
   app.use(route, routeObject[Object.keys(routeObject)[0]])
 }
 
-for (const routeObject of [{pingRoutes}, {animalRoutes}, {productRoutes}]) {
+for (const routeObject of [{pingRoutes}, {animalRoutes}, {productRoutes}, {saleRoutes}]) {
   useRoute(routeObject)
 
   if (cleanseRouteName(routeObject) === 'product') {
@@ -66,7 +67,7 @@ for (const routeObject of [{pingRoutes}, {animalRoutes}, {productRoutes}]) {
 
     app.use('/api/product', loggedProductRoutes)
     app.use('/api/product', expenseRoutes)
-    app.use('/api/product', saleRoutes)
+    app.use('/api/product', productSaleRoutes)
   }
 }
 

@@ -1,3 +1,5 @@
+import {IProduct} from './product'
+
 export interface ISale {
   id: string
   productId: string
@@ -5,4 +7,5 @@ export interface ISale {
   quantity: number
   saleDate: string
   owner: string
+  product?: IProduct
 }

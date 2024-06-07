@@ -9,12 +9,14 @@ import SalesTable from '@/pages/products/_components/sales/SalesTable'
 import {IProduct} from '@/types/product'
 import {ISale} from '@/types/sale'
 import axios, {AxiosResponse} from 'axios'
-import React, {useState} from 'react'
+import dayjs from 'dayjs'
+import React, {useEffect, useState} from 'react'
 import Chart from '../_Chart'
 
 interface IPageState {
   showModal?: boolean
   sale?: ISale
+  products?: IProduct[]
   errorMessage?: string
   sales?: ISale[]
   loading?: boolean
@@ -24,15 +26,16 @@ interface IPageState {
 }
 
 interface ISalesPage {
-  product: IProduct
+  product?: IProduct
 }
 
 const SalesPage = ({product}: ISalesPage): React.ReactElement => {
+  const productRoute = product ? `/product/${product.id}` : ''
   const [saleImportModalOpen, setSaleImportModalOpen] = useState<boolean>(false)
   const [pageState, stateFunc] = useState<IPageState>({
     showModal: false,
-    sales: product.sales || [],
-    loading: false,
+    sales: product?.sales || [],
+    loading: true,
     showDeleteModal: false,
     deleteLoading: false,
   })
@@ -40,12 +43,14 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
   const handleLoadSales = async () => {
-    setState({loading: true})
-
     try {
-      const {data}: AxiosResponse<{data: ISale[]}> = await axios.get(`/product/${product.id}/sale`)
+      const {data}: AxiosResponse<{data: ISale[]}> = await axios.get(`${productRoute}/sale`)
+      const products: AxiosResponse<{data: IProduct[]}> = await axios.get('/product')
+
       setState({
         sales: data.data,
+        products: products.data.data,
+        loading: false,
         ...{
           showModal: false,
           loading: false,
@@ -59,13 +64,34 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
     }
   }
 
-  const handleShowSaleModal = (sale?: ISale) => setState({showModal: true, errorMessage: undefined, sale})
+  useEffect(() => {
+    handleLoadSales()
+  }, [])
+
+  const handleShowSaleModal = (sale?: ISale) =>
+    setState({
+      showModal: true,
+      errorMessage: undefined,
+      sale: sale || {
+        productId: product?.id,
+        amount: 0,
+        quantity: 0,
+        saleDate: dayjs().format(),
+        id: undefined,
+        owner: undefined,
+      },
+    })
 
   const handleCloseSaleModal = () => setState({showModal: false})
 
   const handleCompleteSale = async (sale: ISale) => {
+    if (!product && !sale.productId) {
+      setState({errorMessage: 'Product is required'})
+      return
+    }
+
     try {
-      await axios.post(`/product/${product.id}/sale${sale.id ? `/${sale.id}` : ''}`, sale)
+      await axios.post(`/product/${sale.productId}/sale${sale.id?.length > 0 ? `/${sale.id}` : ''}`, sale)
       await handleLoadSales()
     } catch (e) {
       setState({errorMessage: getErrorMessage(e)})
@@ -79,8 +105,10 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
   const handleDeleteSale = async () => {
     setState({deleteLoading: true})
 
+    const productId = product ? product.id : pageState.sales.find(x => x.id === pageState.deleteId)?.productId
+
     try {
-      await axios.delete(`/product/${product.id}/sale/${pageState.deleteId}`)
+      await axios.delete(`/product/${productId}/sale/${pageState.deleteId}`)
       await handleLoadSales()
     } catch (e) {
       setState({errorMessage: getErrorMessage(e)})
@@ -112,7 +140,7 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
       })
     }
 
-    await axios.post(`/product/${product.id}/sale/import`, sales)
+    await axios.post(`${productRoute}/sale/import`, sales)
     await handleLoadSales()
   }
 
@@ -130,9 +158,11 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
                   <p className="mt-1 text-sm text-muted">Add a new sale here</p>
 
                   <div className="mt-6">
-                    <Button type="secondary" className="mr-4" onClick={handleOpenSaleImporter}>
-                      Import sales
-                    </Button>
+                    {product && (
+                      <Button type="secondary" className="mr-4" onClick={handleOpenSaleImporter}>
+                        Import sales
+                      </Button>
+                    )}
 
                     <Button type="primary" onClick={() => handleShowSaleModal()}>
                       Add sale
@@ -148,6 +178,7 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
               sales={pageState.sales}
               onShowSaleModal={handleShowSaleModal}
               onOpenImporter={handleOpenSaleImporter}
+              isProductSales={!!product}
             />
 
             <Chart data={pageState.sales.map(x => ({date: x.saleDate, Amount: x.amount}))} title="Sales" />
@@ -162,6 +193,8 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
         onClose={handleCloseSaleModal}
         onSubmit={handleCompleteSale}
         onDelete={handleShowDeleteSaleModal}
+        isProductSales={!!product}
+        products={pageState.products}
       />
 
       <ConfirmDeleteModal

@@ -36,6 +36,7 @@ const navigation: {id: string; name: string}[] = [
   {id: 'home', name: 'Home'},
   {id: 'animals', name: 'Animals'},
   {id: 'products', name: 'Products'},
+  {id: 'sales', name: 'Sales'},
 ]
 
 /* eslint-disable no-undef */

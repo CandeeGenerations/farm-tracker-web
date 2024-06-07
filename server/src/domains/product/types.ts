@@ -2,7 +2,7 @@ import {Expense, LoggedProduct, Product, Sale} from '@prisma/client'
 import {Breed} from '../animal/types.js'
 import {IExpense} from '../expense/types.js'
 import {ILoggedProduct} from '../logged-product/types.js'
-import {ISale} from '../sale/types.js'
+import {ISale} from '../product-sale/types.js'
 
 export interface IProduct {
   id: string

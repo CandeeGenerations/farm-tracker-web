@@ -2,7 +2,10 @@ import Alert from '@/components/Alert'
 import Button from '@/components/Button'
 import DatePicker from '@/components/DatePicker'
 import FormInput from '@/components/FormInput'
+import FormSelect from '@/components/FormSelect'
 import {Modal, ModalBody, ModalFooter} from '@/components/Modal'
+import ReadOnlyField from '@/components/ReadOnlyField'
+import {IProduct} from '@/types/product'
 import {ISale} from '@/types/sale'
 import {Dialog} from '@headlessui/react'
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -13,6 +16,7 @@ import * as yup from 'yup'
 
 interface ISaleModal {
   sale?: ISale
+  products?: IProduct[]
   errorMessage?: string
   open: boolean
   onClose: () => void
@@ -20,6 +24,7 @@ interface ISaleModal {
   onDelete: (id: string) => void
   // eslint-disable-next-line no-unused-vars
   onSubmit: (sale: ISale) => void
+  isProductSales: boolean
 }
 
 const defaultValues = {
@@ -27,7 +32,16 @@ const defaultValues = {
   saleDate: dayjs().format(),
 }
 
-const SaleModal = ({sale, errorMessage, open, onClose, onDelete, onSubmit}: ISaleModal): React.ReactElement => {
+const SaleModal = ({
+  sale,
+  products,
+  errorMessage,
+  open,
+  onClose,
+  onDelete,
+  onSubmit,
+  isProductSales,
+}: ISaleModal): React.ReactElement => {
   const {handleSubmit, register, control, formState, setFocus, reset} = useForm<ISale>({
     defaultValues: sale || defaultValues,
     mode: 'onChange',
@@ -76,6 +90,25 @@ const SaleModal = ({sale, errorMessage, open, onClose, onDelete, onSubmit}: ISal
             }}
           >
             <div className="mt-5 space-y-6">
+              {isProductSales ? (
+                <ReadOnlyField
+                  name="product"
+                  label="Product"
+                  value={products?.find(x => x.id === sale?.productId)?.name}
+                />
+              ) : (
+                <FormSelect
+                  vertical
+                  label="Product"
+                  name="productId"
+                  control={control}
+                  required
+                  error={formState.errors.productId}
+                  helpText="This is the product that was sold"
+                  items={products?.map(({id, name}) => ({id, name}))}
+                />
+              )}
+
               <DatePicker
                 label="Sale date"
                 error={formState.errors.saleDate}

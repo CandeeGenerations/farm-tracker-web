@@ -5,7 +5,7 @@ import morphism from 'morphism'
 import {generateString} from '../../common/helpers.js'
 import {morphExpenseDb} from '../expense/morphs.js'
 import {morphLoggedProductDb} from '../logged-product/morphs.js'
-import {morphSaleDb} from '../sale/morphs.js'
+import {morphSaleDb} from '../product-sale/morphs.js'
 import {IProduct, ProductWithExpenses} from './types.js'
 
 export const morphProductDb = (source: ProductWithExpenses): IProduct =>

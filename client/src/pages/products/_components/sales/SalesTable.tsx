@@ -11,9 +11,10 @@ interface ISalesTable {
   // eslint-disable-next-line no-unused-vars
   onShowSaleModal: (sale?: ISale) => void
   onOpenImporter: () => void
+  isProductSales: boolean
 }
 
-const SalesTable = ({sales, onShowSaleModal, onOpenImporter}: ISalesTable): React.ReactElement => {
+const SalesTable = ({sales, onShowSaleModal, onOpenImporter, isProductSales}: ISalesTable): React.ReactElement => {
   const totalSold = _sum((sales || []).map(x => x.quantity))
 
   return (
@@ -22,9 +23,11 @@ const SalesTable = ({sales, onShowSaleModal, onOpenImporter}: ISalesTable): Reac
         <h1 className="flex-1 text-3xl hidden sm:block">Sales</h1>
 
         <div className="sm:pt-5 sm:flex-1 w-full sm:w-auto text-right">
-          <Button type="secondary" className="mr-4" onClick={onOpenImporter}>
-            Import sales
-          </Button>
+          {isProductSales && (
+            <Button type="secondary" className="mr-4" onClick={onOpenImporter}>
+              Import sales
+            </Button>
+          )}
 
           <Button type="primary" onClick={() => onShowSaleModal()}>
             Add sale
@@ -35,6 +38,7 @@ const SalesTable = ({sales, onShowSaleModal, onOpenImporter}: ISalesTable): Reac
       <Table
         actions={{idColumn: 'id'}}
         columns={[
+          ...(isProductSales ? [] : [{name: 'Product', id: 'productName'}]),
           {name: 'Sale Date', id: 'saleDate', sortOverride: 'saleDateSort'},
           {name: 'Quantity', id: 'quantity'},
           {name: 'Sale Amount', id: 'amount'},
@@ -44,7 +48,7 @@ const SalesTable = ({sales, onShowSaleModal, onOpenImporter}: ISalesTable): Reac
           {id: 'amount', value: `$${addCommas(_sum(sales.map(x => x.amount)))}`},
         ]}
         keyName="id"
-        linkKey="saleDate"
+        linkKey={isProductSales ? 'saleDate' : 'productName'}
         defaultSortColumn="saleDate"
         defaultSortOrder="desc"
         onEdit={id => onShowSaleModal(sales.find(x => x.id === id))}
@@ -53,6 +57,7 @@ const SalesTable = ({sales, onShowSaleModal, onOpenImporter}: ISalesTable): Reac
           amount: `$${addCommas(x.amount)}`,
           saleDate: formatDate(x.saleDate),
           saleDateSort: dayjs(x.saleDate).format(),
+          productName: x.product?.name,
         }))}
       />
     </div>

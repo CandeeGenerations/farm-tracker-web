@@ -16,9 +16,9 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import Layout from '../_layout'
-import Chart from './_components/_Chart'
 import ColumnsModal from './_components/_ColumnsModal'
 import ProfitLossChart from './_components/_ProfitLossChart'
+import ProgressiveChart from './_components/_ProgressiveChart'
 
 interface IPageState {
   loading?: boolean
@@ -250,7 +250,7 @@ const ProductsPage = (): React.ReactElement => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="col-span-1 sm:col-span-2">
-              <Chart
+              <ProgressiveChart
                 data={[
                   ...pageState.products
                     .map(x => [
