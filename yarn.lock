@@ -272,9 +272,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lerna/create@npm:8.1.5":
-  version: 8.1.5
-  resolution: "@lerna/create@npm:8.1.5"
+"@lerna/create@npm:8.1.6":
+  version: 8.1.6
+  resolution: "@lerna/create@npm:8.1.6"
   dependencies:
     "@npmcli/arborist": "npm:7.5.3"
     "@npmcli/package-json": "npm:5.2.0"
@@ -333,6 +333,7 @@ __metadata:
     signal-exit: "npm:3.0.7"
     slash: "npm:^3.0.0"
     ssri: "npm:^10.0.6"
+    string-width: "npm:^4.2.3"
     strong-log-transformer: "npm:2.1.0"
     tar: "npm:6.2.1"
     temp-dir: "npm:1.0.0"
@@ -345,7 +346,7 @@ __metadata:
     write-pkg: "npm:4.0.0"
     yargs: "npm:17.7.2"
     yargs-parser: "npm:21.1.1"
-  checksum: 10c0/58f3de46912dee75a4bb05195b72ff198da2875a62737339f0b8a5f26c9cedf169f3e9c6f1e23e775d4ac40021de30b9df46aa1b468dff130ba18a834ac71b90
+  checksum: 10c0/833920656c3254444db7d7ea3e22331773c87c635d899ef3cd785a599fe07e2a40ceec49ad46e1962d354d96877de341615ef49e12b50ed70011df6d9dda46e6
   languageName: node
   linkType: hard
 
@@ -2476,10 +2477,10 @@ __metadata:
     "@commitlint/cli": "npm:^19.3.0"
     "@commitlint/config-conventional": "npm:^19.2.2"
     concurrently: "npm:^8.2.2"
-    husky: "npm:^9.0.11"
-    lerna: "npm:^8.1.5"
+    husky: "npm:^9.1.1"
+    lerna: "npm:^8.1.6"
     lint-staged: "npm:^15.2.7"
-    prettier: "npm:^3.3.2"
+    prettier: "npm:^3.3.3"
     standard-version: "npm:^9.5.0"
     tsc-files: "npm:^1.1.4"
   languageName: unknown
@@ -3053,12 +3054,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:^9.0.11":
-  version: 9.0.11
-  resolution: "husky@npm:9.0.11"
+"husky@npm:^9.1.1":
+  version: 9.1.1
+  resolution: "husky@npm:9.1.1"
   bin:
-    husky: bin.mjs
-  checksum: 10c0/2c787dcf74a837fc9a4fea7da907509d4bd9a289f4ea10ecc9d86279e4d4542b0f5f6443a619bccae19e265f2677172cc2b86aae5c932a35a330cc227d914605
+    husky: bin.js
+  checksum: 10c0/56394f5a08201badece23a8599bd76fe8c41e4510a956022fe54897645900c5c5a96a740ffb0604e99e808dffc3714bae982f1cbda4a069082cc713414f17ad3
   languageName: node
   linkType: hard
 
@@ -3631,11 +3632,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lerna@npm:^8.1.5":
-  version: 8.1.5
-  resolution: "lerna@npm:8.1.5"
+"lerna@npm:^8.1.6":
+  version: 8.1.6
+  resolution: "lerna@npm:8.1.6"
   dependencies:
-    "@lerna/create": "npm:8.1.5"
+    "@lerna/create": "npm:8.1.6"
     "@npmcli/arborist": "npm:7.5.3"
     "@npmcli/package-json": "npm:5.2.0"
     "@npmcli/run-script": "npm:8.1.0"
@@ -3701,6 +3702,7 @@ __metadata:
     signal-exit: "npm:3.0.7"
     slash: "npm:3.0.0"
     ssri: "npm:^10.0.6"
+    string-width: "npm:^4.2.3"
     strong-log-transformer: "npm:2.1.0"
     tar: "npm:6.2.1"
     temp-dir: "npm:1.0.0"
@@ -3716,7 +3718,7 @@ __metadata:
     yargs-parser: "npm:21.1.1"
   bin:
     lerna: dist/cli.js
-  checksum: 10c0/fb4cccc82edc3d12013ba2b6093a5eacf5601e89b94997fb5d53c2dd82b9f668470d991ad714266f8e629aa1c8ed2cabe21fcb55d8a4d2fc14d988f3014c9dbd
+  checksum: 10c0/282ec3b5fdc48a2b3ed6eeaac1575e6a35eeaf53c4fa4113ca6b4265d46a422bf5de99b701d7fb4c94e80ec22e0099f24cc5bcab0a4a0a47095538a88e953129
   languageName: node
   linkType: hard
 
@@ -5155,12 +5157,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.3.2":
-  version: 3.3.2
-  resolution: "prettier@npm:3.3.2"
+"prettier@npm:^3.3.3":
+  version: 3.3.3
+  resolution: "prettier@npm:3.3.3"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10c0/39ed27d17f0238da6dd6571d63026566bd790d3d0edac57c285fbab525982060c8f1e01955fe38134ab10f0951a6076da37f015db8173c02f14bc7f0803a384c
+  checksum: 10c0/b85828b08e7505716324e4245549b9205c0cacb25342a030ba8885aba2039a115dbcf75a0b7ca3b37bc9d101ee61fab8113fc69ca3359f2a226f1ecc07ad2e26
   languageName: node
   linkType: hard
 
