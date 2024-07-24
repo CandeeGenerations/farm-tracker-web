@@ -30,6 +30,7 @@ interface IListBoxControl {
   addNew?: () => void
   vertical?: boolean
   none?: boolean
+  direction?: 'down' | 'up'
 }
 
 interface IPageState {
@@ -54,6 +55,7 @@ const ListBoxControl = ({
   activeLabel = true,
   vertical = false,
   none = false,
+  direction = 'down',
 }: IListBoxControl): React.ReactElement => {
   const [pageState, stateFunc] = useState<IPageState>({
     open: false,
@@ -147,7 +149,8 @@ const ListBoxControl = ({
         {({open}) => (
           <div
             className={classNames(
-              vertical ? 'text-left' : 'grid grid-cols-1 sm:grid-cols-3 items-start sm:gap-4 gap-2 pt-5 w-full',
+              vertical ? 'text-left' : 'grid grid-cols-1 sm:grid-cols-3 items-start sm:gap-4 gap-2 w-full',
+              direction === 'down' && 'pt-5',
             )}
           >
             <div>
@@ -155,7 +158,7 @@ const ListBoxControl = ({
                 <Listbox.Label
                   className={classNames(
                     error ? 'text-danger-medium' : 'text-muted-medium',
-                    vertical ? 'mb-1' : 'sm:mt-px sm:pt-2',
+                    vertical ? 'mb-1' : 'sm:mt-px sm:pt-1',
                     activeLabel ? '' : 'opacity-60',
                     'cursor-pointer block font-bold',
                   )}
@@ -168,123 +171,128 @@ const ListBoxControl = ({
               {error && !vertical && <p className="mt-2 text-danger-dark">{error.message}</p>}
             </div>
 
-            <div className={classNames('relative', vertical ? '' : 'sm:col-span-2 sm:mt-0')}>
-              {searchable ? (
-                <Listbox.Button as={Fragment}>
-                  <FormInput
-                    onBlur={() => setState({open: false})}
-                    onFocus={() => setState({open: true})}
-                    staticValue={pageState.searchValue}
-                    onChange={(_, value) =>
-                      setState({
-                        searchValue: value.toString(),
-                        items: _sortBy(
-                          items.filter(x => x.name.toLowerCase().includes(value.toString().trim().toLowerCase())),
-                          ['name'],
-                        ),
-                      })
-                    }
-                    dropdown
-                    name="search"
-                    placeholder={placeholder}
-                    onDropdownClick={() => setState({open: !pageState.open})}
-                  />
-                </Listbox.Button>
-              ) : (
-                <Listbox.Button
-                  className={classNames(
-                    error
-                      ? 'bg-danger-lightest border-danger text-danger-dark placeholder-danger-medium focus:ring-danger focus:border-danger'
-                      : 'focus:ring-primary-medium focus:border-primary-medium border-muted-light',
-                    'relative w-full sm:max-w-xs sm:text-sm bg-white border rounded shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-2 focus:ring-offset-2',
-                  )}
-                >
-                  <span className="block truncate">
-                    {loading ? (
-                      <SmallLoader />
-                    ) : Array.isArray(value) || !value ? (
-                      placeholder || 'Select items'
-                    ) : (
-                      items.find(x => x.id == value.id)?.name || placeholder || 'Select item'
+            <div className={classNames(vertical ? '' : 'sm:col-span-2 sm:mt-0')}>
+              <div className="relative">
+                {searchable ? (
+                  <Listbox.Button as={Fragment}>
+                    <FormInput
+                      onBlur={() => setState({open: false})}
+                      onFocus={() => setState({open: true})}
+                      staticValue={pageState.searchValue}
+                      onChange={(_, value) =>
+                        setState({
+                          searchValue: value.toString(),
+                          items: _sortBy(
+                            items.filter(x => x.name.toLowerCase().includes(value.toString().trim().toLowerCase())),
+                            ['name'],
+                          ),
+                        })
+                      }
+                      dropdown
+                      name="search"
+                      placeholder={placeholder}
+                      onDropdownClick={() => setState({open: !pageState.open})}
+                    />
+                  </Listbox.Button>
+                ) : (
+                  <Listbox.Button
+                    className={classNames(
+                      error
+                        ? 'bg-danger-lightest border-danger text-danger-dark placeholder-danger-medium focus:ring-danger focus:border-danger'
+                        : 'focus:ring-primary-medium focus:border-primary-medium border-muted-light',
+                      'relative w-full sm:max-w-xs sm:text-sm bg-white border rounded shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-2 focus:ring-offset-2',
                     )}
-                  </span>
-
-                  {!loading && (
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <ChevronUpDownIcon className="h-5 w-5 text-muted" aria-hidden="true" />
+                  >
+                    <span className="block truncate">
+                      {loading ? (
+                        <SmallLoader />
+                      ) : Array.isArray(value) || !value ? (
+                        placeholder || 'Select items'
+                      ) : (
+                        items.find(x => x.id == value.id)?.name || placeholder || 'Select item'
+                      )}
                     </span>
-                  )}
-                </Listbox.Button>
-              )}
 
-              <Transition
-                show={open || pageState.open || false}
-                as={Fragment}
-                leave="transition ease-in duration-100"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <Listbox.Options
-                  static
-                  className="absolute z-10 border border-muted-light mt-1 w-full sm:max-w-xs sm:text-sm bg-white shadow-lg max-h-60 rounded py-1 text-base ring-2 ring-primary-medium ring-opacity-5 overflow-auto focus:outline-none"
-                >
-                  {pageState.items.length > 0 ? (
-                    <>
-                      {pageState.items.map(item => {
-                        const selectedItem = selected(item)
-
-                        return (
-                          <Listbox.Option
-                            key={item.id}
-                            className={({active}) =>
-                              classNames(
-                                active ? 'text-white bg-primary-medium' : 'text-muted-dark',
-                                'cursor-pointer select-none relative py-2 pl-8 pr-4',
-                              )
-                            }
-                            value={item}
-                          >
-                            {({active}) => (
-                              <>
-                                <span
-                                  className={classNames(selectedItem ? 'font-bold' : 'font-normal', 'block truncate')}
-                                >
-                                  {item.name}
-                                </span>
-
-                                {selectedItem ? (
-                                  <span
-                                    className={classNames(
-                                      active ? 'text-white' : 'text-primary',
-                                      'absolute inset-y-0 left-0 flex items-center pl-1.5',
-                                    )}
-                                  >
-                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                  </span>
-                                ) : null}
-                              </>
-                            )}
-                          </Listbox.Option>
-                        )
-                      })}
-
-                      {addNew && addNewLink}
-
-                      {none && noneLink}
-                    </>
-                  ) : addNew ? (
-                    addNewLink
-                  ) : none ? (
-                    noneLink
-                  ) : (
-                    <div className="cursor-default select-none relative py-2 pl-8 pr-4">
-                      <span className="font-normal block truncate">
-                        <em>No options</em>
+                    {!loading && (
+                      <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <ChevronUpDownIcon className="h-5 w-5 text-muted" aria-hidden="true" />
                       </span>
-                    </div>
-                  )}
-                </Listbox.Options>
-              </Transition>
+                    )}
+                  </Listbox.Button>
+                )}
+
+                <Transition
+                  show={open || pageState.open || false}
+                  as={Fragment}
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Listbox.Options
+                    static
+                    className={classNames(
+                      'absolute z-10 border border-muted-light w-full sm:max-w-xs sm:text-sm bg-white shadow-lg max-h-60 rounded py-1 text-base ring-2 ring-primary-medium ring-opacity-5 overflow-auto focus:outline-none',
+                      direction === 'up' ? 'bottom-full mb-2' : 'top-full mt-1',
+                    )}
+                  >
+                    {pageState.items.length > 0 ? (
+                      <>
+                        {pageState.items.map(item => {
+                          const selectedItem = selected(item)
+
+                          return (
+                            <Listbox.Option
+                              key={item.id}
+                              className={({active}) =>
+                                classNames(
+                                  active ? 'text-white bg-primary-medium' : 'text-muted-dark',
+                                  'cursor-pointer select-none relative py-2 pl-8 pr-4',
+                                )
+                              }
+                              value={item}
+                            >
+                              {({active}) => (
+                                <>
+                                  <span
+                                    className={classNames(selectedItem ? 'font-bold' : 'font-normal', 'block truncate')}
+                                  >
+                                    {item.name}
+                                  </span>
+
+                                  {selectedItem ? (
+                                    <span
+                                      className={classNames(
+                                        active ? 'text-white' : 'text-primary',
+                                        'absolute inset-y-0 left-0 flex items-center pl-1.5',
+                                      )}
+                                    >
+                                      <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            </Listbox.Option>
+                          )
+                        })}
+
+                        {addNew && addNewLink}
+
+                        {none && noneLink}
+                      </>
+                    ) : addNew ? (
+                      addNewLink
+                    ) : none ? (
+                      noneLink
+                    ) : (
+                      <div className="cursor-default select-none relative py-2 pl-8 pr-4">
+                        <span className="font-normal block truncate">
+                          <em>No options</em>
+                        </span>
+                      </div>
+                    )}
+                  </Listbox.Options>
+                </Transition>
+              </div>
 
               {helpText && <p className="mt-2 text-muted">{helpText}</p>}
             </div>
@@ -318,6 +326,7 @@ interface IFormSelect {
   vertical?: boolean
   none?: boolean
   readOnly?: boolean
+  direction?: 'down' | 'up'
 }
 
 const FormSelect = ({
@@ -339,6 +348,7 @@ const FormSelect = ({
   vertical = false,
   none = false,
   readOnly = false,
+  direction = 'down',
 }: IFormSelect): React.ReactElement => {
   if (readOnly) {
     return control ? (
@@ -378,6 +388,7 @@ const FormSelect = ({
     addNew,
     vertical,
     none,
+    direction,
   }
 
   return control ? (

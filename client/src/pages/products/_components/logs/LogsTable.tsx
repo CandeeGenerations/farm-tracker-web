@@ -1,11 +1,16 @@
 import Button from '@/components/Button'
-import Table from '@/components/Table'
+import Card from '@/components/Card'
+import SortableTable from '@/components/SortableTable'
+import TableLoader from '@/components/TableLoader'
 import {addCommas, formatDate} from '@/helpers'
+import {IAnimal} from '@/types/animal'
 import {ILoggedProduct} from '@/types/loggedProduct'
 import {IProduct} from '@/types/product'
+import axios, {AxiosResponse} from 'axios'
 import dayjs from 'dayjs'
 import _sum from 'lodash/sum'
-import React from 'react'
+import _uniqBy from 'lodash/uniqBy'
+import React, {useEffect, useState} from 'react'
 
 interface ILogsTable {
   logs: ILoggedProduct[]
@@ -16,10 +21,28 @@ interface ILogsTable {
 }
 
 const LogsTable = ({logs, onShowLoggedProductModal, onOpenImporter, product}: ILogsTable): React.ReactElement => {
-  return (
+  const [loading, setLoading] = useState<boolean>(true)
+  const [animals, setAnimals] = useState<IAnimal[]>([])
+
+  const getAnimals = async () => {
+    const animals: AxiosResponse<{data: IAnimal[]}> = await axios.get('/animal')
+
+    setLoading(false)
+    setAnimals(animals.data.data)
+  }
+
+  useEffect(() => {
+    getAnimals()
+  }, [])
+
+  return loading ? (
+    <Card>
+      <TableLoader />
+    </Card>
+  ) : (
     <div>
       <div className="flex items-center flex-col sm:flex-row mb-5 mt-10">
-        <h1 className="flex-1 text-3xl hidden sm:block">ExpLogsenses</h1>
+        <h1 className="flex-1 text-3xl hidden sm:block">Logs</h1>
 
         <div className="sm:pt-5 sm:flex-1 w-full sm:w-auto text-right">
           <Button type="secondary" className="mr-4" onClick={onOpenImporter}>
@@ -43,26 +66,48 @@ const LogsTable = ({logs, onShowLoggedProductModal, onOpenImporter, product}: IL
         </div>
       </div>
 
-      <Table
+      <SortableTable
+        id="logs"
+        filters={[
+          {
+            label: 'Log date',
+            type: 'daterange',
+            column: 'logDate',
+          },
+          {
+            label: 'Breeds',
+            type: 'select',
+            column: 'breed',
+            values: _uniqBy(
+              animals
+                .filter(x => x.species === product?.species)
+                .map(x => ({
+                  name: x.breed,
+                  species: x.species,
+                })),
+              'name',
+            ).map(({name}) => ({id: name, name})),
+          },
+        ]}
+        searchableColumns={['quantity']}
         actions={{idColumn: 'id'}}
         columns={[
           {name: 'Log Date', id: 'logDate', sortOverride: 'logDateSort'},
-          {name: 'Quantity', id: 'quantity'},
+          {name: 'Quantity', id: 'quantityDisplay', sortOverride: 'quantity'},
           {name: 'Breed (Species)', id: 'breed', maintainCase: true},
         ]}
-        totalRow={[{id: 'quantity', value: `${addCommas(_sum(logs?.map(x => x.quantity)))}`}]}
+        totalRow={[{id: 'quantityDisplay', value: data => `${addCommas(_sum(data.map(x => x.quantity)))}`}]}
         keyName="id"
-        linkKey="logDate"
         defaultSortColumn="logDate"
         defaultSortOrder="desc"
         data={logs?.map(x => ({
           ...x,
-          quantity: `${addCommas(x.quantity)} ${product?.unit}`,
+          quantityDisplay: `${addCommas(x.quantity)} ${product?.unit}`,
           logDateSort: dayjs(x.logDate).format(),
           logDate: formatDate(x.logDate),
           breed: `${x.breed || '-'} (${x.species || product?.species})`,
         }))}
-        onEdit={id => onShowLoggedProductModal(logs.find(x => x.id === id))}
+        onClick={id => onShowLoggedProductModal(logs.find(x => x.id === id))}
       />
     </div>
   )

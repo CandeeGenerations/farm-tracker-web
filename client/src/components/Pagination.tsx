@@ -2,15 +2,26 @@ import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/24/outline'
 import React from 'react'
 import {classNames} from '../helpers'
 import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION_LIMIT} from '../helpers/constants'
+import FormSelect from './FormSelect'
 
 interface IPagination {
   totalCount: number
   pageNumber: number
-  onPageChange: (number: number) => void // eslint-disable-line no-unused-vars
+  pageSize: number
+  /* eslint-disable no-unused-vars */
+  onPageChange: (number: number) => void
+  onPageSizeChange: (number: number) => void
+  /* eslint-enable no-unused-vars */
 }
 
-const Pagination = ({totalCount, pageNumber, onPageChange}: IPagination): React.ReactElement => {
-  const maxPages = Math.ceil(totalCount / DEFAULT_PAGE_SIZE)
+const Pagination = ({
+  totalCount,
+  pageNumber,
+  pageSize = DEFAULT_PAGE_SIZE,
+  onPageChange,
+  onPageSizeChange,
+}: IPagination): React.ReactElement => {
+  const maxPages = Math.ceil(totalCount / pageSize)
   const handlePageChange = (e, newPage) => {
     e.preventDefault()
 
@@ -82,7 +93,7 @@ const Pagination = ({totalCount, pageNumber, onPageChange}: IPagination): React.
   }
 
   return (
-    <div className="bg-muted-lightest px-4 py-3 flex items-center justify-between border-t border-muted-light sm:px-6">
+    <div className="bg-muted-lightest px-4 flex items-center justify-between border-t border-muted-light sm:px-6 rounded-b-lg">
       <div className="flex-1 flex justify-between sm:hidden">
         <a
           href="client/src/components#"
@@ -102,20 +113,32 @@ const Pagination = ({totalCount, pageNumber, onPageChange}: IPagination): React.
       </div>
 
       <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-        <div>
-          {totalCount > 0 ? (
-            <p className="text-muted-medium">
-              Showing <span className="font-medium">{(pageNumber - 1) * DEFAULT_PAGE_SIZE + 1}</span> to{' '}
-              <span className="font-medium">
-                {pageNumber === maxPages ? totalCount : DEFAULT_PAGE_SIZE * pageNumber}
-              </span>{' '}
-              of <span className="font-medium">{totalCount}</span> results
-            </p>
-          ) : (
-            <p className="text-muted-medium">
-              <span className="font-medium">{totalCount}</span> results
-            </p>
-          )}
+        <div className="flex items-center divide-x divide-muted-light">
+          <div className="pr-3">
+            {totalCount > 0 ? (
+              <p className="text-muted-medium">
+                Showing <span className="font-medium">{(pageNumber - 1) * pageSize + 1}</span> to{' '}
+                <span className="font-medium">{pageNumber === maxPages ? totalCount : pageSize * pageNumber}</span> of{' '}
+                <span className="font-medium">{totalCount}</span> results
+              </p>
+            ) : (
+              <p className="text-muted-medium">
+                <span className="font-medium">{totalCount}</span> results
+              </p>
+            )}
+          </div>
+
+          <div className="p-3 !border-r border-muted-light relative">
+            <FormSelect
+              onSelected={({id}) => onPageSizeChange(Number(id))}
+              staticSelected={{id: pageSize.toString(), name: pageSize.toString()}}
+              items={[10, 25, 50, 100].map(x => ({id: x.toString(), name: x.toString()}))}
+              name="pageSize"
+              label="Page size:"
+              direction="up"
+              noSort
+            />
+          </div>
         </div>
 
         <div>

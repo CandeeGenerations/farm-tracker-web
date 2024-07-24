@@ -1,6 +1,9 @@
 import Button from '@/components/Button'
-import Table from '@/components/Table'
+import SortableTable from '@/components/SortableTable'
 import {addCommas, formatDate} from '@/helpers'
+import {TABLE_FILTERS_STORAGE_KEY} from '@/helpers/constants'
+import * as storage from '@/helpers/localStorage'
+import {IProduct} from '@/types/product'
 import {ISale} from '@/types/sale'
 import dayjs from 'dayjs'
 import _sum from 'lodash/sum'
@@ -8,15 +11,20 @@ import React from 'react'
 
 interface ISalesTable {
   sales: ISale[]
+  products?: IProduct[]
   // eslint-disable-next-line no-unused-vars
   onShowSaleModal: (sale?: ISale) => void
   onOpenImporter: () => void
   isProductSales: boolean
 }
 
-const SalesTable = ({sales, onShowSaleModal, onOpenImporter, isProductSales}: ISalesTable): React.ReactElement => {
-  const totalSold = _sum((sales || []).map(x => x.quantity))
-
+const SalesTable = ({
+  sales,
+  products = [],
+  onShowSaleModal,
+  onOpenImporter,
+  isProductSales,
+}: ISalesTable): React.ReactElement => {
   return (
     <div>
       <div className="flex items-center flex-col sm:flex-row mb-5 mt-10">
@@ -35,30 +43,47 @@ const SalesTable = ({sales, onShowSaleModal, onOpenImporter, isProductSales}: IS
         </div>
       </div>
 
-      <Table
-        actions={{idColumn: 'id'}}
+      <SortableTable
+        id="sales"
+        filters={[
+          {
+            label: 'Sale date',
+            type: 'daterange',
+            column: 'saleDate',
+          },
+          {
+            label: 'Product',
+            type: 'select',
+            column: 'productId',
+            values: products.map(x => ({id: x.id, name: x.name})),
+          },
+        ]}
+        searchableColumns={['productName', 'quantity', 'amount']}
         columns={[
           ...(isProductSales ? [] : [{name: 'Product', id: 'productName'}]),
           {name: 'Sale Date', id: 'saleDate', sortOverride: 'saleDateSort'},
           {name: 'Quantity', id: 'quantity'},
-          {name: 'Sale Amount', id: 'amount'},
+          {name: 'Sale Amount', id: 'amountDisplay', sortOverride: 'amount'},
         ]}
-        totalRow={[
-          {id: 'quantity', value: `${totalSold}`},
-          {id: 'amount', value: `$${addCommas(_sum(sales.map(x => x.amount)))}`},
-        ]}
-        keyName="id"
-        linkKey={isProductSales ? 'saleDate' : 'productName'}
-        defaultSortColumn="saleDate"
-        defaultSortOrder="desc"
-        onEdit={id => onShowSaleModal(sales.find(x => x.id === id))}
         data={sales?.map(x => ({
           ...x,
-          amount: `$${addCommas(x.amount)}`,
+          amountDisplay: `$${addCommas(x.amount)}`,
           saleDate: formatDate(x.saleDate),
           saleDateSort: dayjs(x.saleDate).format(),
           productName: x.product?.name,
         }))}
+        totalRow={[
+          {id: 'quantity', value: (data: ISale[]) => addCommas(_sum(data.map(x => x.quantity)))},
+          {id: 'amountDisplay', value: (data: ISale[]) => `$${addCommas(_sum(data.map(x => x.amount)))}`},
+        ]}
+        keyName="id"
+        defaultSortColumn="saleDate"
+        defaultSortOrder="desc"
+        defaultFilters={
+          storage.get(`${TABLE_FILTERS_STORAGE_KEY}sales`) &&
+          JSON.parse(storage.get(`${TABLE_FILTERS_STORAGE_KEY}sales`))
+        }
+        onClick={id => onShowSaleModal(sales.find(x => x.id === id))}
       />
     </div>
   )

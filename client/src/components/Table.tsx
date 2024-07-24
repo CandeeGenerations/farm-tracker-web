@@ -23,7 +23,8 @@ export interface IColumnHeader {
 
 export interface ITotalRow {
   id: string
-  value: React.ReactNode
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
+  value: (data: any[]) => React.ReactNode
 }
 
 interface ITable {
@@ -57,6 +58,7 @@ const Table = ({
   const [pageNumber, setPageNumber] = useState(1)
   const [sort, setSort] = useState<{column: string; asc: boolean} | undefined>()
   const [initialLoad, setInitialLoad] = useState(true)
+  const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE)
 
   const doSort = dataToSort => {
     if (sort) {
@@ -211,7 +213,7 @@ const Table = ({
                   {columns.map(({id}, index) => {
                     return index === 0 ? undefined : (
                       <td key={index} className="px-6 py-4 whitespace-nowrap text-muted border-t-2 total-border">
-                        {totalRow.find(x => x.id === id)?.value}
+                        {totalRow.find(x => x.id === id)?.value(dataset)}
                       </td>
                     )
                   })}
@@ -221,7 +223,13 @@ const Table = ({
           </table>
         </div>
 
-        <Pagination totalCount={data.length} pageNumber={pageNumber} onPageChange={setPageNumber} />
+        <Pagination
+          onPageSizeChange={setPageSize}
+          pageSize={pageSize}
+          totalCount={data.length}
+          pageNumber={pageNumber}
+          onPageChange={setPageNumber}
+        />
       </div>
     </Card>
   )

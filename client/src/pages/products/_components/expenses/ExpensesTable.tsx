@@ -1,5 +1,5 @@
 import Button from '@/components/Button'
-import Table from '@/components/Table'
+import SortableTable from '@/components/SortableTable'
 import {addCommas, formatDate} from '@/helpers'
 import {IExpense} from '@/types/expense'
 import dayjs from 'dayjs'
@@ -30,30 +30,39 @@ const ExpensesTable = ({expenses, onShowExpenseModal, onOpenImporter}: IExpenses
         </div>
       </div>
 
-      <Table
+      <SortableTable
+        id="expenses"
+        filters={[
+          {
+            label: 'Purchase date',
+            type: 'daterange',
+            column: 'purchaseDate',
+          },
+        ]}
+        searchableColumns={['item', 'amount', 'quantity', 'totalCost']}
         actions={{idColumn: 'id'}}
         columns={[
           {name: 'Item', id: 'item'},
           {name: 'Quantity', id: 'quantity'},
           {name: 'Cost per item', id: 'amount'},
-          {name: 'Total cost', id: 'totalCost'},
+          {name: 'Total cost', id: 'totalCostDisplay', sortOverride: 'totalCost'},
           {name: 'Purchase Date', id: 'purchaseDate', sortOverride: 'purchaseDateSort'},
         ]}
         totalRow={[
-          {id: 'quantity', value: _sum(expenses?.map(x => x.quantity))},
-          {id: 'totalCost', value: `$${addCommas(_sum(expenses?.map(x => x.amount * x.quantity)))}`},
+          {id: 'quantity', value: data => _sum(data?.map(x => x.quantity))},
+          {id: 'totalCostDisplay', value: data => `$${addCommas(_sum(data?.map(x => x.totalCost)))}`},
         ]}
         keyName="id"
-        linkKey="item"
         defaultSortColumn="purchaseDate"
         defaultSortOrder="desc"
-        onEdit={id => onShowExpenseModal(expenses.find(x => x.id === id))}
+        onClick={id => onShowExpenseModal(expenses.find(x => x.id === id))}
         data={expenses?.map(x => ({
           ...x,
           amount: `$${addCommas(x.amount)}`,
           purchaseDate: formatDate(x.purchaseDate),
           purchaseDateSort: dayjs(x.purchaseDate).format(),
-          totalCost: `$${addCommas(x.amount * x.quantity)}`,
+          totalCost: x.amount * x.quantity,
+          totalCostDisplay: `$${addCommas(x.amount * x.quantity)}`,
         }))}
       />
     </div>

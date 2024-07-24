@@ -2,16 +2,17 @@ import Button from '@/components/Button'
 import Card from '@/components/Card'
 import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
-import Search from '@/components/Search'
-import Table, {IColumnHeader} from '@/components/Table'
+import SortableTable from '@/components/SortableTable'
+import {IColumnHeader} from '@/components/Table'
 import TableLoader from '@/components/TableLoader'
 import {addCommas, classNames, setPageState} from '@/helpers'
-import {DEBOUNCE, PRODUCTS_COLUMNS} from '@/helpers/constants'
+import {PRODUCTS_COLUMNS, TABLE_FILTERS_STORAGE_KEY} from '@/helpers/constants'
 import * as storage from '@/helpers/localStorage'
+import {IAnimal} from '@/types/animal'
 import {IProduct} from '@/types/product'
 import axios, {AxiosResponse} from 'axios'
-import _debounce from 'lodash/debounce'
 import _sum from 'lodash/sum'
+import _uniq from 'lodash/uniq'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
@@ -23,11 +24,10 @@ import ProgressiveChart from './_components/_ProgressiveChart'
 interface IPageState {
   loading?: boolean
   products?: IProduct[]
-  originalProducts?: IProduct[]
-  resetSearch?: number
   importerOpen?: boolean
   columnsOpen?: boolean
   visibleColumns?: string[]
+  species?: string[]
 }
 
 const columns: IColumnHeader[] = [
@@ -46,20 +46,20 @@ const ProductsPage = (): React.ReactElement => {
     products: [],
     importerOpen: false,
     columnsOpen: false,
-    originalProducts: [],
-    resetSearch: 0,
     visibleColumns: [],
+    species: [],
   })
 
   const getProducts = async () => {
     const products: AxiosResponse<{data: IProduct[]}> = await axios.get('/product')
+    const animals: AxiosResponse<{data: IAnimal[]}> = await axios.get('/animal')
     const storedColumnsString = storage.get(PRODUCTS_COLUMNS)
 
     setState({
       loading: false,
       products: products.data.data,
-      originalProducts: [...products.data.data],
       visibleColumns: storedColumnsString ? storedColumnsString.split(',') : [],
+      species: _uniq(animals.data.data.map(x => x.species)),
     })
   }
 
@@ -68,20 +68,6 @@ const ProductsPage = (): React.ReactElement => {
   }, [])
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
-
-  const handleSearch = (value, reset) => {
-    if (!value && !reset) {
-      return
-    }
-
-    let newData = [...pageState.originalProducts]
-
-    if (value) {
-      newData = newData.filter(x => x.name?.toLowerCase().includes(value.trim().toLowerCase()))
-    }
-
-    setState({products: newData})
-  }
 
   const handleOpenColumns = () => setState({columnsOpen: true})
 
@@ -123,11 +109,6 @@ const ProductsPage = (): React.ReactElement => {
     router.reload()
   }
 
-  const debounceSearch = _debounce(handleSearch, DEBOUNCE)
-  const totalProfit =
-    _sum(pageState.originalProducts.map(x => _sum(x.sales.map(y => y.amount)))) -
-    _sum(pageState.originalProducts.map(x => _sum(x.expenses.map(y => y.amount * y.quantity))))
-
   return (
     <Layout
       title="Products"
@@ -160,8 +141,6 @@ const ProductsPage = (): React.ReactElement => {
       ) : (
         <div className="space-y-6 mt-8 order-1 lg:order-2">
           <div className="flex items-center flex-col sm:flex-row">
-            <Search onSearch={(value, reset) => debounceSearch(value, reset)} resetSearch={pageState.resetSearch} />
-
             <div className="pt-5 sm:flex-1 w-full sm:w-auto text-right">
               <Button className="sm:mr-4" onClick={handleOpenColumns}>
                 Columns
@@ -177,8 +156,25 @@ const ProductsPage = (): React.ReactElement => {
             </div>
           </div>
 
-          <Table
-            actions={{idColumn: 'id', parent: 'products'}}
+          <SortableTable
+            id="products"
+            filters={[
+              {
+                label: 'Species',
+                type: 'select',
+                column: 'species',
+                values: pageState.species.map(x => ({id: x, name: x})),
+              },
+            ]}
+            searchableColumns={[
+              'name',
+              'species',
+              'loggedAmount',
+              'expensesAmount',
+              'salesAmount',
+              'costPer',
+              'profitAmount',
+            ]}
             columns={[
               {name: 'Name', id: 'name'},
               ...(pageState.visibleColumns.length > 0
@@ -188,31 +184,42 @@ const ProductsPage = (): React.ReactElement => {
             totalRow={[
               {
                 id: 'totalLogged',
-                value: addCommas(
-                  _sum(pageState.originalProducts.map(x => _sum(x.loggedProducts.map(y => y.quantity)))),
-                ),
+                value: (data: IProduct[]) =>
+                  addCommas(_sum(data.map(x => _sum(x.loggedProducts.map(y => y.quantity))))),
               },
               {
                 id: 'expensesAmount',
-                value: `$${addCommas(_sum(pageState.originalProducts.map(x => _sum(x.expenses.map(y => y.amount * y.quantity)))))}`,
+                value: (data: IProduct[]) =>
+                  `$${addCommas(_sum(data.map(x => _sum(x.expenses.map(y => y.amount * y.quantity)))))}`,
               },
               {
                 id: 'salesAmount',
-                value: `$${addCommas(_sum(pageState.originalProducts.map(x => _sum(x.sales.map(y => y.amount)))))}`,
+                value: (data: IProduct[]) => `$${addCommas(_sum(data.map(x => _sum(x.sales.map(y => y.amount)))))}`,
               },
               {
                 id: 'profitAmount',
-                value: (
-                  <span
-                    className={classNames(
-                      totalProfit > 0 ? 'text-success-medium' : totalProfit < 0 ? 'text-warning-medium' : undefined,
-                    )}
-                  >
-                    ${addCommas(totalProfit)}
-                  </span>
-                ),
+                value: (data: IProduct[]) => {
+                  const totalProfit =
+                    _sum(data.map(x => _sum(x.sales.map(y => y.amount)))) -
+                    _sum(data.map(x => _sum(x.expenses.map(y => y.amount * y.quantity))))
+
+                  return (
+                    <span
+                      className={classNames(
+                        totalProfit > 0 ? 'text-success-medium' : totalProfit < 0 ? 'text-warning-medium' : undefined,
+                      )}
+                    >
+                      ${addCommas(totalProfit)}
+                    </span>
+                  )
+                },
               },
             ]}
+            defaultFilters={
+              storage.get(`${TABLE_FILTERS_STORAGE_KEY}products`) &&
+              JSON.parse(storage.get(`${TABLE_FILTERS_STORAGE_KEY}products`))
+            }
+            actions={{idColumn: 'id', parent: 'products'}}
             keyName="id"
             linkKey="name"
             data={pageState.products.map(x => {
