@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.7.2...v1.8.0) (2024-07-24)
+
+
+### Features
+
+* moved to sortable table ([415c4e3](https://github.com/CandeeGenerations/farm-tracker/commit/415c4e3428afab163aea20c8b48bad85d1195241))
+
 ### [1.7.2](https://github.com/CandeeGenerations/farm-tracker/compare/v1.7.1...v1.7.2) (2024-07-20)
 
 
