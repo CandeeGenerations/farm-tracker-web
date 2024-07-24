@@ -183,20 +183,6 @@ const AnimalsPage = (): React.ReactElement => {
             linkKey="name"
             data={pageState.animals}
           />
-
-          {/* <Table
-            actions={{idColumn: 'id', parent: 'animals'}}
-            columns={[
-              {name: 'Name', id: 'name'},
-              {name: 'Species', id: 'species'},
-              {name: 'Breed', id: 'breed'},
-              {name: 'Deceased', id: 'deceased'},
-              {name: 'Sold', id: 'sold'},
-            ]}
-            keyName="id"
-            linkKey="name"
-            data={pageState.animals}
-          /> */}
         </div>
       )}
 

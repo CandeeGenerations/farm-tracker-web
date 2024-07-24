@@ -103,7 +103,7 @@ const LogsTable = ({logs, onShowLoggedProductModal, onOpenImporter, product}: IL
         data={logs?.map(x => ({
           ...x,
           quantityDisplay: `${addCommas(x.quantity)} ${product?.unit}`,
-          logDateSort: dayjs(x.logDate).format(),
+          logDateSort: dayjs(x.logDate).valueOf(),
           logDate: formatDate(x.logDate),
           breed: `${x.breed || '-'} (${x.species || product?.species})`,
         }))}

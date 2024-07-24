@@ -60,7 +60,7 @@ const ExpensesTable = ({expenses, onShowExpenseModal, onOpenImporter}: IExpenses
           ...x,
           amount: `$${addCommas(x.amount)}`,
           purchaseDate: formatDate(x.purchaseDate),
-          purchaseDateSort: dayjs(x.purchaseDate).format(),
+          purchaseDateSort: dayjs(x.purchaseDate).valueOf(),
           totalCost: x.amount * x.quantity,
           totalCostDisplay: `$${addCommas(x.amount * x.quantity)}`,
         }))}

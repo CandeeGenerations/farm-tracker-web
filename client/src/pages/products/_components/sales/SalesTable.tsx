@@ -69,7 +69,7 @@ const SalesTable = ({
           ...x,
           amountDisplay: `$${addCommas(x.amount)}`,
           saleDate: formatDate(x.saleDate),
-          saleDateSort: dayjs(x.saleDate).format(),
+          saleDateSort: dayjs(x.saleDate).valueOf(),
           productName: x.product?.name,
         }))}
         totalRow={[
