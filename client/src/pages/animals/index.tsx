@@ -1,9 +1,7 @@
 import Button from '@/components/Button'
-import Card from '@/components/Card'
 import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
 import SortableTable from '@/components/SortableTable'
-import TableLoader from '@/components/TableLoader'
 import {setPageState} from '@/helpers'
 import {TABLE_FILTERS_STORAGE_KEY} from '@/helpers/constants'
 import * as storage from '@/helpers/localStorage'
@@ -89,11 +87,7 @@ const AnimalsPage = (): React.ReactElement => {
       description="Manage the animals on your farm"
       breadcrumbs={[{name: 'Animals', current: true}]}
     >
-      {pageState.loading ? (
-        <Card>
-          <TableLoader />
-        </Card>
-      ) : pageState.animals.length === 0 ? (
+      {!pageState.loading && pageState.animals.length === 0 ? (
         <EmptyState
           entity="animals"
           actions={
@@ -128,6 +122,7 @@ const AnimalsPage = (): React.ReactElement => {
 
           <SortableTable
             id="animals"
+            loading={pageState.loading}
             filters={[
               {
                 label: 'Species',

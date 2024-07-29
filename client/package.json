@@ -23,7 +23,7 @@
     "@tremor/react": "^3.17.4",
     "avvvatars-react": "^0.4.2",
     "axios": "^1.7.2",
-    "change-case": "^5.4.4",
+    "change-case-all": "^2.1.0",
     "dayjs": "^1.11.12",
     "lodash": "^4.17.21",
     "morphism": "^1.12.3",

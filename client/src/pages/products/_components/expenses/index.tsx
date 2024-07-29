@@ -2,7 +2,6 @@ import Button from '@/components/Button'
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal'
 import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
-import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import ExpenseModal from '@/pages/products/_components/expenses/ExpenseModal'
 import ExpensesTable from '@/pages/products/_components/expenses/ExpensesTable'
@@ -120,9 +119,7 @@ const ExpensesPage = ({product}: IExpensesPage): React.ReactElement => {
   return (
     <>
       <div className="mt-10">
-        {pageState.loading ? (
-          <TableLoader />
-        ) : pageState.expenses.length === 0 ? (
+        {!pageState.loading && pageState.expenses.length === 0 ? (
           <div className="pt-10">
             <EmptyState
               entity="expenses"
@@ -146,6 +143,7 @@ const ExpensesPage = ({product}: IExpensesPage): React.ReactElement => {
         ) : (
           <>
             <ExpensesTable
+              loading={pageState.loading}
               expenses={pageState.expenses}
               onShowExpenseModal={handleShowExpenseModal}
               onOpenImporter={handleOpenExpenseImporter}

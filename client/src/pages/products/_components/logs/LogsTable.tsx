@@ -1,7 +1,5 @@
 import Button from '@/components/Button'
-import Card from '@/components/Card'
 import SortableTable from '@/components/SortableTable'
-import TableLoader from '@/components/TableLoader'
 import {addCommas, formatDate} from '@/helpers'
 import {IAnimal} from '@/types/animal'
 import {ILoggedProduct} from '@/types/loggedProduct'
@@ -35,11 +33,7 @@ const LogsTable = ({logs, onShowLoggedProductModal, onOpenImporter, product}: IL
     getAnimals()
   }, [])
 
-  return loading ? (
-    <Card>
-      <TableLoader />
-    </Card>
-  ) : (
+  return (
     <div>
       <div className="flex items-center flex-col sm:flex-row mb-5 mt-10">
         <h1 className="flex-1 text-3xl hidden sm:block">Logs</h1>
@@ -68,6 +62,7 @@ const LogsTable = ({logs, onShowLoggedProductModal, onOpenImporter, product}: IL
 
       <SortableTable
         id="logs"
+        loading={loading}
         filters={[
           {
             label: 'Log date',

@@ -6,7 +6,7 @@ import Toggle from '@/components/Toggle'
 import {setPageState} from '@/helpers'
 import * as storage from '@/helpers/localStorage'
 import {Dialog} from '@headlessui/react'
-import {sentenceCase} from 'change-case'
+import {sentenceCase} from 'change-case-all'
 import React, {useEffect, useState} from 'react'
 
 interface IColumn extends IColumnHeader {

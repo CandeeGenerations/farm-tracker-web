@@ -1,11 +1,11 @@
-import {sentenceCase} from 'change-case'
+import {sentenceCase} from 'change-case-all'
 import React, {useEffect, useState} from 'react'
 import {classNames, setPageState} from '../helpers'
 import {LOADER_TIMEOUT} from '../helpers/constants'
 import Alert from './Alert'
 import Button from './Button'
 
-interface ICard {
+export interface ICard {
   title?: React.ReactNode
   subtitle?: string
   error?: string

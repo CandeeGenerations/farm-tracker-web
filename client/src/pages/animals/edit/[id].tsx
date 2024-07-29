@@ -1,5 +1,4 @@
-import Card from '@/components/Card'
-import TableLoader from '@/components/TableLoader'
+import CardLoader from '@/components/CardLoader'
 import TabNav from '@/components/TabNav'
 import {getErrorMessage, setPageState} from '@/helpers'
 import {IAnimalWithChildren} from '@/types/animal'
@@ -83,9 +82,7 @@ const EditAnimalPage = (): React.ReactElement => {
       ]}
     >
       {animal.loading || animals.loading ? (
-        <Card>
-          <TableLoader />
-        </Card>
+        <CardLoader />
       ) : (
         <div className="mt-6">
           {animal.animal.children.length > 0 && (

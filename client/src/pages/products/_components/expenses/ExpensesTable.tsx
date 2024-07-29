@@ -8,12 +8,18 @@ import React from 'react'
 
 interface IExpensesTable {
   expenses: IExpense[]
+  loading?: boolean
   // eslint-disable-next-line no-unused-vars
   onShowExpenseModal: (expense?: IExpense) => void
   onOpenImporter: () => void
 }
 
-const ExpensesTable = ({expenses, onShowExpenseModal, onOpenImporter}: IExpensesTable): React.ReactElement => {
+const ExpensesTable = ({
+  expenses,
+  onShowExpenseModal,
+  onOpenImporter,
+  loading = false,
+}: IExpensesTable): React.ReactElement => {
   return (
     <div>
       <div className="flex items-center flex-col sm:flex-row mb-5 mt-10">
@@ -32,6 +38,7 @@ const ExpensesTable = ({expenses, onShowExpenseModal, onOpenImporter}: IExpenses
 
       <SortableTable
         id="expenses"
+        loading={loading}
         filters={[
           {
             label: 'Purchase date',

@@ -1,5 +1,4 @@
-import Card from '@/components/Card'
-import TableLoader from '@/components/TableLoader'
+import CardLoader from '@/components/CardLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import {IAnimal} from '@/types/animal'
 import axios, {AxiosResponse} from 'axios'
@@ -13,7 +12,7 @@ interface IPageState {
   errorMessage?: string
 }
 
-const AddAnimalPage = (): React.ReactElement => {
+const AddProductPage = (): React.ReactElement => {
   const {push} = useRouter()
   const [animals, setAnimals] = useState<{loading: boolean; animals: IAnimal[]}>({
     loading: true,
@@ -51,9 +50,7 @@ const AddAnimalPage = (): React.ReactElement => {
       ]}
     >
       {animals.loading ? (
-        <Card>
-          <TableLoader />
-        </Card>
+        <CardLoader />
       ) : (
         <ProductForm
           onSubmit={handleSubmit}
@@ -67,4 +64,4 @@ const AddAnimalPage = (): React.ReactElement => {
   )
 }
 
-export default AddAnimalPage
+export default AddProductPage

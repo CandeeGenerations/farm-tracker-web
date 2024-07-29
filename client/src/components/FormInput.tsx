@@ -1,5 +1,5 @@
 import {ChevronUpDownIcon, XMarkIcon} from '@heroicons/react/24/outline'
-import {sentenceCase} from 'change-case'
+import {sentenceCase} from 'change-case-all'
 import React from 'react'
 import {Control, Controller, FieldError, UseFormRegister} from 'react-hook-form'
 import {classNames, formatDate, formatInputDate} from '../helpers'

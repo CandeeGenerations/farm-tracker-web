@@ -16,6 +16,7 @@ interface ISalesTable {
   onShowSaleModal: (sale?: ISale) => void
   onOpenImporter: () => void
   isProductSales: boolean
+  loading?: boolean
 }
 
 const SalesTable = ({
@@ -24,6 +25,7 @@ const SalesTable = ({
   onShowSaleModal,
   onOpenImporter,
   isProductSales,
+  loading = false,
 }: ISalesTable): React.ReactElement => {
   return (
     <div>
@@ -45,6 +47,7 @@ const SalesTable = ({
 
       <SortableTable
         id="sales"
+        loading={loading}
         filters={[
           {
             label: 'Sale date',

@@ -1,10 +1,8 @@
 import Button from '@/components/Button'
-import Card from '@/components/Card'
 import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
 import SortableTable from '@/components/SortableTable'
 import {IColumnHeader} from '@/components/Table'
-import TableLoader from '@/components/TableLoader'
 import {addCommas, classNames, setPageState} from '@/helpers'
 import {PRODUCTS_COLUMNS, TABLE_FILTERS_STORAGE_KEY} from '@/helpers/constants'
 import * as storage from '@/helpers/localStorage'
@@ -115,11 +113,7 @@ const ProductsPage = (): React.ReactElement => {
       description="Manage the products being produced on your farm"
       breadcrumbs={[{name: 'Products', current: true}]}
     >
-      {pageState.loading ? (
-        <Card>
-          <TableLoader />
-        </Card>
-      ) : pageState.products.length === 0 ? (
+      {!pageState.loading && pageState.products.length === 0 ? (
         <EmptyState
           entity="products"
           actions={
@@ -158,6 +152,7 @@ const ProductsPage = (): React.ReactElement => {
 
           <SortableTable
             id="products"
+            loading={pageState.loading}
             filters={[
               {
                 label: 'Species',

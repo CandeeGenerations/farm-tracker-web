@@ -12,7 +12,7 @@ import {
   SelectItem,
   TextInput,
 } from '@tremor/react'
-import {sentenceCase} from 'change-case'
+import {sentenceCase} from 'change-case-all'
 import dayjs from 'dayjs'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
@@ -21,8 +21,8 @@ import React, {useEffect, useState} from 'react'
 import Card from './Card'
 import {IFormSelectItem} from './FormSelect'
 import Pagination from './Pagination'
-import SmallLoader from './SmallLoader'
 import {ITotalRow} from './Table'
+import TableLoader from './TableLoader'
 
 dayjs.extend(isSameOrAfter)
 dayjs.extend(isSameOrBefore)
@@ -63,6 +63,7 @@ interface ISortableTable {
   filters?: ITableFilter[]
   searchableColumns?: string[]
   totalRow?: ITotalRow[]
+  loading?: boolean
   // eslint-disable-next-line no-unused-vars
   onClick?: (id: string | number) => void
 }
@@ -70,7 +71,7 @@ interface ISortableTable {
 const SortableTable = ({
   id,
   columns,
-  data,
+  data = [],
   keyName,
   defaultSortColumn,
   defaultSortOrder,
@@ -80,6 +81,7 @@ const SortableTable = ({
   onClick,
   editLink,
   totalRow,
+  loading = false,
   filters = [],
   searchableColumns = [],
 }: ISortableTable): React.ReactElement => {
@@ -206,8 +208,8 @@ const SortableTable = ({
     setPageSize(size)
   }
 
-  return initialLoad ? (
-    <SmallLoader size="medium" />
+  return initialLoad || loading ? (
+    <TableLoader columns={columns} hasFilters={filters?.length > 0} hasActions={!!actions} />
   ) : (
     <Card noPadding>
       <div className="space-y-0">

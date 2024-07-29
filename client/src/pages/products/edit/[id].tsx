@@ -1,6 +1,5 @@
-import Card from '@/components/Card'
+import CardLoader from '@/components/CardLoader'
 import TabNav from '@/components/TabNav'
-import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import ExpensesPage from '@/pages/products/_components/expenses'
 import LoggedProductsPage from '@/pages/products/_components/logs'
@@ -20,7 +19,7 @@ interface IPageState {
   currentTab?: number
 }
 
-const EditAnimalPage = (): React.ReactElement => {
+const EditProductPage = (): React.ReactElement => {
   const router = useRouter()
   const [product, setProduct] = useState<{loading: boolean; product: IProduct}>({loading: true, product: undefined})
   const [products, setProducts] = useState<{loading: boolean; products: IProduct[]}>({loading: true, products: []})
@@ -92,9 +91,7 @@ const EditAnimalPage = (): React.ReactElement => {
       ]}
     >
       {products.loading || product.loading || animals.loading ? (
-        <Card>
-          <TableLoader />
-        </Card>
+        <CardLoader />
       ) : (
         <div className="mt-6">
           <TabNav
@@ -153,4 +150,4 @@ const EditAnimalPage = (): React.ReactElement => {
   )
 }
 
-export default EditAnimalPage
+export default EditProductPage

@@ -1,5 +1,5 @@
 import {ArrowSmallDownIcon, ArrowSmallUpIcon, CheckIcon, XMarkIcon} from '@heroicons/react/24/outline'
-import {sentenceCase} from 'change-case'
+import {sentenceCase} from 'change-case-all'
 import Link from 'next/link'
 import React, {useEffect, useState} from 'react'
 import {addCommas, applySort, classNames} from '../helpers'
@@ -37,6 +37,7 @@ interface ITable {
   defaultSortColumn?: string
   defaultSortOrder?: 'asc' | 'desc'
   editLink?: string
+  loading?: boolean
   // eslint-disable-next-line no-unused-vars
   onEdit?: (id: string | number) => void
 }
@@ -52,6 +53,7 @@ const Table = ({
   onEdit,
   editLink,
   totalRow,
+  loading = false,
 }: ITable): React.ReactElement => {
   const [dataset, setDataset] = useState([])
   const [visibleData, setVisibleData] = useState([])
@@ -105,8 +107,8 @@ const Table = ({
     }
   }
 
-  return initialLoad ? (
-    <TableLoader />
+  return initialLoad || loading ? (
+    <TableLoader columns={columns} hasFilters={false} hasActions={!!actions} />
   ) : (
     <Card noPadding>
       <div className="space-y-0">

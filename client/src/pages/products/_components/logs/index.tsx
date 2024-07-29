@@ -1,8 +1,8 @@
 import Button from '@/components/Button'
+import CardLoader from '@/components/CardLoader'
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal'
 import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
-import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import LogProductModal from '@/pages/products/_components/logs/LogProductModal'
 import LogsTable from '@/pages/products/_components/logs/LogsTable'
@@ -133,7 +133,7 @@ const LoggedProductsPage = ({product, products, breeds}: ILoggedProductsPage): R
     <>
       <div className="mt-10">
         {pageState.loading ? (
-          <TableLoader />
+          <CardLoader />
         ) : pageState.loggedProducts.length === 0 ? (
           <div className="pt-10">
             <EmptyState

@@ -274,7 +274,7 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
               </li>
 
               {breadcrumbs.map(breadcrumb => (
-                <li key={breadcrumb.name} className="flex">
+                <li key={Math.random()} className="flex">
                   <div className="flex items-center">
                     <svg
                       className="h-full w-6 flex-shrink-0 text-muted-light"

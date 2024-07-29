@@ -114,8 +114,10 @@ export default express
       }
 
       product = {...product, ...morphProduct(updatedProduct)}
-      product.expenses = []
-      product.loggedProducts = []
+
+      delete product.expenses
+      delete product.loggedProducts
+      delete product.sales
 
       await service.update(id, product)
 

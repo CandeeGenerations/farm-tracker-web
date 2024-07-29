@@ -2,7 +2,6 @@ import Button from '@/components/Button'
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal'
 import EmptyState from '@/components/EmptyState'
 import ImportModal from '@/components/ImportModal'
-import TableLoader from '@/components/TableLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import SaleModal from '@/pages/products/_components/sales/SaleModal'
 import {IProduct} from '@/types/product'
@@ -147,9 +146,7 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
   return (
     <>
       <div className="mt-10">
-        {pageState.loading ? (
-          <TableLoader />
-        ) : pageState.sales.length === 0 ? (
+        {!pageState.loading && pageState.sales.length === 0 ? (
           <div className="pt-10">
             <EmptyState
               entity="sales"
@@ -175,6 +172,7 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
         ) : (
           <>
             <SalesTable
+              loading={pageState.loading}
               sales={pageState.sales}
               onShowSaleModal={handleShowSaleModal}
               onOpenImporter={handleOpenSaleImporter}
