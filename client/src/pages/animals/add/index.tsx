@@ -1,5 +1,4 @@
-import Card from '@/components/Card'
-import TableLoader from '@/components/TableLoader'
+import CardLoader from '@/components/CardLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import {IAnimalWithChildren} from '@/types/animal'
 import axios, {AxiosResponse} from 'axios'
@@ -52,9 +51,7 @@ const AddAnimalPage = (): React.ReactElement => {
       ]}
     >
       {animals.loading ? (
-        <Card>
-          <TableLoader />
-        </Card>
+        <CardLoader />
       ) : (
         <AnimalForm
           onSubmit={handleSubmit}
