@@ -40,3 +40,8 @@ client/next-env.d.ts
 
 .idea
 .yarn
+
+
+
+.nx/cache
+.nx/workspace-data

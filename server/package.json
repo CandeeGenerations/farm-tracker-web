@@ -9,6 +9,7 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
+    "dev": "yarn start",
     "start": "doppler run --command='yarn generate && NODE_ENV=development tsc-watch --onSuccess \"node dist/index.js\"'",
     "build": "rm -rf dist && yarn generate && NODE_ENV=production tsc",
     "generate": "npx prisma format && npx prisma generate",
