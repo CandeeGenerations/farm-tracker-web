@@ -160,6 +160,15 @@ const ProductsPage = (): React.ReactElement => {
                 column: 'species',
                 values: pageState.species.map(x => ({id: x, name: x})),
               },
+              {
+                label: 'Profitable',
+                type: 'select',
+                column: 'isProfitable',
+                values: [
+                  {id: 'true', name: 'Yes'},
+                  {id: 'false', name: 'No'},
+                ],
+              },
             ]}
             searchableColumns={[
               'name',
@@ -246,6 +255,7 @@ const ProductsPage = (): React.ReactElement => {
                   </span>
                 ),
                 profitSort: profitAmount,
+                isProfitable: salesAmount === 0 || expensesAmount === 0 ? undefined : profitAmount > 0,
               }
             })}
           />

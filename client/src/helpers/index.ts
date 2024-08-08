@@ -14,12 +14,20 @@ export function setPageState<T>(setState: (updates: T) => void, current: T, upda
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const applySort = (sort: {column: string; asc: boolean}, dataset: any) =>
-  dataset.slice().sort((a, b) =>
-    ((sort.asc ? a : b)[sort.column] || '').toString().localeCompare((sort.asc ? b : a)[sort.column] || '', undefined, {
+export const applySort = (sort: {column: string; asc: boolean}, dataset: any) => {
+  return dataset.slice().sort((a, b) => {
+    const valA = a[sort.column]
+    const valB = b[sort.column]
+
+    if (typeof valA === 'number' && typeof valB === 'number') {
+      return sort.asc ? valA - valB : valB - valA
+    }
+
+    return ((sort.asc ? valA : valB) || '').toString().localeCompare((sort.asc ? valB : valA) || '', undefined, {
       numeric: true,
-    }),
-  )
+    })
+  })
+}
 
 export const formatInputDate = (date?: string): string => (date ? dayjs(date).format('YYYY-MM-DD') : undefined)
 
