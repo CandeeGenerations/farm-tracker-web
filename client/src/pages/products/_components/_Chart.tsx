@@ -56,7 +56,7 @@ const Chart = ({
     }
 
     setDataset(aggregatedArray.sort((a, b) => dayjs(a.Date, 'MMM DD, YYYY').diff(dayjs(b.Date, 'MMM D, YYYY'))))
-  }, [])
+  }, [data])
 
   const filterData = (startDate: dayjs.Dayjs) => {
     const endDate = dayjs()

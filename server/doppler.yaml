@@ -1,3 +1,3 @@
 setup:
   project: farm-tracker-server
-  config: dev
+  config: dev_personal

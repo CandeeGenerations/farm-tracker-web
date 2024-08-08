@@ -163,7 +163,7 @@ const SortableTable = ({
         } else {
           filteredData = filteredData.filter(x => {
             for (const filterValue of filter) {
-              if (x[filterKey].toString().trim().toLowerCase() === filterValue?.trim().toLowerCase()) {
+              if (x[filterKey]?.toString().trim().toLowerCase() === filterValue?.trim().toLowerCase()) {
                 return true
               }
             }

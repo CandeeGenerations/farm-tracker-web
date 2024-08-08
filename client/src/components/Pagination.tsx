@@ -94,7 +94,7 @@ const Pagination = ({
 
   return (
     <div className="bg-muted-lightest px-4 flex items-center justify-between border-t border-muted-light sm:px-6 rounded-b-lg">
-      <div className="flex-1 flex justify-between sm:hidden">
+      <div className="flex-1 flex justify-between sm:hidden py-2">
         <a
           href="client/src/components#"
           onClick={e => handlePageChange(e, pageNumber - 1)}
