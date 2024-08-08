@@ -6,6 +6,7 @@
   "license": "MIT",
   "version": "1.8.2",
   "private": true,
+  "packageManager": "yarn@4.4.0",
   "scripts": {
     "bootstrap": "yarn install && lerna bootstrap",
     "start": "concurrently -n server,client -c green,blue \"yarn start:server\" \"yarn start:client\"",
@@ -27,6 +28,5 @@
   },
   "resolutions": {
     "semver": "^7.5.2"
-  },
-  "packageManager": "yarn@4.1.1"
+  }
 }
