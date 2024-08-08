@@ -4,7 +4,7 @@
   "repository": "git@github.com:CandeeGenerations/farm-tracker.git",
   "author": "Tyler Candee <tyler@candeegenerations.com>",
   "license": "MIT",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "private": true,
   "scripts": {
     "bootstrap": "yarn install; cd client; yarn install; cd ../server; yarn install; yarn generate",

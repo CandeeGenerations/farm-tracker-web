@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.3](https://github.com/CandeeGenerations/farm-tracker/compare/v1.8.2...v1.8.3) (2024-08-08)
+
+
+### Bug Fixes
+
+* chart, auth, sorting fixes, added profitable filter ([7251d34](https://github.com/CandeeGenerations/farm-tracker/commit/7251d34ecd06f494bbf54c5b4c1b09595860b4c2))
+
 ### [1.8.2](https://github.com/CandeeGenerations/farm-tracker/compare/v1.8.1...v1.8.2) (2024-07-29)
 
 
