@@ -1,6 +1,6 @@
 [build]
 base = "client"
-publish = "client/.next"
+publish = ".next"
 command = "yarn build"
 
 [build.environment]
