@@ -18,9 +18,9 @@ FROM base AS serve-app
 
 WORKDIR /app
 
-COPY --from=build-app /app/node_modules server/node_modules
-COPY --from=build-app /app/package.json server/package.json
-COPY --from=build-app /app/dist server/dist
+COPY --from=build-app /app/node_modules node_modules
+COPY --from=build-app /app/package.json package.json
+COPY --from=build-app /app/dist dist
 
 WORKDIR /app/dist
 

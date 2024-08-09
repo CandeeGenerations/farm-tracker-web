@@ -8,7 +8,7 @@
   "private": true,
   "packageManager": "yarn@4.4.0",
   "scripts": {
-    "bootstrap": "yarn install; cd client; yarn install; cd ../server; yarn install; yarn generate",
+    "bootstrap": "cd client; fnm use; yarn install; cd ../server; fnm use; yarn install; yarn generate; cd ../; fnm use;",
     "dev": "nx run-many --target=dev --all",
     "release": "standard-version -a -- --release-as minor",
     "prepare": "husky"
