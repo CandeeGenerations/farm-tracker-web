@@ -1,11 +1,11 @@
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # BUILD SERVER
-FROM base as build-app
+FROM base AS build-app
 
-WORKDIR /app/server
+WORKDIR /app
 
-COPY ["server/package.json", "server/yarn.lock", "./"]
+COPY ["server/package.json", "server/yarn.lock"]
 
 RUN yarn install
 
@@ -14,15 +14,15 @@ COPY server .
 RUN yarn build
 
 # SERVE APP
-FROM base as serve-app
+FROM base AS serve-app
 
 WORKDIR /app
 
-COPY --from=build-app /app/server/node_modules server/node_modules
-COPY --from=build-app /app/server/package.json server/package.json
-COPY --from=build-app /app/server/dist server/dist
+COPY --from=build-app /app/node_modules server/node_modules
+COPY --from=build-app /app/package.json server/package.json
+COPY --from=build-app /app/dist server/dist
 
-WORKDIR server/dist
+WORKDIR /app/dist
 
 CMD [ "node", "index.js" ]
 
