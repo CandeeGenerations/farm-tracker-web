@@ -4,4 +4,4 @@ publish = ".next"
 command = "yarn build"
 
 [[plugins]]
-package = "@netlify/plugin-nextjs@5.6.0"
+package = "@netlify/plugin-nextjs"
