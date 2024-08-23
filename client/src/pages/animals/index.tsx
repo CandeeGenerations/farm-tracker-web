@@ -7,6 +7,7 @@ import {setPageState} from '@/helpers'
 import {ANIMALS_COLUMNS, TABLE_FILTERS_STORAGE_KEY} from '@/helpers/constants'
 import * as storage from '@/helpers/localStorage'
 import {IAnimal} from '@/types/animal'
+import {Badge} from '@tremor/react'
 import axios, {AxiosResponse} from 'axios'
 import dayjs from 'dayjs'
 import _uniq from 'lodash/uniq'
@@ -29,6 +30,7 @@ const columns: IColumnHeader[] = [
   {name: 'Species', id: 'species'},
   {name: 'Breed', id: 'breed'},
   {name: 'Temperament', id: 'temperament'},
+  {name: 'Tags', id: 'tagBadges', noSort: true},
   {name: 'Deceased', id: 'deceased'},
   {name: 'Sold', id: 'sold'},
 ]
@@ -171,6 +173,12 @@ const AnimalsPage = (): React.ReactElement => {
                 ).map(({name}) => ({id: name, name})),
               },
               {
+                label: 'Tags',
+                type: 'multiselect',
+                column: 'tags',
+                values: _uniq(pageState.animals.map(x => x.tags || []).flat()).map(name => ({id: name, name})),
+              },
+              {
                 label: 'Deceased',
                 type: 'select',
                 column: 'deceased',
@@ -203,7 +211,10 @@ const AnimalsPage = (): React.ReactElement => {
             actions={{idColumn: 'id', parent: 'animals'}}
             keyName="id"
             linkKey="name"
-            data={pageState.animals}
+            data={pageState.animals.map(x => ({
+              ...x,
+              tagBadges: <div className="flex flex-wrap gap-2">{x.tags?.map(y => <Badge>{y}</Badge>)}</div>,
+            }))}
           />
         </div>
       )}

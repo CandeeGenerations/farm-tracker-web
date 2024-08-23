@@ -11,6 +11,7 @@ model Animal {
   species     String
   breed       String
   temperament String?
+  tags        String[]
 
   deceased Boolean @default(false)
   sold     Boolean @default(false)

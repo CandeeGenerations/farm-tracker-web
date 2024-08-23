@@ -5,6 +5,7 @@ import DatePicker from '@/components/DatePicker'
 import FormInput from '@/components/FormInput'
 import FormSelect from '@/components/FormSelect'
 import FormToggle from '@/components/FormToggle'
+import TagsInputComponent from '@/components/TagsInput'
 import {setPageState} from '@/helpers'
 import {AnimalMetadata, Breed, DbAnimal, IAnimal} from '@/types/animal'
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -150,6 +151,21 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
     await onDelete(animal.id)
   }
 
+  const values = {
+    tags: watch('tags') || [],
+  }
+
+  const handleAddTag = (tag, name) => setValue(name, [...values[name], tag.text])
+
+  const handleDeleteTag = (i, name) =>
+    setValue(
+      name,
+      values[name].filter((_, index) => index !== i),
+    )
+
+  const handleEditTag = (item, index, name) =>
+    setValue(name, [...values[name].filter((_, i) => i !== index), item.text])
+
   return (
     <>
       <Card
@@ -237,6 +253,18 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
               helpText="This is the date the animal was born"
               control={control}
               name="birthDate"
+            />
+
+            <TagsInputComponent
+              label="Tags"
+              placeholder="tag"
+              tags={values.tags.map((field, index) => ({
+                id: index.toString(),
+                text: field,
+              }))}
+              onAdd={tag => handleAddTag(tag, 'tags')}
+              onDelete={i => handleDeleteTag(i, 'tags')}
+              onEdit={(item, index) => handleEditTag(item, index, 'tags')}
             />
 
             <FormToggle label="Deceased?" onLabel="Yes" offLabel="No" name="deceased" control={control} />

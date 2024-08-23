@@ -11,6 +11,7 @@ export interface IAnimal {
   saleDate?: string
   parentId?: string
   owner: string
+  tags?: string[]
 }
 
 export interface IAnimalWithChildren extends IAnimal {

@@ -11,7 +11,7 @@ interface IFormUpload {
   required?: boolean
   maxSize?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any, Object>
+  control: Control<any, object>
   reset: number
   accept?: Accept
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

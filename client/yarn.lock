@@ -12,6 +12,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.18.3":
+  version: 7.25.4
+  resolution: "@babel/runtime@npm:7.25.4"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/33e937e685f0bfc2d40c219261e2e50d0df7381a6e7cbf56b770e0c5d77cb0c21bf4d97da566cf0164317ed7508e992082c7b6cce7aaa3b17da5794f93fbfb46
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.20.13":
   version: 7.23.1
   resolution: "@babel/runtime@npm:7.23.1"
@@ -451,6 +460,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@popperjs/core@npm:^2.11.5":
+  version: 2.11.8
+  resolution: "@popperjs/core@npm:2.11.8"
+  checksum: 10c0/4681e682abc006d25eb380d0cf3efc7557043f53b6aea7a5057d0d1e7df849a00e281cd8ea79c902a35a414d7919621fc2ba293ecec05f413598e0b23d5a1e63
+  languageName: node
+  linkType: hard
+
 "@swc/counter@npm:^0.1.3":
   version: 0.1.3
   resolution: "@swc/counter@npm:0.1.3"
@@ -658,6 +674,15 @@ __metadata:
   dependencies:
     "@types/react": "npm:*"
   checksum: 10c0/6c90d2ed72c5a0e440d2c75d99287e4b5df3e7b011838cdc03ae5cd518ab52164d86990e73246b9d812eaf02ec351d74e3b4f5bd325bf341e13bf980392fd53b
+  languageName: node
+  linkType: hard
+
+"@types/react-tagsinput@npm:^3":
+  version: 3.20.6
+  resolution: "@types/react-tagsinput@npm:3.20.6"
+  dependencies:
+    "@types/react": "npm:*"
+  checksum: 10c0/25e54b25e66e0bc3355ede0c340fc0cb1b5d38b9b46c0941b335b1265ed5ba6a7ac07fe880d0f413379b4bebe7ff6619675d347cea56c88fa1a65b1f5319ce58
   languageName: node
   linkType: hard
 
@@ -1659,6 +1684,7 @@ __metadata:
     "@types/react": "npm:^18.3.4"
     "@types/react-datepicker": "npm:^6.2.0"
     "@types/react-dom": "npm:^18.3.0"
+    "@types/react-tagsinput": "npm:^3"
     autoprefixer: "npm:^10.4.20"
     avvvatars-react: "npm:^0.4.2"
     axios: "npm:^1.7.4"
@@ -1678,6 +1704,8 @@ __metadata:
     react-dom: "npm:^18.3.1"
     react-dropzone: "npm:^14.2.3"
     react-hook-form: "npm:^7.52.2"
+    react-popper-tooltip: "npm:^4.4.2"
+    react-tagsinput: "npm:^3.20.3"
     tailwindcss: "npm:^3.4.10"
     typescript: "npm:^5.5.4"
     typescript-eslint: "npm:^8.2.0"
@@ -2302,7 +2330,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.0.0, loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -3134,6 +3162,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-fast-compare@npm:^3.0.1":
+  version: 3.2.2
+  resolution: "react-fast-compare@npm:3.2.2"
+  checksum: 10c0/0bbd2f3eb41ab2ff7380daaa55105db698d965c396df73e6874831dbafec8c4b5b08ba36ff09df01526caa3c61595247e3269558c284e37646241cba2b90a367
+  languageName: node
+  linkType: hard
+
 "react-hook-form@npm:^7.52.2":
   version: 7.52.2
   resolution: "react-hook-form@npm:7.52.2"
@@ -3160,6 +3195,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-popper-tooltip@npm:^4.4.2":
+  version: 4.4.2
+  resolution: "react-popper-tooltip@npm:4.4.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.18.3"
+    "@popperjs/core": "npm:^2.11.5"
+    react-popper: "npm:^2.3.0"
+  peerDependencies:
+    react: ">=16.6.0"
+    react-dom: ">=16.6.0"
+  checksum: 10c0/1a080d30027dd702b225cbad35194bea942b3f73324a838021fef415c1717be9548552a13b6862f423475407fdd58e2b5bc406af9638d297b974d2e222eb8ff2
+  languageName: node
+  linkType: hard
+
+"react-popper@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "react-popper@npm:2.3.0"
+  dependencies:
+    react-fast-compare: "npm:^3.0.1"
+    warning: "npm:^4.0.2"
+  peerDependencies:
+    "@popperjs/core": ^2.0.0
+    react: ^16.8.0 || ^17 || ^18
+    react-dom: ^16.8.0 || ^17 || ^18
+  checksum: 10c0/23f93540537ca4c035425bb8d5e51b11131fbc921d7ac1d041d0ae557feac8c877f3a012d36b94df8787803f52ed81e6df9257ac9e58719875f7805518d6db3f
+  languageName: node
+  linkType: hard
+
 "react-smooth@npm:^4.0.0":
   version: 4.0.1
   resolution: "react-smooth@npm:4.0.1"
@@ -3171,6 +3234,15 @@ __metadata:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 10c0/5c19a2c147798c3de1329d442b1a371139c01113cc108c38c201b63502c329f943ede505c44089d26a6563eaa72a67b845d538d956f34a389b37fd3961308834
+  languageName: node
+  linkType: hard
+
+"react-tagsinput@npm:^3.20.3":
+  version: 3.20.3
+  resolution: "react-tagsinput@npm:3.20.3"
+  peerDependencies:
+    react: ^18.0.0 || ^17.0.0 || ^16.0.0 || ^15.0.0
+  checksum: 10c0/71dfffff023c0180542af9d1486b3557e835b1960f2e74394d5a06045c167b95b66080fd48a3655cdbd55883ecd5655d696e8108f84c7ce142d32e205e06d290
   languageName: node
   linkType: hard
 
@@ -3824,6 +3896,15 @@ __metadata:
     d3-time: "npm:^3.0.0"
     d3-timer: "npm:^3.0.1"
   checksum: 10c0/994812e5660041bfb0ce68231faa468f0482644c8979d4726481655836e6d5c63b6fe9e1335fc2f78dbf81da715889dc96e60ebad80ae063dc791f6db6408e76
+  languageName: node
+  linkType: hard
+
+"warning@npm:^4.0.2":
+  version: 4.0.3
+  resolution: "warning@npm:4.0.3"
+  dependencies:
+    loose-envify: "npm:^1.0.0"
+  checksum: 10c0/aebab445129f3e104c271f1637fa38e55eb25f968593e3825bd2f7a12bd58dc3738bb70dc8ec85826621d80b4acfed5a29ebc9da17397c6125864d72301b937e
   languageName: node
   linkType: hard
 

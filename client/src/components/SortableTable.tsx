@@ -163,7 +163,12 @@ const SortableTable = ({
         } else {
           filteredData = filteredData.filter(x => {
             for (const filterValue of filter) {
-              if (x[filterKey]?.toString().trim().toLowerCase() === filterValue?.trim().toLowerCase()) {
+              if (
+                Array.isArray(x[filterKey]) &&
+                x[filterKey].some(y => y.toString().trim().toLowerCase() === filterValue?.trim().toLowerCase())
+              ) {
+                return true
+              } else if (x[filterKey]?.toString().trim().toLowerCase() === filterValue?.trim().toLowerCase()) {
                 return true
               }
             }
@@ -214,9 +219,16 @@ const SortableTable = ({
     <Card noPadding>
       <div className="space-y-0">
         {filters?.length > 0 && (
-          <div className="bg-muted-lightest border-b border-muted-light mb-0 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:gap-6 sm:items-center rounded-t-lg">
+          <div
+            className={classNames(
+              'bg-muted-lightest border-b border-muted-light mb-0 px-6 py-4 rounded-t-lg gap-3 sm:gap-6 flex flex-col',
+              filters.length < 4 ? 'sm:flex-row sm:items-center' : 'sm:grid sm:grid-cols-4',
+            )}
+          >
             {searchableColumns?.length > 0 && (
-              <div className="flex-1">
+              <div
+                className={classNames('flex-1', `col-span-${filters.length % 4 === 0 ? 4 : 4 - (filters.length % 4)}`)}
+              >
                 <TextInput
                   icon={MagnifyingGlassIcon}
                   placeholder="Search..."
@@ -278,7 +290,7 @@ const SortableTable = ({
                 ) : filter.type === 'select' ? (
                   <Select
                     placeholder={`Filter on ${filter.label}`}
-                    className="sm:w-52"
+                    className="sm:w-52 !w-full"
                     onValueChange={value => handleFilter(filter.column, [value])}
                     value={filterValues[filter.column] ? filterValues[filter.column][0] : undefined}
                     defaultValue="__all__"
@@ -292,7 +304,7 @@ const SortableTable = ({
                 ) : filter.type === 'multiselect' ? (
                   <MultiSelect
                     placeholder={`Filter on ${filter.label}`}
-                    className="w-52"
+                    className="sm:w-52 !w-full"
                     onValueChange={value => handleFilter(filter.column, value)}
                     value={filterValues[filter.column]}
                   >

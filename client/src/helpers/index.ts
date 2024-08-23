@@ -29,6 +29,11 @@ export const applySort = (sort: {column: string; asc: boolean}, dataset: any) =>
   })
 }
 
+export const validEmail = (email: string): boolean =>
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    email.toLowerCase().trim(),
+  )
+
 export const formatInputDate = (date?: string): string => (date ? dayjs(date).format('YYYY-MM-DD') : undefined)
 
 export const formatDate = (date?: string): string => (date ? dayjs(date).format(DEFAULT_DATE_FORMAT) : undefined)

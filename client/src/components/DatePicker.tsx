@@ -10,7 +10,7 @@ import FormLabel from './FormLabel'
 
 interface IDatePicker {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any, Object>
+  control: Control<any, object>
   name: string
   label?: string
   required?: boolean
