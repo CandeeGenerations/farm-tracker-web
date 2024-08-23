@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.8.5...v1.9.0) (2024-08-23)
+
+
+### Features
+
+* added tags to animals ([61df9e1](https://github.com/CandeeGenerations/farm-tracker/commit/61df9e1d1a27a60012b4f5e1594834cd712a8c4a))
+* added temperament to the animal ([42e584c](https://github.com/CandeeGenerations/farm-tracker/commit/42e584c225517b782e54fb07d04ebed221bc4037))
+
 ### [1.8.5](https://github.com/CandeeGenerations/farm-tracker/compare/v1.8.4...v1.8.5) (2024-08-21)
 
 
