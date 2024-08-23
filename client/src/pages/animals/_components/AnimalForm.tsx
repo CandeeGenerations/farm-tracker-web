@@ -223,6 +223,14 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
               </>
             )}
 
+            <FormInput
+              label="Temperament"
+              name="temperament"
+              register={register}
+              control={control}
+              helpText="This is the temperament of the animal"
+            />
+
             <DatePicker
               label="Birthdate"
               error={formState.errors.birthDate}

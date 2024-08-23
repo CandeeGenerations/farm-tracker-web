@@ -5,6 +5,7 @@ export interface IAnimal {
   breed: string
   deceased: boolean
   sold: boolean
+  temperament?: string
   birthDate?: string
   deceasedDate?: string
   saleDate?: string
