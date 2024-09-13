@@ -16,7 +16,7 @@
   "scripts": {
     "build": "NEXT_PUBLIC_APP_VERSION=$npm_package_version next build",
     "dev": "fnm use; doppler run --command='NEXT_PUBLIC_APP_VERSION=$npm_package_version next dev -p ${PORT-3000}'",
-    "eslint": "eslint 'src/**/*.ts'",
+    "eslint": "eslint 'src/**/*.{ts,tsx}'",
     "fix": "pnpm run eslint && pnpm run prettier --cache",
     "preinstall": "npx only-allow pnpm",
     "prettier": "prettier --cache --check --write --ignore-unknown .",
@@ -45,7 +45,6 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
     "lodash": "^4.17.21",
-    "morphism": "^1.12.3",
     "next-auth": "^4.24.7",
     "papaparse": "^5.4.1",
     "react-content-loader": "^7.0.2",

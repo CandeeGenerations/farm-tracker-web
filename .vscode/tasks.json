@@ -48,7 +48,7 @@
       "path": "server",
       "problemMatcher": [],
       "label": "Generate DB",
-      "detail": "npx prisma format && npx prisma generate"
+      "detail": "npx prisma format && npx prisma generate --no-hints"
     }
   ]
 }
