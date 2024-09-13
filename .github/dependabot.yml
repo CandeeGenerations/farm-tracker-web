@@ -14,6 +14,7 @@ updates:
     ignore:
       - dependency-name: '@headlessui/react'
       - dependency-name: 'react-day-picker'
+      - dependency-name: '@types/react-datepicker'
     groups:
       catchall:
         patterns:
