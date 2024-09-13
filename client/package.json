@@ -17,7 +17,7 @@
     "dev": "fnm use; doppler run --command='NEXT_PUBLIC_APP_VERSION=$npm_package_version next dev -p ${PORT-3000}'",
     "eslint": "eslint 'src/**/*.ts'",
     "fix": "pnpm run eslint && pnpm run prettier --cache",
-    "preinstall": "sh scripts/check-versions.sh && npx only-allow pnpm",
+    "preinstall": "npx only-allow pnpm",
     "prettier": "prettier --cache --check --write --ignore-unknown .",
     "prettier:ci": "prettier --check .",
     "start": "NEXT_PUBLIC_APP_VERSION=$npm_package_version next start"
