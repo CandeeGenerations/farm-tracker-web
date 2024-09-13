@@ -1,5 +1,6 @@
 import {AxiosError} from 'axios'
 import dayjs from 'dayjs'
+
 import {DEFAULT_DATE_FORMAT, DEFAULT_DATE_TIME_FORMAT} from './constants'
 
 export const classNames = (...classes) => classes.filter(Boolean).join(' ')
@@ -41,7 +42,7 @@ export const formatDate = (date?: string): string => (date ? dayjs(date).format(
 export const formatDateTime = (dateTime?: string): string =>
   dateTime ? dayjs(dateTime).format(DEFAULT_DATE_TIME_FORMAT) : undefined
 
-export const getErrorMessage = e => ((e as AxiosError).response.data as {error: string}).error
+export const getErrorMessage = (e) => ((e as AxiosError).response.data as {error: string}).error
 
 export const addCommas = (num: number, fixed = 2): string =>
   (isNaN(num) ? 0 : num)

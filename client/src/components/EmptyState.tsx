@@ -1,5 +1,6 @@
 import * as outlineIcons from '@heroicons/react/24/outline'
 import React from 'react'
+
 import {classNames} from '../helpers'
 
 interface IEmptyState {

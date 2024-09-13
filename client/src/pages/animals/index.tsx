@@ -15,6 +15,7 @@ import _uniqBy from 'lodash/uniqBy'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
+
 import Layout from '../_layout'
 import ColumnsModal from '../products/_components/_ColumnsModal'
 
@@ -158,14 +159,14 @@ const AnimalsPage = (): React.ReactElement => {
                 label: 'Species',
                 type: 'select',
                 column: 'species',
-                values: _uniq(pageState.animals.map(x => x.species)).map(name => ({id: name, name})),
+                values: _uniq(pageState.animals.map((x) => x.species)).map((name) => ({id: name, name})),
               },
               {
                 label: 'Breeds',
                 type: 'select',
                 column: 'breed',
                 values: _uniqBy(
-                  pageState.animals.map(x => ({
+                  pageState.animals.map((x) => ({
                     name: x.breed,
                     species: x.species,
                   })),
@@ -176,7 +177,7 @@ const AnimalsPage = (): React.ReactElement => {
                 label: 'Tags',
                 type: 'multiselect',
                 column: 'tags',
-                values: _uniq(pageState.animals.map(x => x.tags || []).flat()).map(name => ({id: name, name})),
+                values: _uniq(pageState.animals.map((x) => x.tags || []).flat()).map((name) => ({id: name, name})),
               },
               {
                 label: 'Deceased',
@@ -201,7 +202,7 @@ const AnimalsPage = (): React.ReactElement => {
             columns={[
               {name: 'Name', id: 'name'},
               ...(pageState.visibleColumns.length > 0
-                ? columns.filter(x => pageState.visibleColumns.includes(x.id))
+                ? columns.filter((x) => pageState.visibleColumns.includes(x.id))
                 : columns),
             ]}
             defaultFilters={
@@ -211,9 +212,9 @@ const AnimalsPage = (): React.ReactElement => {
             actions={{idColumn: 'id', parent: 'animals'}}
             keyName="id"
             linkKey="name"
-            data={pageState.animals.map(x => ({
+            data={pageState.animals.map((x) => ({
               ...x,
-              tagBadges: <div className="flex flex-wrap gap-2">{x.tags?.map(y => <Badge>{y}</Badge>)}</div>,
+              tagBadges: <div className="flex flex-wrap gap-2">{x.tags?.map((y) => <Badge>{y}</Badge>)}</div>,
             }))}
           />
         </div>
@@ -229,7 +230,7 @@ const AnimalsPage = (): React.ReactElement => {
 
       <ColumnsModal
         storageKey={ANIMALS_COLUMNS}
-        columns={columns.map(x => ({...x, enabled: true}))}
+        columns={columns.map((x) => ({...x, enabled: true}))}
         onClose={handleCloseColumns}
         open={pageState.columnsOpen}
       />

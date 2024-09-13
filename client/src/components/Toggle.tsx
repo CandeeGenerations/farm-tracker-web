@@ -1,5 +1,6 @@
 import {Switch} from '@headlessui/react'
 import React from 'react'
+
 import {classNames} from '../helpers'
 
 interface IToggle {

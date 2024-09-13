@@ -4,6 +4,7 @@ import React, {MouseEventHandler, forwardRef} from 'react'
 import ReactDatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import {Control, Controller, FieldError} from 'react-hook-form'
+
 import {classNames} from '../helpers'
 import Button from './Button'
 import FormLabel from './FormLabel'
@@ -86,7 +87,7 @@ const DatePicker = ({
               <ReactDatePicker
                 disabled={disabled}
                 selected={value ? new Date(value) : null}
-                onChange={date => onChange(date)}
+                onChange={(date) => onChange(date)}
                 nextMonthButtonLabel=">"
                 previousMonthButtonLabel="<"
                 popperClassName="react-datepicker-left"

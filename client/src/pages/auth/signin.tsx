@@ -3,6 +3,7 @@ import type {GetServerSidePropsContext} from 'next'
 import {getServerSession} from 'next-auth/next'
 import {signIn} from 'next-auth/react'
 import {useEffect} from 'react'
+
 import {authOptions} from '../api/auth/[...nextauth]'
 
 const SignIn = () => {

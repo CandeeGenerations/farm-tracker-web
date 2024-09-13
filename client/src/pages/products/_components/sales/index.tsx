@@ -9,6 +9,7 @@ import {ISale} from '@/types/sale'
 import axios, {AxiosResponse} from 'axios'
 import dayjs from 'dayjs'
 import React, {useEffect, useState} from 'react'
+
 import Chart from '../_Chart'
 import SalesTable from './SalesTable'
 
@@ -104,7 +105,7 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
   const handleDeleteSale = async () => {
     setState({deleteLoading: true})
 
-    const productId = product ? product.id : pageState.sales.find(x => x.id === pageState.deleteId)?.productId
+    const productId = product ? product.id : pageState.sales.find((x) => x.id === pageState.deleteId)?.productId
 
     try {
       await axios.delete(`/product/${productId}/sale/${pageState.deleteId}`)
@@ -180,7 +181,7 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
               products={pageState.products}
             />
 
-            <Chart data={pageState.sales.map(x => ({date: x.saleDate, Amount: x.amount}))} title="Sales" />
+            <Chart data={pageState.sales.map((x) => ({date: x.saleDate, Amount: x.amount}))} title="Sales" />
           </>
         )}
       </div>

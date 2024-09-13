@@ -3,6 +3,7 @@ import {CheckIcon, ChevronUpDownIcon, PlusCircleIcon} from '@heroicons/react/24/
 import _sortBy from 'lodash/sortBy'
 import React, {Fragment, useEffect, useState} from 'react'
 import {Control, Controller, FieldError} from 'react-hook-form'
+
 import {classNames, setPageState} from '../helpers'
 import FormInput from './FormInput'
 import ReadOnlyField from './ReadOnlyField'
@@ -68,11 +69,11 @@ const ListBoxControl = ({
   useEffect(() => {
     setState({
       items: [
-        ...items.filter(x => x.id === 'none'),
+        ...items.filter((x) => x.id === 'none'),
         ...(noSort
-          ? items.filter(x => x.id !== 'none')
+          ? items.filter((x) => x.id !== 'none')
           : _sortBy(
-              items.filter(x => x.id !== 'none'),
+              items.filter((x) => x.id !== 'none'),
               ['name'],
             )),
       ],
@@ -80,7 +81,7 @@ const ListBoxControl = ({
   }, [items])
 
   const selected = (item: IFormSelectItem) =>
-    Array.isArray(value) ? !!value.find(el => el.id === item.id) : value.id === item.id
+    Array.isArray(value) ? !!value.find((el) => el.id === item.id) : value.id === item.id
 
   const addNewLink = (
     <Listbox.Option
@@ -183,7 +184,7 @@ const ListBoxControl = ({
                         setState({
                           searchValue: value.toString(),
                           items: _sortBy(
-                            items.filter(x => x.name.toLowerCase().includes(value.toString().trim().toLowerCase())),
+                            items.filter((x) => x.name.toLowerCase().includes(value.toString().trim().toLowerCase())),
                             ['name'],
                           ),
                         })
@@ -209,7 +210,7 @@ const ListBoxControl = ({
                       ) : Array.isArray(value) || !value ? (
                         placeholder || 'Select items'
                       ) : (
-                        items.find(x => x.id == value.id)?.name || placeholder || 'Select item'
+                        items.find((x) => x.id == value.id)?.name || placeholder || 'Select item'
                       )}
                     </span>
 
@@ -237,7 +238,7 @@ const ListBoxControl = ({
                   >
                     {pageState.items.length > 0 ? (
                       <>
-                        {pageState.items.map(item => {
+                        {pageState.items.map((item) => {
                           const selectedItem = selected(item)
 
                           return (
@@ -310,7 +311,7 @@ interface IFormSelect {
   name: string
   error?: FieldError
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control?: Control<any, Object>
+  control?: Control<any, object>
   staticSelected?: IFormSelectItem | IFormSelectItem[]
   // eslint-disable-next-line no-unused-vars
   onSelected?: (item: IFormSelectItem) => void

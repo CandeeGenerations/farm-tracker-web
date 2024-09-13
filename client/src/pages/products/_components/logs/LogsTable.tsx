@@ -75,8 +75,8 @@ const LogsTable = ({logs, onShowLoggedProductModal, onOpenImporter, product}: IL
             column: 'breed',
             values: _uniqBy(
               animals
-                .filter(x => x.species === product?.species)
-                .map(x => ({
+                .filter((x) => x.species === product?.species)
+                .map((x) => ({
                   name: x.breed,
                   species: x.species,
                 })),
@@ -91,18 +91,18 @@ const LogsTable = ({logs, onShowLoggedProductModal, onOpenImporter, product}: IL
           {name: 'Quantity', id: 'quantityDisplay', sortOverride: 'quantity'},
           {name: 'Breed (Species)', id: 'breed', maintainCase: true},
         ]}
-        totalRow={[{id: 'quantityDisplay', value: data => `${addCommas(_sum(data.map(x => x.quantity)))}`}]}
+        totalRow={[{id: 'quantityDisplay', value: (data) => `${addCommas(_sum(data.map((x) => x.quantity)))}`}]}
         keyName="id"
         defaultSortColumn="logDate"
         defaultSortOrder="desc"
-        data={logs?.map(x => ({
+        data={logs?.map((x) => ({
           ...x,
           quantityDisplay: `${addCommas(x.quantity)} ${product?.unit}`,
           logDateSort: dayjs(x.logDate).valueOf(),
           logDate: formatDate(x.logDate),
           breed: `${x.breed || '-'} (${x.species || product?.species})`,
         }))}
-        onClick={id => onShowLoggedProductModal(logs.find(x => x.id === id))}
+        onClick={(id) => onShowLoggedProductModal(logs.find((x) => x.id === id))}
       />
     </div>
   )

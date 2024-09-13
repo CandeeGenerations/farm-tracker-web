@@ -2,12 +2,13 @@ import CardLoader from '@/components/CardLoader'
 import TabNav from '@/components/TabNav'
 import {getErrorMessage, setPageState} from '@/helpers'
 import {IAnimalWithChildren} from '@/types/animal'
+import Layout from '@src/_layout'
 import axios, {AxiosResponse} from 'axios'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
-import Layout from '../../_layout'
+
 import AnimalForm from '../_components/AnimalForm'
 import OffspringTable from '../_components/OffspringTable'
 
@@ -30,7 +31,7 @@ const EditAnimalPage = (): React.ReactElement => {
     currentTab: 1,
   })
 
-  const getAnimal = async id => {
+  const getAnimal = async (id) => {
     const animal: AxiosResponse<{data: IAnimalWithChildren}> = await axios.get(`/animal/${id}`)
     setAnimal({loading: false, animal: animal.data.data})
   }
@@ -103,16 +104,16 @@ const EditAnimalPage = (): React.ReactElement => {
               onSubmit={handleSubmit}
               metadata={{
                 dbAnimals: animals.animals
-                  .filter(x => x.id !== animal.animal.id && !animal.animal.children.map(y => y.id).includes(x.id))
-                  .map(x => ({
+                  .filter((x) => x.id !== animal.animal.id && !animal.animal.children.map((y) => y.id).includes(x.id))
+                  .map((x) => ({
                     id: x.id,
                     name: x.name,
                     species: x.species,
                     breed: x.breed,
                   })),
-                dbSpecies: _uniq(animals.animals.map(x => x.species)),
+                dbSpecies: _uniq(animals.animals.map((x) => x.species)),
                 dbBreeds: _uniqBy(
-                  animals.animals.map(x => ({
+                  animals.animals.map((x) => ({
                     name: x.breed,
                     species: x.species,
                   })),

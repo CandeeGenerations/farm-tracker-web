@@ -83,7 +83,7 @@ const ExpenseModal = ({
           {errorMessage && <Alert type="danger" message={errorMessage} className="mt-5" />}
 
           <form
-            onSubmit={e => {
+            onSubmit={(e) => {
               e.preventDefault()
               handleSubmit(submitHandler)()
             }}

@@ -1,5 +1,6 @@
 import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/24/outline'
 import React from 'react'
+
 import {classNames} from '../helpers'
 import {DEFAULT_PAGE_SIZE, DEFAULT_PAGINATION_LIMIT} from '../helpers/constants'
 import FormSelect from './FormSelect'
@@ -65,7 +66,7 @@ const Pagination = ({
         <a
           key={i}
           href="client/src/components#"
-          onClick={e => handlePageChange(e, i)}
+          onClick={(e) => handlePageChange(e, i)}
           className={classNames(
             i === pageNumber
               ? 'z-10 bg-primary-lightest border-primary text-primary-dark'
@@ -97,7 +98,7 @@ const Pagination = ({
       <div className="flex-1 flex justify-between sm:hidden py-2">
         <a
           href="client/src/components#"
-          onClick={e => handlePageChange(e, pageNumber - 1)}
+          onClick={(e) => handlePageChange(e, pageNumber - 1)}
           className="relative inline-flex items-center px-4 py-2 border border-muted-light font-medium rounded text-muted-medium bg-white hover:bg-muted-lightest"
         >
           Previous
@@ -105,7 +106,7 @@ const Pagination = ({
 
         <a
           href="client/src/components#"
-          onClick={e => handlePageChange(e, pageNumber + 1)}
+          onClick={(e) => handlePageChange(e, pageNumber + 1)}
           className="ml-3 relative inline-flex items-center px-4 py-2 border border-muted-light font-medium rounded text-muted-dark bg-white hover:bg-muted-lightest"
         >
           Next
@@ -132,7 +133,7 @@ const Pagination = ({
             <FormSelect
               onSelected={({id}) => onPageSizeChange(Number(id))}
               staticSelected={{id: pageSize.toString(), name: pageSize.toString()}}
-              items={[10, 25, 50, 100].map(x => ({id: x.toString(), name: x.toString()}))}
+              items={[10, 25, 50, 100].map((x) => ({id: x.toString(), name: x.toString()}))}
               name="pageSize"
               label="Page size:"
               direction="up"
@@ -145,7 +146,7 @@ const Pagination = ({
           <nav className="relative z-0 inline-flex rounded shadow-sm -space-x-px" aria-label="Pagination">
             <a
               href="client/src/components#"
-              onClick={e => handlePageChange(e, pageNumber - 1)}
+              onClick={(e) => handlePageChange(e, pageNumber - 1)}
               className="relative inline-flex items-center px-2 py-2 rounded-l border border-muted-light bg-white font-medium text-muted hover:bg-muted-lightest"
             >
               <span className="sr-only">Previous</span>
@@ -156,7 +157,7 @@ const Pagination = ({
 
             <a
               href="client/src/components#"
-              onClick={e => handlePageChange(e, pageNumber + 1)}
+              onClick={(e) => handlePageChange(e, pageNumber + 1)}
               className="relative inline-flex items-center px-2 py-2 rounded-r border border-muted-light bg-white font-medium text-muted hover:bg-muted-lightest"
             >
               <span className="sr-only">Next</span>

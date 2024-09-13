@@ -1,5 +1,6 @@
 import {Prisma, Product} from '@prisma/client'
-import client from '../../common/client.js'
+import client from '@src/common/client.js'
+
 import {ProductWithExpenses} from './types.js'
 
 const include: Prisma.ProductInclude = {expenses: true, loggedProducts: true, sales: true}

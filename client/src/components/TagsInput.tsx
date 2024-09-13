@@ -3,6 +3,7 @@ import {classNames, setPageState, validEmail} from '@/helpers'
 import {sentenceCase} from 'change-case-all'
 import React, {useState} from 'react'
 import TagsInput from 'react-tagsinput'
+
 import Alert from './Alert'
 import FormLabel from './FormLabel'
 
@@ -51,13 +52,13 @@ const TagsInputComponent = ({
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
-  const handleAddItem = item => {
+  const handleAddItem = (item) => {
     if (type === 'email' && !validEmail(item.text)) {
       setState({errorMessage: `The ${placeholder} must be a valid email address.`, focusedTagKey: undefined})
     } else if (
       caseSensitive
-        ? tags.some(x => x.text.trim() === item.text.trim())
-        : tags.some(x => x.text.toLowerCase().trim() === item.text.toLowerCase().trim())
+        ? tags.some((x) => x.text.trim() === item.text.trim())
+        : tags.some((x) => x.text.toLowerCase().trim() === item.text.toLowerCase().trim())
     ) {
       setState({errorMessage: `This ${placeholder} already exists. Please try another.`, focusedTagKey: undefined})
     } else {
@@ -71,8 +72,8 @@ const TagsInputComponent = ({
       setState({errorMessage: `The ${placeholder} must be a valid email address.`, focusedTagKey: undefined})
     } else if (
       caseSensitive
-        ? tags.some(x => x.id !== tag.id && x.text.trim() === value.trim())
-        : tags.some(x => x.id !== tag.id && x.text.toLowerCase().trim() === value.toLowerCase().trim())
+        ? tags.some((x) => x.id !== tag.id && x.text.trim() === value.trim())
+        : tags.some((x) => x.id !== tag.id && x.text.toLowerCase().trim() === value.toLowerCase().trim())
     ) {
       setState({errorMessage: `This ${placeholder} already exists. Please try another.`, focusedTagKey: undefined})
     } else {
@@ -81,12 +82,12 @@ const TagsInputComponent = ({
     }
   }
 
-  const handleDeleteItem = i => {
+  const handleDeleteItem = (i) => {
     setState({errorMessage: undefined, focusedTagKey: undefined})
     onDelete(i)
   }
 
-  const handleTagClick = i =>
+  const handleTagClick = (i) =>
     onEdit ? setState({errorMessage: undefined, focusedTagKey: i}) : navigator.clipboard.writeText(tags[i].text)
 
   return (
@@ -100,7 +101,7 @@ const TagsInputComponent = ({
       <div className={classNames(horizontal ? 'sm:col-span-2 sm:mt-0' : '', 'space-y-4')}>
         <TagsInput
           value={tags}
-          onChange={tags => handleAddItem({...tags[tags.length - 1], id: tags.length})}
+          onChange={(tags) => handleAddItem({...tags[tags.length - 1], id: tags.length})}
           tagDisplayProp="text"
           className="mt-1"
           inputProps={{
@@ -111,7 +112,11 @@ const TagsInputComponent = ({
           }}
           renderTag={({tag, key, getTagDisplayValue}) =>
             pageState.focusedTagKey === key && onEdit ? (
-              <TagInput key={key} value={getTagDisplayValue(tag)} onChange={value => handleEditItem(tag, value, key)} />
+              <TagInput
+                key={key}
+                value={getTagDisplayValue(tag)}
+                onChange={(value) => handleEditItem(tag, value, key)}
+              />
             ) : (
               <Tag key={key} onRemove={() => handleDeleteItem(key)} onClick={() => handleTagClick(key)}>
                 {getTagDisplayValue(tag)}

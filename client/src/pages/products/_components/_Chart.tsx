@@ -61,7 +61,7 @@ const Chart = ({
   const filterData = (startDate: dayjs.Dayjs) => {
     const endDate = dayjs()
 
-    return dataset.filter(item => {
+    return dataset.filter((item) => {
       const currentDate = dayjs(item.Date)
 
       return currentDate.isSameOrAfter(startDate, 'day') && currentDate.isSameOrBefore(endDate, 'day')
@@ -109,7 +109,7 @@ const Chart = ({
         </TabList>
 
         <TabPanels>
-          {[1, 2, 6, 365, 999].map(x => (
+          {[1, 2, 6, 365, 999].map((x) => (
             <TabPanel key={x}>
               <AreaChart
                 className="mt-8"
@@ -117,7 +117,7 @@ const Chart = ({
                 index="Date"
                 categories={labels}
                 colors={colors}
-                valueFormatter={num => (notMoney ? num.toString() : dataFormatter(num))}
+                valueFormatter={(num) => (notMoney ? num.toString() : dataFormatter(num))}
                 showLegend={showLegend}
                 yAxisWidth={48}
                 curveType="monotone"

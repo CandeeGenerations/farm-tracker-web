@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Product} from '@prisma/client'
+import {generateString} from '@src/common/helpers.js'
 import {kebabCase} from 'change-case-all'
 import morphism from 'morphism'
-import {generateString} from '../../common/helpers.js'
+
 import {morphExpenseDb} from '../expense/morphs.js'
 import {morphLoggedProductDb} from '../logged-product/morphs.js'
 import {morphSaleDb} from '../product-sale/morphs.js'
 import {IProduct, ProductWithExpenses} from './types.js'
 
 export const morphProductDb = (source: ProductWithExpenses): IProduct =>
-  morphism.morphism(
+  morphism(
     {
       id: ({id}: ProductWithExpenses) => id,
       productKey: ({productKey}: ProductWithExpenses) => productKey,
@@ -25,7 +26,7 @@ export const morphProductDb = (source: ProductWithExpenses): IProduct =>
   ) as IProduct
 
 export const morphProduct = (source: IProduct): Product =>
-  morphism.morphism(
+  morphism(
     {
       id: ({id}: IProduct) => id,
       productKey: ({productKey, name}: IProduct) => {

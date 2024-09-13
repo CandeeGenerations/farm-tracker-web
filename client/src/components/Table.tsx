@@ -2,6 +2,7 @@ import {ArrowSmallDownIcon, ArrowSmallUpIcon, CheckIcon, XMarkIcon} from '@heroi
 import {sentenceCase} from 'change-case-all'
 import Link from 'next/link'
 import React, {useEffect, useState} from 'react'
+
 import {addCommas, applySort, classNames} from '../helpers'
 import {DEFAULT_PAGE_SIZE} from '../helpers/constants'
 import Card from './Card'
@@ -62,7 +63,7 @@ const Table = ({
   const [initialLoad, setInitialLoad] = useState(true)
   const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE)
 
-  const doSort = dataToSort => {
+  const doSort = (dataToSort) => {
     if (sort) {
       const sorted = applySort(sort, dataToSort)
 
@@ -74,7 +75,7 @@ const Table = ({
   }
 
   useEffect(() => {
-    if (columns.length > 0 && (sort === undefined || columns.findIndex(x => x.id === sort.column) < 0)) {
+    if (columns.length > 0 && (sort === undefined || columns.findIndex((x) => x.id === sort.column) < 0)) {
       const columnExists = defaultSortColumn && columns.find(({id}) => id === defaultSortColumn)
       const sortColumn = columnExists ? columns.find(({id}) => id === defaultSortColumn) : columns[0]
 
@@ -95,7 +96,7 @@ const Table = ({
     }
   }, [pageNumber])
 
-  const renderSort = column => {
+  const renderSort = (column) => {
     if (sort && column === sort.column) {
       const classes = 'w-4 h-4 ml-2'
 
@@ -215,7 +216,7 @@ const Table = ({
                   {columns.map(({id}, index) => {
                     return index === 0 ? undefined : (
                       <td key={index} className="px-6 py-4 whitespace-nowrap text-muted border-t-2 total-border">
-                        {totalRow.find(x => x.id === id)?.value(dataset)}
+                        {totalRow.find((x) => x.id === id)?.value(dataset)}
                       </td>
                     )
                   })}

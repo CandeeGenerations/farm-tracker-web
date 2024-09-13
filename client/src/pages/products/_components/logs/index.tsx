@@ -12,6 +12,7 @@ import {IProduct} from '@/types/product'
 import axios, {AxiosResponse} from 'axios'
 import dayjs from 'dayjs'
 import React, {useState} from 'react'
+
 import Chart from '../_Chart'
 
 interface IPageState {
@@ -176,7 +177,7 @@ const LoggedProductsPage = ({product, products, breeds}: ILoggedProductsPage): R
             />
 
             <Chart
-              data={(pageState.loggedProducts || []).map(x => ({date: x.logDate, Quantity: x.quantity}))}
+              data={(pageState.loggedProducts || []).map((x) => ({date: x.logDate, Quantity: x.quantity}))}
               title="Logged Products"
               labels={['Quantity']}
               notMoney

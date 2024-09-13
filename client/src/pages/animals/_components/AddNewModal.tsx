@@ -52,7 +52,7 @@ const AddNewModal = ({newType, open, onClose, onSubmit}: IAddNewModal): React.Re
           </Dialog.Title>
 
           <form
-            onSubmit={e => {
+            onSubmit={(e) => {
               e.preventDefault()
               handleSubmit(submitHandler)()
             }}

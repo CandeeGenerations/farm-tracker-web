@@ -9,6 +9,7 @@ import {IExpense} from '@/types/expense'
 import {IProduct} from '@/types/product'
 import axios, {AxiosResponse} from 'axios'
 import React, {useState} from 'react'
+
 import Chart from '../_Chart'
 
 interface IPageState {
@@ -150,7 +151,7 @@ const ExpensesPage = ({product}: IExpensesPage): React.ReactElement => {
             />
 
             <Chart
-              data={pageState.expenses.map(x => ({date: x.purchaseDate, Amount: x.amount * x.quantity}))}
+              data={pageState.expenses.map((x) => ({date: x.purchaseDate, Amount: x.amount * x.quantity}))}
               title="Expenses"
             />
           </>

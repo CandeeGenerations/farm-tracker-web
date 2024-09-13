@@ -84,7 +84,7 @@ const SaleModal = ({
           {errorMessage && <Alert type="danger" message={errorMessage} className="mt-5" />}
 
           <form
-            onSubmit={e => {
+            onSubmit={(e) => {
               e.preventDefault()
               handleSubmit(submitHandler)()
             }}
@@ -94,7 +94,7 @@ const SaleModal = ({
                 <ReadOnlyField
                   name="product"
                   label="Product"
-                  value={products?.find(x => x.id === sale?.productId)?.name}
+                  value={products?.find((x) => x.id === sale?.productId)?.name}
                 />
               ) : (
                 <FormSelect

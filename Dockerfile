@@ -1,28 +1,41 @@
 FROM node:20-alpine AS base
 
-# BUILD SERVER
-FROM base AS build-app
+# DEPENDENCIES
+FROM base AS deps
+
+RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
-COPY ["server/package.json", "server/yarn.lock"]
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-RUN yarn install
+COPY server/package.json ./
+RUN pnpm install --ignore-scripts
 
+# BUILDER
+FROM base AS builder
+
+WORKDIR /app
+
+COPY --from=deps /app/node_modules node_modules
 COPY server .
 
-RUN yarn build
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-# SERVE APP
-FROM base AS serve-app
+RUN pnpm build
 
-WORKDIR /app
+# RUNNER
+FROM base AS runner
 
-COPY --from=build-app /app/node_modules node_modules
-COPY --from=build-app /app/package.json package.json
-COPY --from=build-app /app/dist dist
+COPY --from=builder /app/node_modules node_modules
+COPY --from=builder /app/package.json package.json
+COPY --from=builder /app/dist dist
 
-WORKDIR /app/dist
+WORKDIR /dist
 
 CMD [ "node", "index.js" ]
 

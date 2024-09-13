@@ -24,9 +24,9 @@ const TagInput = ({value, onChange}: ITagInput): React.ReactElement => {
       type="text"
       className="inline-flex items-center rounded bg-primary-dark py-1 pl-2.5 text-muted-lightest focus:ring-primary-medium focus:border-primary-mering-primary-medium border-primary-mering-primary-medium shadow-sm"
       value={inputValue}
-      onFocus={e => e.target.select()}
-      onChange={e => setInputValue(e.target.value)}
-      onKeyDown={e => {
+      onFocus={(e) => e.target.select()}
+      onChange={(e) => setInputValue(e.target.value)}
+      onKeyDown={(e) => {
         if (e.key === 'Enter') {
           onChange(inputValue)
         }

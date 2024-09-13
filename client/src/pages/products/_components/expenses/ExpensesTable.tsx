@@ -56,14 +56,14 @@ const ExpensesTable = ({
           {name: 'Purchase Date', id: 'purchaseDate', sortOverride: 'purchaseDateSort'},
         ]}
         totalRow={[
-          {id: 'quantity', value: data => _sum(data?.map(x => x.quantity))},
-          {id: 'totalCostDisplay', value: data => `$${addCommas(_sum(data?.map(x => x.totalCost)))}`},
+          {id: 'quantity', value: (data) => _sum(data?.map((x) => x.quantity))},
+          {id: 'totalCostDisplay', value: (data) => `$${addCommas(_sum(data?.map((x) => x.totalCost)))}`},
         ]}
         keyName="id"
         defaultSortColumn="purchaseDate"
         defaultSortOrder="desc"
-        onClick={id => onShowExpenseModal(expenses.find(x => x.id === id))}
-        data={expenses?.map(x => ({
+        onClick={(id) => onShowExpenseModal(expenses.find((x) => x.id === id))}
+        data={expenses?.map((x) => ({
           ...x,
           amount: `$${addCommas(x.amount)}`,
           purchaseDate: formatDate(x.purchaseDate),

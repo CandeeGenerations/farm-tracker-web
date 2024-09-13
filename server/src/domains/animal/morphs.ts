@@ -2,10 +2,11 @@
 import {Animal} from '@prisma/client'
 import dayjs from 'dayjs'
 import morphism from 'morphism'
+
 import {AnimalWithChildren, IAnimal, IAnimalWithChildren} from './types.js'
 
 export const morphAnimalDb = (source: AnimalWithChildren): IAnimalWithChildren =>
-  morphism.morphism(
+  morphism(
     {
       id: ({id}: AnimalWithChildren) => id,
       name: ({name}: AnimalWithChildren) => name,
@@ -20,13 +21,13 @@ export const morphAnimalDb = (source: AnimalWithChildren): IAnimalWithChildren =
       deceasedDate: ({deceasedDate}: AnimalWithChildren) => (deceasedDate ? dayjs(deceasedDate).format() : null),
       saleDate: ({saleDate}: AnimalWithChildren) => (saleDate ? dayjs(saleDate).format() : null),
       children: ({children}: AnimalWithChildren): any[] => (children ? children.map(morphAnimalDb) : []),
-      tags: ({tags}: AnimalWithChildren) => (tags ? tags.map(x => x.trim()) : []),
+      tags: ({tags}: AnimalWithChildren) => (tags ? tags.map((x) => x.trim()) : []),
     },
     source as any,
   ) as IAnimalWithChildren
 
 export const morphAnimal = (source: IAnimal): Animal =>
-  morphism.morphism(
+  morphism(
     {
       id: ({id}: IAnimal) => id,
       name: ({name}: IAnimal) => name.trim(),
@@ -40,7 +41,7 @@ export const morphAnimal = (source: IAnimal): Animal =>
       birthDate: ({birthDate}: IAnimal) => (birthDate ? new Date(birthDate) : null),
       deceasedDate: ({deceasedDate}: IAnimal) => (deceasedDate ? new Date(deceasedDate) : null),
       saleDate: ({saleDate}: IAnimal) => (saleDate ? new Date(saleDate) : null),
-      tags: ({tags}: IAnimal) => (tags ? tags.map(x => x.trim()) : []),
+      tags: ({tags}: IAnimal) => (tags ? tags.map((x) => x.trim()) : []),
     },
     source as any,
   ) as Animal

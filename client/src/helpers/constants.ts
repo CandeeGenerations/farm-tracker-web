@@ -13,8 +13,8 @@ export const PRODUCTS_COLUMNS = 'products-columns'
 export const ANIMALS_COLUMNS = 'animals-columns'
 export const TABLE_FILTERS_STORAGE_KEY = 'farm--table-filters--'
 
-export const YEARS = Array.from(new Array(100), (v, i) => i).map(x => dayjs().subtract(x, 'year').format('YYYY'))
+export const YEARS = Array.from(new Array(100), (v, i) => i).map((x) => dayjs().subtract(x, 'year').format('YYYY'))
 
-export const MONTHS = Array.from(new Array(12), (v, i) => i).map(x =>
+export const MONTHS = Array.from(new Array(12), (v, i) => i).map((x) =>
   dayjs().startOf('year').add(x, 'month').format('M'),
 )

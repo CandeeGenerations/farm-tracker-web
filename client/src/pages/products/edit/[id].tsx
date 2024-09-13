@@ -6,12 +6,13 @@ import LoggedProductsPage from '@/pages/products/_components/logs'
 import SalesPage from '@/pages/products/_components/sales'
 import {IAnimal} from '@/types/animal'
 import {IProduct} from '@/types/product'
+import Layout from '@src/_layout'
 import axios, {AxiosResponse} from 'axios'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
-import Layout from '../../_layout'
+
 import ProductForm from '../_components/ProductForm'
 
 interface IPageState {
@@ -28,7 +29,7 @@ const EditProductPage = (): React.ReactElement => {
     currentTab: 1,
   })
 
-  const getProduct = async id => {
+  const getProduct = async (id) => {
     setProduct({loading: true, product: product.product})
     const result: AxiosResponse<{data: IProduct}> = await axios.get(`/product/${id}`)
     setProduct({loading: false, product: result.data.data})
@@ -112,9 +113,9 @@ const EditProductPage = (): React.ReactElement => {
               onSubmit={handleSubmit}
               metadata={{
                 dbProducts: products.products,
-                dbSpecies: _uniq(animals.animals.map(x => x.species)),
+                dbSpecies: _uniq(animals.animals.map((x) => x.species)),
                 dbBreeds: _uniqBy(
-                  animals.animals.map(x => ({
+                  animals.animals.map((x) => ({
                     name: x.breed,
                     species: x.species,
                   })),
@@ -131,8 +132,8 @@ const EditProductPage = (): React.ReactElement => {
               products={products.products}
               breeds={_uniqBy(
                 animals.animals
-                  .filter(x => !x.deceased && !x.sold)
-                  .map(x => ({
+                  .filter((x) => !x.deceased && !x.sold)
+                  .map((x) => ({
                     name: x.breed,
                     species: x.species,
                   })),

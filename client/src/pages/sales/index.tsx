@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Layout from '../_layout'
 import SalesPage from '../products/_components/sales'
 
