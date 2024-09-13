@@ -1,11 +1,11 @@
 import {Expense} from '@prisma/client'
-import {getEmail, handleError, handleSuccess} from '@src/common/helpers.js'
-import {IException} from '@src/types/logger.js'
+import {getEmail, handleError, handleSuccess} from '@src/common/helpers'
+import {IException} from '@src/types/logger'
 import express, {Request, Response, Router} from 'express'
 
-import {morphExpense, morphExpenseDb} from './morphs.js'
-import service from './service.js'
-import {IExpense} from './types.js'
+import {morphExpense, morphExpenseDb} from './morphs'
+import service from './service'
+import {IExpense} from './types'
 
 const route = '/:productId/expense'
 const router: Router = express.Router()

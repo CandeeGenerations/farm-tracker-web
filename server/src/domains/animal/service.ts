@@ -1,7 +1,7 @@
 import {Animal} from '@prisma/client'
-import client from '@src/common/client.js'
+import client from '@src/common/client'
 
-import {AnimalWithChildren} from './types.js'
+import {AnimalWithChildren} from './types'
 
 const getAll = async (owner: string): Promise<Animal[]> => await client.animal.findMany({where: {owner}})
 

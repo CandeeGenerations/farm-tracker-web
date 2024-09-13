@@ -1,11 +1,11 @@
 import {Sale} from '@prisma/client'
-import {getEmail, handleError, handleSuccess} from '@src/common/helpers.js'
-import {IException} from '@src/types/logger.js'
+import {getEmail, handleError, handleSuccess} from '@src/common/helpers'
+import {IException} from '@src/types/logger'
 import express, {Request, Response, Router} from 'express'
 
-import {morphSale, morphSaleDb} from './morphs.js'
-import service from './service.js'
-import {ISale} from './types.js'
+import {morphSale, morphSaleDb} from './morphs'
+import service from './service'
+import {ISale} from './types'
 
 const route = '/:productId/sale'
 

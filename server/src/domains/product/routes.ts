@@ -1,12 +1,12 @@
 import {Product} from '@prisma/client'
-import {getEmail, handleError, handleSuccess} from '@src/common/helpers.js'
-import {IException} from '@src/types/logger.js'
+import {getEmail, handleError, handleSuccess} from '@src/common/helpers'
+import {IException} from '@src/types/logger'
 import express, {Request, Response, Router} from 'express'
 import lodash from 'lodash'
 
-import {morphProduct, morphProductDb} from './morphs.js'
-import service from './service.js'
-import {IProduct} from './types.js'
+import {morphProduct, morphProductDb} from './morphs'
+import service from './service'
+import {IProduct} from './types'
 
 const router: Router = express.Router()
 

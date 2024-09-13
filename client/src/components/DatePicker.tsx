@@ -1,15 +1,11 @@
-import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/24/outline'
+import {classNames} from '@/helpers'
 import dayjs from 'dayjs'
-import React, {MouseEventHandler, forwardRef} from 'react'
-import ReactDatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+import React from 'react'
 import {Control, Controller, FieldError} from 'react-hook-form'
 
-import {classNames} from '../helpers'
-import Button from './Button'
-import FormLabel from './FormLabel'
+import {RawDatePicker} from './TremorRaw/RawDatePicker'
 
-interface IDatePicker {
+interface IDatePickerRaw {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any, object>
   name: string
@@ -21,48 +17,17 @@ interface IDatePicker {
   vertical?: boolean
 }
 
-const ButtonInput = forwardRef<HTMLButtonElement>(
-  (
-    {
-      value,
-      onClick,
-      disabled = false,
-    }: {
-      value?: string
-      onClick: MouseEventHandler<HTMLButtonElement>
-      disabled?: boolean
-    },
-    ref,
-  ) => (
-    <button
-      onClick={onClick}
-      ref={ref}
-      type="button"
-      disabled={disabled}
-      className={classNames(
-        'mt-1 inline-flex justify-start w-full sm:text-sm px-3 py-2 text-sm text-base font-medium bg-white border rounded',
-        disabled
-          ? 'text-muted-light'
-          : 'text-muted-medium border-muted-light shadow-sm focus:ring-primary-medium focus:border-primary-medium focus:ring-2 focus:ring-offset-2',
-      )}
-    >
-      {value ? dayjs(value).format('MM / DD / YYYY') : 'mm / dd / yyyy'}
-    </button>
-  ),
-)
-
-ButtonInput.displayName = 'ButtonInput'
-
 const DatePicker = ({
   control,
   name,
   label,
   error,
   helpText,
+  vertical = false,
   disabled = false,
   required = false,
-  vertical = false,
-}: IDatePicker): React.ReactElement => {
+}: IDatePickerRaw): React.ReactElement => {
+  console.log('vertical :', vertical)
   return (
     <div
       className={classNames(
@@ -72,9 +37,13 @@ const DatePicker = ({
     >
       <div>
         {label && (
-          <FormLabel name={name} hasError={!!error} required={required}>
+          <label
+            htmlFor={name}
+            className={classNames(error ? 'text-danger-medium' : 'text-muted-medium', 'cursor-pointer block font-bold')}
+          >
             {label}
-          </FormLabel>
+            {required && <span className="ml-1 text-danger-medium">*</span>}
+          </label>
         )}
       </div>
 
@@ -83,49 +52,11 @@ const DatePicker = ({
           control={control}
           name={name}
           render={({field: {onChange, value}}) => (
-            <div className="relative">
-              <ReactDatePicker
+            <div className="relative mt-1">
+              <RawDatePicker
+                value={value ? new Date(value) : undefined}
                 disabled={disabled}
-                selected={value ? new Date(value) : null}
-                onChange={(date) => onChange(date)}
-                nextMonthButtonLabel=">"
-                previousMonthButtonLabel="<"
-                popperClassName="react-datepicker-left"
-                customInput={<ButtonInput />}
-                wrapperClassName="w-full"
-                renderCustomHeader={({
-                  date,
-                  decreaseMonth,
-                  increaseMonth,
-                  prevMonthButtonDisabled,
-                  nextMonthButtonDisabled,
-                }) => (
-                  <div className="flex items-center justify-between px-2 py-2">
-                    <span className="text-lg text-muted-medium pr-4">{dayjs(date).format('MMMM YYYY')}</span>
-
-                    <div className="space-x-2 flex flex-1 sm:flex-none flex-row">
-                      <Button
-                        size="xs"
-                        type="secondary"
-                        onClick={decreaseMonth}
-                        disabled={prevMonthButtonDisabled}
-                        noTopPadding
-                      >
-                        <ChevronLeftIcon className="w-5 h-5 text-muted" />
-                      </Button>
-
-                      <Button
-                        size="xs"
-                        type="secondary"
-                        onClick={increaseMonth}
-                        disabled={nextMonthButtonDisabled}
-                        noTopPadding
-                      >
-                        <ChevronRightIcon className="w-5 h-5 text-muted" />
-                      </Button>
-                    </div>
-                  </div>
-                )}
+                onChange={(date) => onChange(date ? dayjs(date).format() : undefined)}
               />
             </div>
           )}

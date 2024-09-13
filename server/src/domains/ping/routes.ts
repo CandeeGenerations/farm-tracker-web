@@ -1,4 +1,4 @@
-import {handleSuccess} from '@src/common/helpers.js'
+import {handleSuccess} from '@src/common/helpers'
 import express, {Response, Router} from 'express'
 
 const router: Router = express.Router()

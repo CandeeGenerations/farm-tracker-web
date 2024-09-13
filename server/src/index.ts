@@ -3,14 +3,14 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 
-import config from './common/config.js'
-import animalRoutes from './domains/animal/routes.js'
-import expenseRoutes from './domains/expense/routes.js'
-import loggedProductRoutes, {logImporterRouter as logImporter} from './domains/logged-product/routes.js'
-import pingRoutes from './domains/ping/routes.js'
-import productSaleRoutes from './domains/product-sale/routes.js'
-import productRoutes from './domains/product/routes.js'
-import saleRoutes from './domains/sale/routes.js'
+import config from './common/config'
+import animalRoutes from './domains/animal/routes'
+import expenseRoutes from './domains/expense/routes'
+import loggedProductRoutes, {logImporterRouter as logImporter} from './domains/logged-product/routes'
+import pingRoutes from './domains/ping/routes'
+import productSaleRoutes from './domains/product-sale/routes'
+import productRoutes from './domains/product/routes'
+import saleRoutes from './domains/sale/routes'
 
 const app = express()
 const {port} = config

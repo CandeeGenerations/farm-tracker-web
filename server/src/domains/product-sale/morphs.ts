@@ -3,8 +3,8 @@ import {Product, Sale} from '@prisma/client'
 import dayjs from 'dayjs'
 import morphism from 'morphism'
 
-import {morphProductDb} from '../product/morphs.js'
-import {ISale} from './types.js'
+import {morphProductDb} from '../product/morphs'
+import {ISale} from './types'
 
 export const morphSaleDb = (source: Sale & {product?: Product}): ISale =>
   morphism(

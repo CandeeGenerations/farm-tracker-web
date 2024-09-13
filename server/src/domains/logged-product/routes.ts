@@ -1,14 +1,14 @@
 import {LoggedProduct} from '@prisma/client'
-import {getEmail, handleError, handleSuccess} from '@src/common/helpers.js'
-import {IException} from '@src/types/logger.js'
+import {getEmail, handleError, handleSuccess} from '@src/common/helpers'
+import {IException} from '@src/types/logger'
 import express, {Request, Response, Router} from 'express'
 import lodash from 'lodash'
 
-import animalService from '../animal/service.js'
-import productService from '../product/service.js'
-import {morphLoggedProduct, morphLoggedProductDb} from './morphs.js'
-import service from './service.js'
-import {ILoggedProduct} from './types.js'
+import animalService from '../animal/service'
+import productService from '../product/service'
+import {morphLoggedProduct, morphLoggedProductDb} from './morphs'
+import service from './service'
+import {ILoggedProduct} from './types'
 
 const route = '/:productId/logged-product'
 const router: Router = express.Router()

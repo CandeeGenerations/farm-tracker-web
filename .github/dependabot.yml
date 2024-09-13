@@ -13,8 +13,7 @@ updates:
       interval: 'weekly'
     ignore:
       - dependency-name: '@headlessui/react'
-      - dependency-name: 'react-datepicker'
-      - dependency-name: '@types/react-datepicker'
+      - dependency-name: 'react-day-picker'
     groups:
       catchall:
         patterns:

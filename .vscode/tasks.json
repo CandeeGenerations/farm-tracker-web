@@ -33,7 +33,7 @@
         "group": "farm-tracker"
       },
       "label": "Start Server",
-      "detail": "doppler run --command='pnpm generate && NODE_ENV=development tsc-watch --onSuccess \"node dist/index.js\"'"
+      "detail": "fnm use; doppler run --command='pnpm generate && NODE_ENV=development ts-node-dev --respawn -r tsconfig-paths/register src/index.ts'"
     },
     {
       "type": "npm",
