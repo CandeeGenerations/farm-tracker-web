@@ -62,7 +62,7 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
 
   const handleHideImpersonateModal = () => setState({showImpersonateModal: false})
 
-  const handleUpdateUserEmail = impersonateUserEmail => setState({impersonateUserEmail})
+  const handleUpdateUserEmail = (impersonateUserEmail) => setState({impersonateUserEmail})
 
   const handleImpersonate = () => {
     impersonate(pageState.impersonateUserEmail)
@@ -101,7 +101,7 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
 
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
-                        {navigation.map(item => (
+                        {navigation.map((item) => (
                           <Link
                             key={item.id}
                             href={`/${item.id}`}
@@ -210,7 +210,7 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
 
               <Disclosure.Panel className="border-b border-muted-medium md:hidden">
                 <div className="space-y-1 px-2 py-3 sm:px-3">
-                  {navigation.map(item => (
+                  {navigation.map((item) => (
                     <Link key={item.id} href={`/${item.id}`}>
                       <Disclosure.Button
                         className={classNames(
@@ -273,7 +273,7 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
                 </div>
               </li>
 
-              {breadcrumbs.map(breadcrumb => (
+              {breadcrumbs.map((breadcrumb) => (
                 <li key={Math.random()} className="flex">
                   <div className="flex items-center">
                     <svg
@@ -334,7 +334,7 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
             </Dialog.Title>
 
             <form
-              onSubmit={e => {
+              onSubmit={(e) => {
                 e.preventDefault()
                 handleHideImpersonateModal()
               }}

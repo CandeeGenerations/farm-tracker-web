@@ -10,6 +10,7 @@ import axios, {AxiosResponse} from 'axios'
 import dayjs from 'dayjs'
 import _uniqBy from 'lodash/uniqBy'
 import React, {useEffect, useState} from 'react'
+
 import Layout from '../_layout'
 import LogProductModal from '../products/_components/logs/LogProductModal'
 
@@ -138,8 +139,8 @@ const HomePage = (): React.ReactElement => {
         products={products.products}
         dbBreeds={_uniqBy(
           animals.animals
-            .filter(x => !x.deceased && !x.sold)
-            .map(x => ({
+            .filter((x) => !x.deceased && !x.sold)
+            .map((x) => ({
               name: x.breed,
               species: x.species,
             })),

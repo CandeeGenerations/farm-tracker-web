@@ -1,5 +1,6 @@
 import {AxiosError} from 'axios'
 import dayjs from 'dayjs'
+
 import {DEFAULT_DATE_FORMAT, DEFAULT_DATE_TIME_FORMAT} from './constants'
 
 export const classNames = (...classes) => classes.filter(Boolean).join(' ')
@@ -29,6 +30,11 @@ export const applySort = (sort: {column: string; asc: boolean}, dataset: any) =>
   })
 }
 
+export const validEmail = (email: string): boolean =>
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    email.toLowerCase().trim(),
+  )
+
 export const formatInputDate = (date?: string): string => (date ? dayjs(date).format('YYYY-MM-DD') : undefined)
 
 export const formatDate = (date?: string): string => (date ? dayjs(date).format(DEFAULT_DATE_FORMAT) : undefined)
@@ -36,7 +42,7 @@ export const formatDate = (date?: string): string => (date ? dayjs(date).format(
 export const formatDateTime = (dateTime?: string): string =>
   dateTime ? dayjs(dateTime).format(DEFAULT_DATE_TIME_FORMAT) : undefined
 
-export const getErrorMessage = e => ((e as AxiosError).response.data as {error: string}).error
+export const getErrorMessage = (e) => ((e as AxiosError).response.data as {error: string}).error
 
 export const addCommas = (num: number, fixed = 2): string =>
   (isNaN(num) ? 0 : num)

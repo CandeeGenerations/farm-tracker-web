@@ -6,10 +6,12 @@ model Animal {
 
   children Animal[] @relation("children")
 
-  owner   String
-  name    String
-  species String
-  breed   String
+  owner       String
+  name        String
+  species     String
+  breed       String
+  temperament String?
+  tags        String[]
 
   deceased Boolean @default(false)
   sold     Boolean @default(false)

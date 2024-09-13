@@ -1,5 +1,5 @@
+import {classNames} from '@src/helpers'
 import React from 'react'
-import {classNames} from '../../helpers'
 
 interface IModalBody {
   col?: boolean

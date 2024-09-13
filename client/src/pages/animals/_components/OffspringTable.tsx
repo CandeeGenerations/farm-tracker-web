@@ -50,7 +50,7 @@ const OffspringTable = ({offspring}: IOffspringTable): React.ReactElement => {
         actions={{idColumn: 'id', parent: '/animals'}}
         keyName="id"
         linkKey="name"
-        data={offspring?.map(x => ({
+        data={offspring?.map((x) => ({
           ...x,
           birthDate: formatDate(x.birthDate),
           birthDateSort: dayjs(x.birthDate).format(),

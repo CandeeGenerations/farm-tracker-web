@@ -2,6 +2,7 @@ import {ChevronUpDownIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import {sentenceCase} from 'change-case-all'
 import React from 'react'
 import {Control, Controller, FieldError, UseFormRegister} from 'react-hook-form'
+
 import {classNames, formatDate, formatInputDate} from '../helpers'
 import FormLabel from './FormLabel'
 import ReadOnlyField from './ReadOnlyField'
@@ -11,7 +12,7 @@ interface IFormInput {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register?: UseFormRegister<any>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control?: Control<any, Object>
+  control?: Control<any, object>
   staticValue?: string | number
   // eslint-disable-next-line no-unused-vars
   onChange?: (name: string, value: string | number, extraProps?: {reset?: boolean}) => void

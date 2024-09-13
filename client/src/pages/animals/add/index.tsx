@@ -1,12 +1,13 @@
 import CardLoader from '@/components/CardLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import {IAnimalWithChildren} from '@/types/animal'
+import Layout from '@src/_layout'
 import axios, {AxiosResponse} from 'axios'
 import _uniq from 'lodash/uniq'
 import _uniqBy from 'lodash/uniqBy'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
-import Layout from '../../_layout'
+
 import AnimalForm from '../_components/AnimalForm'
 
 interface IPageState {
@@ -32,7 +33,7 @@ const AddAnimalPage = (): React.ReactElement => {
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
-  const handleSubmit = async data => {
+  const handleSubmit = async (data) => {
     try {
       await axios.post('/animal', data)
       await push('/animals')
@@ -56,15 +57,15 @@ const AddAnimalPage = (): React.ReactElement => {
         <AnimalForm
           onSubmit={handleSubmit}
           metadata={{
-            dbAnimals: animals.animals.map(x => ({
+            dbAnimals: animals.animals.map((x) => ({
               id: x.id,
               name: x.name,
               species: x.species,
               breed: x.breed,
             })),
-            dbSpecies: _uniq(animals.animals.map(x => x.species)),
+            dbSpecies: _uniq(animals.animals.map((x) => x.species)),
             dbBreeds: _uniqBy(
-              animals.animals.map(x => ({
+              animals.animals.map((x) => ({
                 name: x.breed,
                 species: x.species,
               })),

@@ -1,11 +1,12 @@
 import React from 'react'
 import {Control, Controller} from 'react-hook-form'
+
 import FormLabel from './FormLabel'
 import Toggle from './Toggle'
 
 interface IFormToggle {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any, Object>
+  control: Control<any, object>
   name: string
   label?: string
   onLabel?: string

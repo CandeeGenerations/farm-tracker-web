@@ -58,7 +58,7 @@ const SalesTable = ({
             label: 'Product',
             type: 'select',
             column: 'productId',
-            values: products.map(x => ({id: x.id, name: x.name})),
+            values: products.map((x) => ({id: x.id, name: x.name})),
           },
         ]}
         searchableColumns={['productName', 'quantity', 'amount']}
@@ -68,7 +68,7 @@ const SalesTable = ({
           {name: 'Quantity', id: 'quantity'},
           {name: 'Sale Amount', id: 'amountDisplay', sortOverride: 'amount'},
         ]}
-        data={sales?.map(x => ({
+        data={sales?.map((x) => ({
           ...x,
           amountDisplay: `$${addCommas(x.amount)}`,
           saleDate: formatDate(x.saleDate),
@@ -76,8 +76,8 @@ const SalesTable = ({
           productName: x.product?.name,
         }))}
         totalRow={[
-          {id: 'quantity', value: (data: ISale[]) => addCommas(_sum(data.map(x => x.quantity)))},
-          {id: 'amountDisplay', value: (data: ISale[]) => `$${addCommas(_sum(data.map(x => x.amount)))}`},
+          {id: 'quantity', value: (data: ISale[]) => addCommas(_sum(data.map((x) => x.quantity)))},
+          {id: 'amountDisplay', value: (data: ISale[]) => `$${addCommas(_sum(data.map((x) => x.amount)))}`},
         ]}
         keyName="id"
         defaultSortColumn="saleDate"
@@ -86,7 +86,7 @@ const SalesTable = ({
           storage.get(`${TABLE_FILTERS_STORAGE_KEY}sales`) &&
           JSON.parse(storage.get(`${TABLE_FILTERS_STORAGE_KEY}sales`))
         }
-        onClick={id => onShowSaleModal(sales.find(x => x.id === id))}
+        onClick={(id) => onShowSaleModal(sales.find((x) => x.id === id))}
       />
     </div>
   )

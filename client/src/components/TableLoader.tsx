@@ -1,8 +1,9 @@
-import ContentLoader from 'react-content-loader'
 import {classNames} from '@/helpers'
-import {IColumnHeader} from './SortableTable'
-import Card from './Card'
 import {sentenceCase} from 'change-case-all'
+import ContentLoader from 'react-content-loader'
+
+import Card from './Card'
+import {IColumnHeader} from './SortableTable'
 
 export interface ITableLoader {
   columns: IColumnHeader[]
@@ -12,7 +13,7 @@ export interface ITableLoader {
 
 const TableLoaderRow = ({colSpan}: {colSpan: number}) => (
   <>
-    {[0, 1, 2].map(x => (
+    {[0, 1, 2].map((x) => (
       <tr key={x}>
         <td colSpan={colSpan} className={classNames(x === 0 ? 'pt-4' : x === 2 ? 'pb-4' : '', 'px-6 py-2 w-full')}>
           <ContentLoader viewBox="0 0 100 2">

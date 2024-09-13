@@ -18,6 +18,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import Link from 'next/link'
 import React, {useEffect, useState} from 'react'
+
 import Card from './Card'
 import {IFormSelectItem} from './FormSelect'
 import Pagination from './Pagination'
@@ -96,7 +97,7 @@ const SortableTable = ({
     defaultFilters && defaultFilters.pageSize ? Number(defaultFilters.pageSize[0]) : DEFAULT_PAGE_SIZE,
   )
 
-  const doSort = dataToSort => {
+  const doSort = (dataToSort) => {
     if (sort) {
       const sorted = applySort(sort, dataToSort)
 
@@ -108,7 +109,7 @@ const SortableTable = ({
   }
 
   useEffect(() => {
-    if (columns.length > 0 && (sort === undefined || columns.findIndex(x => x.id === sort.column) < 0)) {
+    if (columns.length > 0 && (sort === undefined || columns.findIndex((x) => x.id === sort.column) < 0)) {
       const columnExists = defaultSortColumn && columns.find(({id}) => id === defaultSortColumn)
       const sortColumn = columnExists ? columns.find(({id}) => id === defaultSortColumn) : columns[0]
 
@@ -129,7 +130,7 @@ const SortableTable = ({
     let filteredData = [...data]
 
     if (searchValue) {
-      filteredData = filteredData.filter(x => {
+      filteredData = filteredData.filter((x) => {
         for (const column of searchableColumns) {
           if (x[column]?.toString().trim().toLowerCase().includes(searchValue.trim().toLowerCase())) {
             return true
@@ -150,10 +151,10 @@ const SortableTable = ({
           continue
         }
 
-        const filterType = filters.find(x => x.column === filterKey).type
+        const filterType = filters.find((x) => x.column === filterKey).type
 
         if (filterType === 'daterange') {
-          filteredData = filteredData.filter(x => {
+          filteredData = filteredData.filter((x) => {
             const date = dayjs(x[filterKey])
 
             return (
@@ -161,9 +162,14 @@ const SortableTable = ({
             )
           })
         } else {
-          filteredData = filteredData.filter(x => {
+          filteredData = filteredData.filter((x) => {
             for (const filterValue of filter) {
-              if (x[filterKey]?.toString().trim().toLowerCase() === filterValue?.trim().toLowerCase()) {
+              if (
+                Array.isArray(x[filterKey]) &&
+                x[filterKey].some((y) => y.toString().trim().toLowerCase() === filterValue?.trim().toLowerCase())
+              ) {
+                return true
+              } else if (x[filterKey]?.toString().trim().toLowerCase() === filterValue?.trim().toLowerCase()) {
                 return true
               }
             }
@@ -187,7 +193,7 @@ const SortableTable = ({
     setFilterValues(updatedFilters)
   }
 
-  const renderSort = column => {
+  const renderSort = (column) => {
     if (sort && column === sort.column) {
       const classes = 'w-4 h-4 ml-2'
 
@@ -214,24 +220,31 @@ const SortableTable = ({
     <Card noPadding>
       <div className="space-y-0">
         {filters?.length > 0 && (
-          <div className="bg-muted-lightest border-b border-muted-light mb-0 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:gap-6 sm:items-center rounded-t-lg">
+          <div
+            className={classNames(
+              'bg-muted-lightest border-b border-muted-light mb-0 px-6 py-4 rounded-t-lg gap-3 sm:gap-6 flex flex-col',
+              filters.length < 4 ? 'sm:flex-row sm:items-center' : 'sm:grid sm:grid-cols-4',
+            )}
+          >
             {searchableColumns?.length > 0 && (
-              <div className="flex-1">
+              <div
+                className={classNames('flex-1', `col-span-${filters.length % 4 === 0 ? 4 : 4 - (filters.length % 4)}`)}
+              >
                 <TextInput
                   icon={MagnifyingGlassIcon}
                   placeholder="Search..."
                   value={searchValue}
-                  onChange={e => setSearchValue(e.target.value)}
+                  onChange={(e) => setSearchValue(e.target.value)}
                 />
               </div>
             )}
 
-            {filters.map(filter => (
+            {filters.map((filter) => (
               <div key={Math.random()}>
                 {filter.type === 'daterange' ? (
                   <DateRangePicker
                     className="max-w-md mx-auto"
-                    onValueChange={value =>
+                    onValueChange={(value) =>
                       handleFilter(
                         filter.column,
                         value.from || value.to ? [value.from?.toISOString(), value.to?.toISOString()] : undefined,
@@ -278,12 +291,12 @@ const SortableTable = ({
                 ) : filter.type === 'select' ? (
                   <Select
                     placeholder={`Filter on ${filter.label}`}
-                    className="sm:w-52"
-                    onValueChange={value => handleFilter(filter.column, [value])}
+                    className="sm:w-52 !w-full"
+                    onValueChange={(value) => handleFilter(filter.column, [value])}
                     value={filterValues[filter.column] ? filterValues[filter.column][0] : undefined}
                     defaultValue="__all__"
                   >
-                    {[{id: '__all__', name: 'All'} as unknown as IFormSelectItem].concat(filter.values).map(x => (
+                    {[{id: '__all__', name: 'All'} as unknown as IFormSelectItem].concat(filter.values).map((x) => (
                       <SelectItem key={x.id} value={x.id as string}>
                         <strong>{filter.label}:</strong> {x.name}
                       </SelectItem>
@@ -292,11 +305,11 @@ const SortableTable = ({
                 ) : filter.type === 'multiselect' ? (
                   <MultiSelect
                     placeholder={`Filter on ${filter.label}`}
-                    className="w-52"
-                    onValueChange={value => handleFilter(filter.column, value)}
+                    className="sm:w-52 !w-full"
+                    onValueChange={(value) => handleFilter(filter.column, value)}
                     value={filterValues[filter.column]}
                   >
-                    {filter.values.map(x => (
+                    {filter.values.map((x) => (
                       <MultiSelectItem key={x.id} value={x.id as string}>
                         <strong>{filter.label}:</strong> {x.name}
                       </MultiSelectItem>
@@ -420,7 +433,7 @@ const SortableTable = ({
                   {columns.map(({id}, index) => {
                     return index === 0 ? undefined : (
                       <td key={index} className="px-6 py-4 whitespace-nowrap text-muted border-t-2 total-border">
-                        {totalRow.find(x => x.id === id)?.value(dataset)}
+                        {totalRow.find((x) => x.id === id)?.value(dataset)}
                       </td>
                     )
                   })}

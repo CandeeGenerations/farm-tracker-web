@@ -2,20 +2,19 @@ import cors from 'cors'
 import express from 'express'
 import fs from 'fs'
 import path from 'path'
-import {fileURLToPath} from 'url'
+
 import config from './common/config.js'
 import animalRoutes from './domains/animal/routes.js'
 import expenseRoutes from './domains/expense/routes.js'
-import loggedProductRoutes, {logImporter} from './domains/logged-product/routes.js'
+import loggedProductRoutes, {logImporterRouter as logImporter} from './domains/logged-product/routes.js'
 import pingRoutes from './domains/ping/routes.js'
 import productSaleRoutes from './domains/product-sale/routes.js'
 import productRoutes from './domains/product/routes.js'
 import saleRoutes from './domains/sale/routes.js'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 const app = express()
 const {port} = config
+// eslint-disable-next-line no-undef
 const pjson = JSON.parse(fs.readFileSync(path.join(__dirname, '../', 'package.json'), 'utf8'))
 const sep = ' -------------------------------------'
 

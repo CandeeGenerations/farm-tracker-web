@@ -1,11 +1,12 @@
 import CardLoader from '@/components/CardLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
 import {IAnimal} from '@/types/animal'
+import Layout from '@src/_layout'
 import axios, {AxiosResponse} from 'axios'
 import _uniq from 'lodash/uniq'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
-import Layout from '../../_layout'
+
 import ProductForm from '../_components/ProductForm'
 
 interface IPageState {
@@ -31,7 +32,7 @@ const AddProductPage = (): React.ReactElement => {
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
-  const handleSubmit = async data => {
+  const handleSubmit = async (data) => {
     try {
       await axios.post('/product', data)
       await push('/products')
@@ -55,7 +56,7 @@ const AddProductPage = (): React.ReactElement => {
         <ProductForm
           onSubmit={handleSubmit}
           metadata={{
-            dbSpecies: _uniq(animals.animals.map(x => x.species)),
+            dbSpecies: _uniq(animals.animals.map((x) => x.species)),
           }}
           errorMessage={pageState.errorMessage}
         />

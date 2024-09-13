@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://github.com/CandeeGenerations/farm-tracker/compare/v1.9.0...v1.9.1) (2024-08-26)
+
+
+### Bug Fixes
+
+* package updates ([31d080c](https://github.com/CandeeGenerations/farm-tracker/commit/31d080c7c40943caf2102488e6bbfec7dad9fb3b))
+
+## [1.9.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.8.5...v1.9.0) (2024-08-23)
+
+
+### Features
+
+* added tags to animals ([61df9e1](https://github.com/CandeeGenerations/farm-tracker/commit/61df9e1d1a27a60012b4f5e1594834cd712a8c4a))
+* added temperament to the animal ([42e584c](https://github.com/CandeeGenerations/farm-tracker/commit/42e584c225517b782e54fb07d04ebed221bc4037))
+
+### [1.8.5](https://github.com/CandeeGenerations/farm-tracker/compare/v1.8.4...v1.8.5) (2024-08-21)
+
+
+### Bug Fixes
+
+* package updates ([42f8b63](https://github.com/CandeeGenerations/farm-tracker/commit/42f8b634e1e352a268c0e679bf5282ce50f241e5))
+
+### [1.8.4](https://github.com/CandeeGenerations/farm-tracker/compare/v1.8.3...v1.8.4) (2024-08-09)
+
+
+### Bug Fixes
+
+* package updates ([627bcd3](https://github.com/CandeeGenerations/farm-tracker/commit/627bcd3e33b6f511661f4fea9fcf8ffff18097ee))
+
 ### [1.8.3](https://github.com/CandeeGenerations/farm-tracker/compare/v1.8.2...v1.8.3) (2024-08-08)
 
 

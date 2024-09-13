@@ -14,6 +14,7 @@ import _uniq from 'lodash/uniq'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
+
 import Layout from '../_layout'
 import ColumnsModal from './_components/_ColumnsModal'
 import ProfitLossChart from './_components/_ProfitLossChart'
@@ -57,7 +58,7 @@ const ProductsPage = (): React.ReactElement => {
       loading: false,
       products: products.data.data,
       visibleColumns: storedColumnsString ? storedColumnsString.split(',') : [],
-      species: _uniq(animals.data.data.map(x => x.species)),
+      species: _uniq(animals.data.data.map((x) => x.species)),
     })
   }
 
@@ -158,7 +159,7 @@ const ProductsPage = (): React.ReactElement => {
                 label: 'Species',
                 type: 'select',
                 column: 'species',
-                values: pageState.species.map(x => ({id: x, name: x})),
+                values: pageState.species.map((x) => ({id: x, name: x})),
               },
               {
                 label: 'Profitable',
@@ -182,30 +183,30 @@ const ProductsPage = (): React.ReactElement => {
             columns={[
               {name: 'Name', id: 'name'},
               ...(pageState.visibleColumns.length > 0
-                ? columns.filter(x => pageState.visibleColumns.includes(x.id))
+                ? columns.filter((x) => pageState.visibleColumns.includes(x.id))
                 : columns),
             ]}
             totalRow={[
               {
                 id: 'totalLogged',
                 value: (data: IProduct[]) =>
-                  addCommas(_sum(data.map(x => _sum(x.loggedProducts.map(y => y.quantity))))),
+                  addCommas(_sum(data.map((x) => _sum(x.loggedProducts.map((y) => y.quantity))))),
               },
               {
                 id: 'expensesAmount',
                 value: (data: IProduct[]) =>
-                  `$${addCommas(_sum(data.map(x => _sum(x.expenses.map(y => y.amount * y.quantity)))))}`,
+                  `$${addCommas(_sum(data.map((x) => _sum(x.expenses.map((y) => y.amount * y.quantity)))))}`,
               },
               {
                 id: 'salesAmount',
-                value: (data: IProduct[]) => `$${addCommas(_sum(data.map(x => _sum(x.sales.map(y => y.amount)))))}`,
+                value: (data: IProduct[]) => `$${addCommas(_sum(data.map((x) => _sum(x.sales.map((y) => y.amount)))))}`,
               },
               {
                 id: 'profitAmount',
                 value: (data: IProduct[]) => {
                   const totalProfit =
-                    _sum(data.map(x => _sum(x.sales.map(y => y.amount)))) -
-                    _sum(data.map(x => _sum(x.expenses.map(y => y.amount * y.quantity))))
+                    _sum(data.map((x) => _sum(x.sales.map((y) => y.amount)))) -
+                    _sum(data.map((x) => _sum(x.expenses.map((y) => y.amount * y.quantity))))
 
                   return (
                     <span
@@ -226,11 +227,11 @@ const ProductsPage = (): React.ReactElement => {
             actions={{idColumn: 'id', parent: 'products'}}
             keyName="id"
             linkKey="name"
-            data={pageState.products.map(x => {
-              const salesAmount = _sum(x.sales.map(y => y.amount))
-              const salesQuantity = _sum(x.sales.map(y => y.quantity))
-              const expensesAmount = _sum(x.expenses.map(y => y.amount * y.quantity))
-              const loggedProductsAmount = _sum(x.loggedProducts.map(y => y.quantity))
+            data={pageState.products.map((x) => {
+              const salesAmount = _sum(x.sales.map((y) => y.amount))
+              const salesQuantity = _sum(x.sales.map((y) => y.quantity))
+              const expensesAmount = _sum(x.expenses.map((y) => y.amount * y.quantity))
+              const loggedProductsAmount = _sum(x.loggedProducts.map((y) => y.quantity))
               const profitAmount = salesAmount - expensesAmount
               const anyExpenses = x.expenses.length > 0
               const anyLoggedProducts = x.loggedProducts.length > 0
@@ -265,9 +266,9 @@ const ProductsPage = (): React.ReactElement => {
               <ProgressiveChart
                 data={[
                   ...pageState.products
-                    .map(x => [
-                      ...x.expenses.map(y => ({date: y.purchaseDate, Expenses: y.amount * y.quantity})),
-                      ...x.sales.map(y => ({date: y.saleDate, Sales: y.amount})),
+                    .map((x) => [
+                      ...x.expenses.map((y) => ({date: y.purchaseDate, Expenses: y.amount * y.quantity})),
+                      ...x.sales.map((y) => ({date: y.saleDate, Sales: y.amount})),
                     ])
                     .flat(),
                 ]}
@@ -282,9 +283,9 @@ const ProductsPage = (): React.ReactElement => {
               <ProfitLossChart
                 data={[
                   ...pageState.products
-                    .map(x => [
-                      ...x.expenses.map(y => ({date: y.purchaseDate, Expenses: y.amount * y.quantity})),
-                      ...x.sales.map(y => ({date: y.saleDate, Sales: y.amount})),
+                    .map((x) => [
+                      ...x.expenses.map((y) => ({date: y.purchaseDate, Expenses: y.amount * y.quantity})),
+                      ...x.sales.map((y) => ({date: y.saleDate, Sales: y.amount})),
                     ])
                     .flat(),
                 ]}
@@ -308,7 +309,7 @@ const ProductsPage = (): React.ReactElement => {
 
       <ColumnsModal
         storageKey={PRODUCTS_COLUMNS}
-        columns={columns.map(x => ({...x, enabled: true}))}
+        columns={columns.map((x) => ({...x, enabled: true}))}
         onClose={handleCloseColumns}
         open={pageState.columnsOpen}
       />

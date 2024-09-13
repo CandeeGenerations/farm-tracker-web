@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+
 import {classNames, setPageState} from '../helpers'
 import FormSelect from './FormSelect'
 
@@ -29,7 +30,7 @@ const TabNav = ({tabs, currentTab, onChange}: ITabNav): React.ReactElement => {
 
   useEffect(() => {
     setState({
-      tabs: tabs.map(tab => ({
+      tabs: tabs.map((tab) => ({
         ...tab,
         current: tab.id === currentTab,
       })),
@@ -43,8 +44,8 @@ const TabNav = ({tabs, currentTab, onChange}: ITabNav): React.ReactElement => {
           <FormSelect
             items={pageState.tabs}
             name="tabs"
-            staticSelected={{id: currentTab, name: tabs.find(x => x.id === currentTab).name}}
-            onSelected={item => onChange(Number(item.id))}
+            staticSelected={{id: currentTab, name: tabs.find((x) => x.id === currentTab).name}}
+            onSelected={(item) => onChange(Number(item.id))}
             noSort
           />
         </div>
@@ -52,7 +53,7 @@ const TabNav = ({tabs, currentTab, onChange}: ITabNav): React.ReactElement => {
         <div className="hidden sm:block">
           <div className="border-b border-muted-light">
             <nav className="-mb-px flex space-x-8">
-              {pageState.tabs.map(tab => (
+              {pageState.tabs.map((tab) => (
                 <span
                   key={tab.id}
                   onClick={() => onChange(tab.id)}

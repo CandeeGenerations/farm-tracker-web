@@ -86,13 +86,13 @@ const LogProductModal = ({
     reset({
       ...defaultValues,
       productId: data.productId,
-      species: products.find(x => x.id === data.productId)?.species || '',
+      species: products.find((x) => x.id === data.productId)?.species || '',
     })
     setState({logSuccessful: !loggedProduct?.id})
   }
 
   useEffect(() => {
-    setValue('species', products?.find(x => x.id === productId)?.species || '')
+    setValue('species', products?.find((x) => x.id === productId)?.species || '')
   }, [productId])
 
   useEffect(() => {
@@ -115,7 +115,7 @@ const LogProductModal = ({
     reset({
       ...(loggedProduct || defaultValues),
       productId: storedProductId || '',
-      species: products?.find(x => x.id === storedProductId)?.species || '',
+      species: products?.find((x) => x.id === storedProductId)?.species || '',
     })
 
     const timeout = setTimeout(() => {
@@ -136,14 +136,14 @@ const LogProductModal = ({
           {errorMessage && <Alert type="danger" message={errorMessage} className="mt-5" />}
 
           <form
-            onSubmit={e => {
+            onSubmit={(e) => {
               e.preventDefault()
               handleSubmit(submitHandler)()
             }}
           >
             <div className="mt-5 space-y-6">
               {loggedProduct ? (
-                <ReadOnlyField name="product" label="Product" value={products?.find(x => x.id === productId)?.name} />
+                <ReadOnlyField name="product" label="Product" value={products?.find((x) => x.id === productId)?.name} />
               ) : (
                 <FormSelect
                   vertical
@@ -164,7 +164,7 @@ const LogProductModal = ({
                 control={control}
                 required
                 vertical
-                post={products?.find(x => x.id === productId)?.unit}
+                post={products?.find((x) => x.id === productId)?.unit}
                 error={formState.errors.quantity}
                 helpText="This is amount of the product to log"
               />
@@ -186,7 +186,9 @@ const LogProductModal = ({
                 control={control}
                 error={formState.errors.breed}
                 helpText="This is the breed of the animal"
-                items={species ? dbBreeds.filter(x => x.species === species)?.map(({name}) => ({id: name, name})) : []}
+                items={
+                  species ? dbBreeds.filter((x) => x.species === species)?.map(({name}) => ({id: name, name})) : []
+                }
               />
             </div>
           </form>

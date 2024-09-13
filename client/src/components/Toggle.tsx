@@ -1,5 +1,6 @@
 import {Switch} from '@headlessui/react'
 import React from 'react'
+
 import {classNames} from '../helpers'
 
 interface IToggle {
@@ -37,8 +38,8 @@ const Toggle = ({
               ? 'bg-primary-light'
               : 'bg-muted-light'
             : enabled
-            ? 'bg-primary-medium'
-            : 'bg-muted-light',
+              ? 'bg-primary-medium'
+              : 'bg-muted-light',
           'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full transition-colors ease-in-out duration-200',
         )}
       >

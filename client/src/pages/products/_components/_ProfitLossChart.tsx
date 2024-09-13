@@ -31,7 +31,7 @@ const ProfitLossChart = ({
 }: IProfitLossChart): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = useState(0)
 
-  const aggregateData = dataToAggregate => {
+  const aggregateData = (dataToAggregate) => {
     const aggregatedData = {
       Expenses: 0,
       Sales: 0,
@@ -50,7 +50,7 @@ const ProfitLossChart = ({
 
   const filterData = (startDate: dayjs.Dayjs) => {
     const endDate = dayjs()
-    const filteredData = data.filter(item => {
+    const filteredData = data.filter((item) => {
       const currentDate = dayjs(item.date)
       return currentDate.isSameOrAfter(startDate, 'day') && currentDate.isSameOrBefore(endDate, 'day')
     })
@@ -99,7 +99,7 @@ const ProfitLossChart = ({
         </TabList>
 
         <TabPanels>
-          {[1, 2, 6, 365, 999].map(x => {
+          {[1, 2, 6, 365, 999].map((x) => {
             const filteredDataset = getFilteredData(x)
 
             return (
@@ -118,7 +118,7 @@ const ProfitLossChart = ({
                   index="Category"
                   categories={labels}
                   colors={colors}
-                  valueFormatter={num => (notMoney ? num.toString() : dataFormatter(num))}
+                  valueFormatter={(num) => (notMoney ? num.toString() : dataFormatter(num))}
                   showLegend={showLegend}
                   yAxisWidth={64}
                   layout="vertical"

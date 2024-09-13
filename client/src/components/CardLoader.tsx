@@ -1,4 +1,5 @@
 import ContentLoader from 'react-content-loader'
+
 import Card, {ICard} from './Card'
 import {IColumnHeader} from './SortableTable'
 

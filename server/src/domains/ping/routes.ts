@@ -1,6 +1,10 @@
-import express, {Request, Response} from 'express'
-import {handleSuccess} from '../../common/helpers.js'
+import {handleSuccess} from '@src/common/helpers.js'
+import express, {Response, Router} from 'express'
 
-export default express.Router().get('/', async (req: Request, res: Response) => {
+const router: Router = express.Router()
+
+router.get('/', async (_, res: Response) => {
   handleSuccess(res, {ping: 'pong'})
 })
+
+export default router

@@ -33,13 +33,13 @@ const ProgressiveChart = ({
   useEffect(() => {
     const cumulativeData = {}
 
-    data.forEach(item => {
+    data.forEach((item) => {
       const date = dayjs(item.date).format('MMM D, YYYY')
 
-      labels.forEach(label => {
+      labels.forEach((label) => {
         if (!cumulativeData[date]) {
           cumulativeData[date] = {}
-          labels.forEach(lbl => (cumulativeData[date][lbl] = 0))
+          labels.forEach((lbl) => (cumulativeData[date][lbl] = 0))
         }
 
         cumulativeData[date][label] += item[label] || 0
@@ -51,8 +51,8 @@ const ProgressiveChart = ({
     const cumulativeResults = []
     const runningTotals = labels.reduce((acc, label) => ({...acc, [label]: 0}), {})
 
-    dates.forEach(date => {
-      labels.forEach(label => {
+    dates.forEach((date) => {
+      labels.forEach((label) => {
         runningTotals[label] += cumulativeData[date][label]
         cumulativeData[date][label] = runningTotals[label]
       })
@@ -66,7 +66,7 @@ const ProgressiveChart = ({
   const filterData = (startDate: dayjs.Dayjs) => {
     const endDate = dayjs()
 
-    return dataset.filter(item => {
+    return dataset.filter((item) => {
       const currentDate = dayjs(item.Date)
 
       return currentDate.isSameOrAfter(startDate, 'day') && currentDate.isSameOrBefore(endDate, 'day')
@@ -115,7 +115,7 @@ const ProgressiveChart = ({
 
         <TabPanels>
           {dataset.length &&
-            [1, 2, 6, 365, 999].map(period => (
+            [1, 2, 6, 365, 999].map((period) => (
               <TabPanel key={period}>
                 <AreaChart
                   data={getFilteredData(period)}

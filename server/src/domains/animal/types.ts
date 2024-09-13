@@ -5,6 +5,7 @@ export interface IAnimal {
   name: string
   species: string
   breed: string
+  temperament?: string
   deceased: boolean
   sold: boolean
   birthDate?: string
@@ -12,6 +13,7 @@ export interface IAnimal {
   saleDate?: string
   parentId?: string
   owner: string
+  tags?: string[]
 }
 
 export interface IAnimalWithChildren extends IAnimal {

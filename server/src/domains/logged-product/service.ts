@@ -1,5 +1,5 @@
 import {LoggedProduct} from '@prisma/client'
-import client from '../../common/client.js'
+import client from '@src/common/client.js'
 
 const getAll = async (owner: string, productId: string): Promise<LoggedProduct[]> =>
   await client.loggedProduct.findMany({where: {owner, productId}})

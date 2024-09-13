@@ -100,7 +100,7 @@ const ProductForm = ({product, metadata, errorMessage, onSubmit, onDelete}: IPro
               control={control}
               error={formState.errors.species}
               helpText="This is the species of animal that produces this product"
-              items={pageState.species.map(name => ({id: name, name}))}
+              items={pageState.species.map((name) => ({id: name, name}))}
             />
 
             <FormSelect

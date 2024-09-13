@@ -1,16 +1,26 @@
 {
   "name": "farm-tracker-web-client",
-  "description": "Track your farm!",
-  "repository": "git@github.com:CandeeGenerations/farm-tracker.git",
-  "author": "Tyler Candee <tyler@candeegenerations.com>",
-  "license": "MIT",
-  "version": "1.8.3",
   "private": true,
+  "description": "Track your farm!",
+  "homepage": "https://github.com/CandeeGenerations/farm-tracker#readme",
+  "bugs": {
+    "url": "https://github.com/CandeeGenerations/farm-tracker/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:CandeeGenerations/farm-tracker.git"
+  },
+  "license": "MIT",
+  "author": "Candee Generations <admin@candeegenerations.com>",
   "scripts": {
-    "dev": "doppler run --command='NEXT_PUBLIC_APP_VERSION=$npm_package_version next dev -p ${PORT-3000}'",
     "build": "NEXT_PUBLIC_APP_VERSION=$npm_package_version next build",
-    "start": "NEXT_PUBLIC_APP_VERSION=$npm_package_version next start",
-    "lint": "eslint 'src/**/*.{ts,tsx}'"
+    "dev": "fnm use; doppler run --command='NEXT_PUBLIC_APP_VERSION=$npm_package_version next dev -p ${PORT-3000}'",
+    "eslint": "eslint 'src/**/*.ts'",
+    "fix": "pnpm run eslint && pnpm run prettier --cache",
+    "preinstall": "sh scripts/check-versions.sh && npx only-allow pnpm",
+    "prettier": "prettier --cache --check --write --ignore-unknown .",
+    "prettier:ci": "prettier --check .",
+    "start": "NEXT_PUBLIC_APP_VERSION=$npm_package_version next start"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.19",
@@ -19,12 +29,12 @@
     "@hookform/resolvers": "^3.9.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.7",
-    "@tailwindcss/typography": "^0.5.13",
+    "@tailwindcss/typography": "^0.5.14",
     "@tremor/react": "^3.17.4",
     "avvvatars-react": "^0.4.2",
-    "axios": "^1.7.2",
+    "axios": "^1.7.5",
     "change-case-all": "^2.1.0",
-    "dayjs": "^1.11.12",
+    "dayjs": "^1.11.13",
     "lodash": "^4.17.21",
     "morphism": "^1.12.3",
     "next-auth": "^4.24.7",
@@ -32,31 +42,33 @@
     "react-content-loader": "^7.0.2",
     "react-datepicker": "^6.9.0",
     "react-dropzone": "^14.2.3",
-    "react-hook-form": "^7.52.1",
+    "react-hook-form": "^7.53.0",
+    "react-popper-tooltip": "^4.4.2",
+    "react-tagsinput": "^3.20.3",
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.8.0",
-    "@netlify/plugin-nextjs": "^5.5.1",
-    "@types/node": "^22.0.0",
+    "@eslint/js": "^9.9.1",
+    "@netlify/plugin-nextjs": "^5.6.0",
+    "@types/node": "^22.5.0",
     "@types/papaparse": "^5.3.14",
-    "@types/react": "^18.3.3",
+    "@types/react": "^18.3.4",
     "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^18.3.0",
-    "autoprefixer": "^10.4.19",
-    "eslint": "^9.8.0",
-    "globals": "^15.8.0",
-    "next": "^14.2.5",
+    "@types/react-tagsinput": "^3",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.9.1",
+    "globals": "^15.9.0",
+    "next": "^14.2.6",
     "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwindcss": "^3.4.7",
+    "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^7.17.0"
+    "typescript-eslint": "^8.2.0"
   },
-  "resolutions": {
-    "semver": "^7.5.2",
-    "@types/react": "^18.0.0",
-    "postcss": "^8.4.31"
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
   }
 }

@@ -37,20 +37,21 @@ const ColumnsModal = ({storageKey, columns, open, onClose}: IColumnsModal): Reac
       const storedColumns: string[] = storedColumnsString ? storedColumnsString.split(',') : []
 
       setState({
-        columns: storedColumns.length > 0 ? columns.map(x => ({...x, enabled: storedColumns.includes(x.id)})) : columns,
+        columns:
+          storedColumns.length > 0 ? columns.map((x) => ({...x, enabled: storedColumns.includes(x.id)})) : columns,
       })
     }
   }, [open])
 
   const handleToggle = (id: string, value: boolean) =>
-    setState({columns: pageState.columns.map(x => (x.id === id ? {...x, enabled: value} : x))})
+    setState({columns: pageState.columns.map((x) => (x.id === id ? {...x, enabled: value} : x))})
 
   const handleSubmit = () => {
     storage.set(
       storageKey,
       pageState.columns
-        .filter(x => x.enabled)
-        .map(x => x.id)
+        .filter((x) => x.enabled)
+        .map((x) => x.id)
         .join(','),
     )
     onClose()
@@ -65,7 +66,7 @@ const ColumnsModal = ({storageKey, columns, open, onClose}: IColumnsModal): Reac
           </Dialog.Title>
 
           <div className="sm:space-y-2 space-y-4">
-            {pageState.columns.map(x => (
+            {pageState.columns.map((x) => (
               <div className="flex flex-col sm:flex-row">
                 <FormLabel noTopPadding name={x.id} className="flex-1 sm:mb-0 mb-3">
                   {sentenceCase(x.name)}:
@@ -73,7 +74,7 @@ const ColumnsModal = ({storageKey, columns, open, onClose}: IColumnsModal): Reac
 
                 <Toggle
                   enabled={x.enabled}
-                  setEnabled={value => handleToggle(x.id, value)}
+                  setEnabled={(value) => handleToggle(x.id, value)}
                   onLabel="Show"
                   offLabel="Hide"
                 />

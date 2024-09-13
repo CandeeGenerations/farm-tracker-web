@@ -5,6 +5,7 @@ import DatePicker from '@/components/DatePicker'
 import FormInput from '@/components/FormInput'
 import FormSelect from '@/components/FormSelect'
 import FormToggle from '@/components/FormToggle'
+import TagsInputComponent from '@/components/TagsInput'
 import {setPageState} from '@/helpers'
 import {AnimalMetadata, Breed, DbAnimal, IAnimal} from '@/types/animal'
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -12,6 +13,7 @@ import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {FieldValues, SubmitHandler, useForm} from 'react-hook-form'
 import * as yup from 'yup'
+
 import AddNewModal from './AddNewModal'
 
 interface IPageState {
@@ -74,14 +76,14 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
   const handleSpeciesValidation = async (name: string) => {
     setValue(
       'breed',
-      animal && pageState.breeds.filter(x => x.species === name).some(x => x.name === animal.breed)
+      animal && pageState.breeds.filter((x) => x.species === name).some((x) => x.name === animal.breed)
         ? animal.breed
         : undefined,
     )
     setValue(
       'parentId',
       animal &&
-        pageState.parents.filter(x => x.species === name && x.breed === breed).some(x => x.id === animal.parentId)
+        pageState.parents.filter((x) => x.species === name && x.breed === breed).some((x) => x.id === animal.parentId)
         ? animal.parentId
         : null,
     )
@@ -93,7 +95,7 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
     setValue(
       'parentId',
       animal &&
-        pageState.parents.filter(x => x.species === species && x.breed === name).some(x => x.id === animal.parentId)
+        pageState.parents.filter((x) => x.species === species && x.breed === name).some((x) => x.id === animal.parentId)
         ? animal.parentId
         : null,
     )
@@ -107,10 +109,10 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
     }
 
     if (pageState.newModalType === 'species') {
-      if (!pageState.species.map(x => x.toLowerCase().trim()).includes(newItem.toLowerCase())) {
+      if (!pageState.species.map((x) => x.toLowerCase().trim()).includes(newItem.toLowerCase())) {
         stateUpdate.species = [...pageState.species, newItem]
       } else {
-        newItem = pageState.species.find(x => x.toLowerCase().trim() === newItem.toLowerCase())
+        newItem = pageState.species.find((x) => x.toLowerCase().trim() === newItem.toLowerCase())
       }
 
       setState(stateUpdate)
@@ -118,7 +120,7 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
       await trigger('species')
       await handleSpeciesValidation(name)
     } else if (pageState.newModalType === 'breed') {
-      if (!pageState.breeds.map(x => x.name.toLowerCase().trim()).includes(newItem.toLowerCase())) {
+      if (!pageState.breeds.map((x) => x.name.toLowerCase().trim()).includes(newItem.toLowerCase())) {
         stateUpdate.breeds = [
           ...pageState.breeds,
           {
@@ -127,7 +129,7 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
           },
         ]
       } else {
-        const existingBreed = pageState.breeds.find(x => x.name.toLowerCase().trim() === newItem.toLowerCase())
+        const existingBreed = pageState.breeds.find((x) => x.name.toLowerCase().trim() === newItem.toLowerCase())
 
         if (existingBreed) {
           newItem = existingBreed.name
@@ -149,6 +151,21 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
     setState({deleteModalLoading: true})
     await onDelete(animal.id)
   }
+
+  const values = {
+    tags: watch('tags') || [],
+  }
+
+  const handleAddTag = (tag, name) => setValue(name, [...values[name], tag.text])
+
+  const handleDeleteTag = (i, name) =>
+    setValue(
+      name,
+      values[name].filter((_, index) => index !== i),
+    )
+
+  const handleEditTag = (item, index, name) =>
+    setValue(name, [...values[name].filter((_, i) => i !== index), item.text])
 
   return (
     <>
@@ -182,8 +199,8 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
               control={control}
               error={formState.errors.species}
               helpText="This is the species of the animal"
-              items={pageState.species.map(name => ({id: name, name}))}
-              onSelected={item => handleSpeciesValidation(item.name)}
+              items={pageState.species.map((name) => ({id: name, name}))}
+              onSelected={(item) => handleSpeciesValidation(item.name)}
             />
 
             {species && (
@@ -198,10 +215,10 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
                   helpText="This is the breed of the animal"
                   items={
                     species
-                      ? pageState.breeds.filter(x => x.species === species).map(({name}) => ({id: name, name}))
+                      ? pageState.breeds.filter((x) => x.species === species).map(({name}) => ({id: name, name}))
                       : []
                   }
-                  onSelected={item => handleBreedValidation(item.name)}
+                  onSelected={(item) => handleBreedValidation(item.name)}
                 />
 
                 {breed && metadata.dbAnimals.length > 0 && (
@@ -213,8 +230,8 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
                     items={
                       species && breed
                         ? pageState.parents
-                            .filter(x => x.species === species && x.breed === breed)
-                            .map(x => ({id: x.id, name: x.name}))
+                            .filter((x) => x.species === species && x.breed === breed)
+                            .map((x) => ({id: x.id, name: x.name}))
                         : []
                     }
                     none
@@ -223,12 +240,32 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
               </>
             )}
 
+            <FormInput
+              label="Temperament"
+              name="temperament"
+              register={register}
+              control={control}
+              helpText="This is the temperament of the animal"
+            />
+
             <DatePicker
               label="Birthdate"
               error={formState.errors.birthDate}
               helpText="This is the date the animal was born"
               control={control}
               name="birthDate"
+            />
+
+            <TagsInputComponent
+              label="Tags"
+              placeholder="tag"
+              tags={values.tags.map((field, index) => ({
+                id: index.toString(),
+                text: field,
+              }))}
+              onAdd={(tag) => handleAddTag(tag, 'tags')}
+              onDelete={(i) => handleDeleteTag(i, 'tags')}
+              onEdit={(item, index) => handleEditTag(item, index, 'tags')}
             />
 
             <FormToggle label="Deceased?" onLabel="Yes" offLabel="No" name="deceased" control={control} />
