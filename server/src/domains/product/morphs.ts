@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Product} from '@prisma/client'
-import {generateString} from '@src/common/helpers.js'
+import {generateString} from '@src/common/helpers'
 import {kebabCase} from 'change-case-all'
 import morphism from 'morphism'
 
-import {morphExpenseDb} from '../expense/morphs.js'
-import {morphLoggedProductDb} from '../logged-product/morphs.js'
-import {morphSaleDb} from '../product-sale/morphs.js'
-import {IProduct, ProductWithExpenses} from './types.js'
+import {morphExpenseDb} from '../expense/morphs'
+import {morphLoggedProductDb} from '../logged-product/morphs'
+import {morphSaleDb} from '../product-sale/morphs'
+import {IProduct, ProductWithExpenses} from './types'
 
 export const morphProductDb = (source: ProductWithExpenses): IProduct =>
   morphism(

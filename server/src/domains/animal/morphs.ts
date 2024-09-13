@@ -3,7 +3,7 @@ import {Animal} from '@prisma/client'
 import dayjs from 'dayjs'
 import morphism from 'morphism'
 
-import {AnimalWithChildren, IAnimal, IAnimalWithChildren} from './types.js'
+import {AnimalWithChildren, IAnimal, IAnimalWithChildren} from './types'
 
 export const morphAnimalDb = (source: AnimalWithChildren): IAnimalWithChildren =>
   morphism(

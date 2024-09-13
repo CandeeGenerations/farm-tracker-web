@@ -6,7 +6,10 @@
 version: 2
 updates:
   - package-ecosystem: 'npm'
-    directory: '/'
+    directories:
+      - '/'
+      - '/client'
+      - '/server'
     pull-request-branch-name:
       separator: '-' # Use hyphens to separate branch name segments
     schedule:

@@ -1,5 +1,8 @@
 name: Validate Branch
-on: [push]
+
+on:
+  push:
+    branches: [main]
 
 jobs:
   prettier:
@@ -14,7 +17,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: pnpm
       - name: Install deps
-        run: pnpm install --ignore-scripts
+        run: pnpm install:ci
       - name: Run Prettier
         run: pnpm prettier:ci
   lint:
@@ -29,6 +32,6 @@ jobs:
           node-version-file: '.nvmrc'
           cache: pnpm
       - name: Install deps
-        run: pnpm install --ignore-scripts
+        run: pnpm install:ci
       - name: Run ESLint
         run: pnpm eslint

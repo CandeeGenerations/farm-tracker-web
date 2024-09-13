@@ -1,7 +1,7 @@
 import {createLogger, format, transports} from 'winston'
 
-import {IError, ILog} from '../types/logger.js'
-import {LOG_LEVELS} from './constants.js'
+import {IError, ILog} from '../types/logger'
+import {LOG_LEVELS} from './constants'
 
 const logger = createLogger({
   level: 'info',

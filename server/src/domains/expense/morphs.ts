@@ -3,7 +3,7 @@ import {Expense} from '@prisma/client'
 import dayjs from 'dayjs'
 import morphism from 'morphism'
 
-import {IExpense} from './types.js'
+import {IExpense} from './types'
 
 export const morphExpenseDb = (source: Expense): IExpense =>
   morphism(

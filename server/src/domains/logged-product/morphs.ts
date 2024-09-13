@@ -3,7 +3,7 @@ import {LoggedProduct} from '@prisma/client'
 import dayjs from 'dayjs'
 import morphism from 'morphism'
 
-import {ILoggedProduct} from './types.js'
+import {ILoggedProduct} from './types'
 
 export const morphLoggedProductDb = (source: LoggedProduct): ILoggedProduct =>
   morphism(

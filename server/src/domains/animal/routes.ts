@@ -1,12 +1,12 @@
 import {Animal} from '@prisma/client'
-import {getEmail, handleError, handleSuccess} from '@src/common/helpers.js'
-import {IException} from '@src/types/logger.js'
+import {getEmail, handleError, handleSuccess} from '@src/common/helpers'
+import {IException} from '@src/types/logger'
 import express, {Request, Response, Router} from 'express'
 import lodash from 'lodash'
 
-import {morphAnimal, morphAnimalDb} from './morphs.js'
-import service from './service.js'
-import {IAnimal} from './types.js'
+import {morphAnimal, morphAnimalDb} from './morphs'
+import service from './service'
+import {IAnimal} from './types'
 
 const router: Router = express.Router()
 

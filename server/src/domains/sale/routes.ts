@@ -1,9 +1,9 @@
-import {getEmail, handleError, handleSuccess} from '@src/common/helpers.js'
-import {IException} from '@src/types/logger.js'
+import {getEmail, handleError, handleSuccess} from '@src/common/helpers'
+import {IException} from '@src/types/logger'
 import express, {Request, Response, Router} from 'express'
 
-import {morphSaleDb} from '../product-sale/morphs.js'
-import service from './service.js'
+import {morphSaleDb} from '../product-sale/morphs'
+import service from './service'
 
 const router: Router = express.Router()
 

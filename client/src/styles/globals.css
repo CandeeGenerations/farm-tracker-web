@@ -24,28 +24,6 @@
   }
 }
 
-.react-datepicker__day {
-  @apply border rounded border-white;
-}
-
-.react-datepicker__day--today {
-  @apply border-primary-dark;
-}
-
-.react-datepicker__day--selected,
-.react-datepicker__day--keyboard-selected {
-  @apply bg-primary-dark !important;
-}
-
-.react-datepicker__day--selected:hover,
-.react-datepicker__day--keyboard-selected:hover {
-  @apply bg-primary-medium !important;
-}
-
-.react-datepicker__day--keyboard-selected {
-  @apply text-white !important;
-}
-
 .total-border {
   border-top: 4px double #cbd5e1 !important;
 }

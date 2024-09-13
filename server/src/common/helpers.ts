@@ -1,7 +1,7 @@
 import {Request, Response} from 'express'
 
-import {IException} from '../types/logger.js'
-import {logError} from './logger.js'
+import {IException} from '../types/logger'
+import {logError} from './logger'
 
 export const handleError = (res: Response, error: IException): Response => {
   logError(error.message, error)
