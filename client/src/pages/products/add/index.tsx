@@ -1,7 +1,7 @@
 import CardLoader from '@/components/CardLoader'
 import {getErrorMessage, setPageState} from '@/helpers'
+import Layout from '@/pages/_layout'
 import {IAnimal} from '@/types/animal'
-import Layout from '@src/_layout'
 import axios, {AxiosResponse} from 'axios'
 import _uniq from 'lodash/uniq'
 import {useRouter} from 'next/router'

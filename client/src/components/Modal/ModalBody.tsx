@@ -1,4 +1,4 @@
-import {classNames} from '@src/helpers'
+import {classNames} from '@/helpers'
 import React from 'react'
 
 interface IModalBody {
