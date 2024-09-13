@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: 'npm'
-    directory: '/'
+    directory: 'client'
     pull-request-branch-name:
       separator: '-' # Use hyphens to separate branch name segments
     schedule:
@@ -14,6 +14,26 @@ updates:
     ignore:
       - dependency-name: '@headlessui/react'
       - dependency-name: 'react-day-picker'
+    groups:
+      catchall:
+        patterns:
+          - '*'
+  - package-ecosystem: 'npm'
+    directory: 'server'
+    pull-request-branch-name:
+      separator: '-' # Use hyphens to separate branch name segments
+    schedule:
+      interval: 'weekly'
+    groups:
+      catchall:
+        patterns:
+          - '*'
+  - package-ecosystem: 'npm'
+    directory: '/'
+    pull-request-branch-name:
+      separator: '-' # Use hyphens to separate branch name segments
+    schedule:
+      interval: 'weekly'
     groups:
       catchall:
         patterns:
