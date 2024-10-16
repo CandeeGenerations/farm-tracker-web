@@ -23,6 +23,9 @@
     "prettier:ci": "prettier --check .",
     "start": "NEXT_PUBLIC_APP_VERSION=$npm_package_version next start"
   },
+  "resolutions": {
+    "date-fns": "^3.6.0"
+  },
   "dependencies": {
     "@headlessui/react": "^1.7.19",
     "@headlessui/tailwindcss": "^0.2.1",
