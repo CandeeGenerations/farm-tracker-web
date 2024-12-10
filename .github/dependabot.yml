@@ -19,6 +19,10 @@ updates:
     ignore:
       - dependency-name: '@headlessui/react'
       - dependency-name: 'react-day-picker'
+      - dependency-name: 'react'
+      - dependency-name: 'react-dom'
+      - dependency-name: '@types/react'
+      - dependency-name: '@types/react-dom'
     groups:
       catchall:
         patterns:
