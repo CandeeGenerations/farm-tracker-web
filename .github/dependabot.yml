@@ -18,6 +18,7 @@ updates:
       - 'cgen01'
     ignore:
       - dependency-name: '@headlessui/react'
+      - dependency-name: 'date-fns'
       - dependency-name: 'react-day-picker'
       - dependency-name: 'react'
       - dependency-name: 'react-dom'
