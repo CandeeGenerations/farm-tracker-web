@@ -13,7 +13,7 @@ updates:
     pull-request-branch-name:
       separator: '-' # Use hyphens to separate branch name segments
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
     reviewers:
       - 'cgen01'
     ignore:
@@ -23,6 +23,8 @@ updates:
       - dependency-name: 'react-dom'
       - dependency-name: '@types/react'
       - dependency-name: '@types/react-dom'
+      - dependency-name: 'tailwindcss'
+        versions: ['4.x']
     groups:
       catchall:
         patterns:
@@ -32,7 +34,7 @@ updates:
     pull-request-branch-name:
       separator: '-'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
     reviewers:
       - 'cgen01'
     groups:
