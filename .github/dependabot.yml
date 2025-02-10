@@ -26,6 +26,8 @@ updates:
       - dependency-name: '@types/react-dom'
       - dependency-name: 'tailwindcss'
         versions: ['4.x']
+      - dependency-name: 'tailwind-merge'
+        versions: ['3.x']
     groups:
       catchall:
         patterns:
