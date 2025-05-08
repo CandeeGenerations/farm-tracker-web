@@ -1,4 +1,4 @@
-import {Prisma, Product} from '@prisma/client'
+import {Prisma, Product} from '@generated/client'
 import client from '@src/common/client'
 
 import {ProductWithExpenses} from './types'
@@ -11,6 +11,9 @@ const getAll = async (owner: string): Promise<ProductWithExpenses[]> =>
 const getSingle = async (id: string): Promise<ProductWithExpenses | null> =>
   await client.product.findFirst({where: {id}, include})
 
+const getSingleByName = async (name: string): Promise<ProductWithExpenses | null> =>
+  await client.product.findFirst({where: {name}, include})
+
 const create = async (data: Product): Promise<ProductWithExpenses> => await client.product.create({data, include})
 
 const update =
@@ -20,4 +23,4 @@ const update =
 
 const remove = async (id: string): Promise<ProductWithExpenses> => await client.product.delete({where: {id}, include})
 
-export default {getAll, getSingle, create, update, remove}
+export default {getAll, getSingle, getSingleByName, create, update, remove}

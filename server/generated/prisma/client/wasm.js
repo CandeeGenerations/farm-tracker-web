@@ -113,11 +113,79 @@ Prisma.NullTypes = {
  * Enums
  */
 
-undefined
+exports.Prisma.AnimalScalarFieldEnum = {
+  id: 'id',
+  parentId: 'parentId',
+  owner: 'owner',
+  name: 'name',
+  species: 'species',
+  breed: 'breed',
+  temperament: 'temperament',
+  tags: 'tags',
+  deceased: 'deceased',
+  sold: 'sold',
+  birthDate: 'birthDate',
+  deceasedDate: 'deceasedDate',
+  saleDate: 'saleDate'
+};
+
+exports.Prisma.ExpenseScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  owner: 'owner',
+  item: 'item',
+  amount: 'amount',
+  quantity: 'quantity',
+  purchaseDate: 'purchaseDate'
+};
+
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  owner: 'owner',
+  productKey: 'productKey',
+  name: 'name',
+  species: 'species',
+  unit: 'unit'
+};
+
+exports.Prisma.LoggedProductScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  owner: 'owner',
+  species: 'species',
+  breed: 'breed',
+  quantity: 'quantity',
+  logDate: 'logDate'
+};
+
+exports.Prisma.SaleScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  owner: 'owner',
+  customerName: 'customerName',
+  notes: 'notes',
+  amount: 'amount',
+  quantity: 'quantity',
+  saleDate: 'saleDate'
+};
+
+exports.Prisma.SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
 
 
 exports.Prisma.ModelName = {
-
+  Animal: 'Animal',
+  Expense: 'Expense',
+  Product: 'Product',
+  LoggedProduct: 'LoggedProduct',
+  Sale: 'Sale'
 };
 
 /**

@@ -4,9 +4,9 @@ model Sale {
   product   Product @relation(fields: [productId], references: [id])
   productId String  @db.ObjectId
 
-  owner String
+  owner        String
   customerName String?
-  notes String?
+  notes        String?
 
   amount Float
 

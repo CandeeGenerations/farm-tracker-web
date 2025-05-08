@@ -7,6 +7,9 @@
   "bugs": {
     "url": "https://github.com/CandeeGenerations/farm-tracker/issues"
   },
+  "prisma": {
+    "schema": "./prisma"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:CandeeGenerations/farm-tracker.git"
@@ -16,12 +19,12 @@
   "type": "commonjs",
   "main": "dist/src/index.js",
   "scripts": {
-    "build": "rm -rf dist && pnpm generate && NODE_ENV=production tsc && tsc-alias",
-    "db:push": "doppler run --command='npx prisma db push'",
-    "dev": "pnpm start",
-    "eslint": "eslint 'src/**/*.ts'",
-    "fix": "pnpm run eslint && pnpm run prettier --cache",
-    "generate": "npx prisma format && npx prisma generate --no-hints",
+    "build": "rm -rf dist; fnm use; pnpm generate; NODE_ENV=production tsc; tsc-alias",
+    "db:push": "doppler run --command='fnm use; npx prisma db push'",
+    "dev": "fnm use; pnpm start",
+    "eslint": "fnm use; eslint 'src/**/*.ts'",
+    "fix": "fnm use; pnpm run eslint && pnpm run prettier --cache",
+    "generate": "fnm use; npx prisma format; npx prisma generate --no-hints",
     "preinstall": "sh scripts/check-versions.sh && npx only-allow pnpm",
     "prettier": "prettier --cache --check --write --ignore-unknown .",
     "prettier:ci": "prettier --check .",

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {LoggedProduct} from '@prisma/client'
+import {LoggedProduct} from '@generated/client'
 import dayjs from 'dayjs'
 import morphism from 'morphism'
 

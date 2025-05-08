@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Product} from '@prisma/client'
+import {Product} from '@generated/client'
 import {generateString} from '@src/common/helpers'
 import {kebabCase} from 'change-case-all'
 import morphism from 'morphism'

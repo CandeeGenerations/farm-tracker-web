@@ -12,7 +12,8 @@ export const handleError = (res: Response, error: IException): Response => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleSuccess = (res: Response, data?: any): Response => res.status(200).send({code: 200, data})
 
-export const getEmail = (req: Request, res: Response): string => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getEmail = (req: Request<any, any, any>, res: Response): string => {
   const email = req.header('email')
 
   if (!email) {

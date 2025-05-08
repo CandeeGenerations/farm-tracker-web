@@ -119,6 +119,15 @@ const SaleModal = ({
               />
 
               <FormInput
+                label="Customer Name"
+                name="customerName"
+                register={register}
+                control={control}
+                vertical
+                helpText="This is the name of the customer"
+              />
+
+              <FormInput
                 label="Quantity"
                 name="quantity"
                 register={register}
@@ -139,6 +148,16 @@ const SaleModal = ({
                 vertical
                 error={formState.errors.amount}
                 helpText="This is the total amount received for the sale"
+              />
+
+              <FormInput
+                label="Notes"
+                name="notes"
+                register={register}
+                control={control}
+                vertical
+                type="textarea"
+                helpText="Any additional notes about the sale"
               />
             </div>
           </form>

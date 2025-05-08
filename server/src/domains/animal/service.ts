@@ -1,4 +1,4 @@
-import {Animal} from '@prisma/client'
+import {Animal} from '@generated/client'
 import client from '@src/common/client'
 
 import {AnimalWithChildren} from './types'

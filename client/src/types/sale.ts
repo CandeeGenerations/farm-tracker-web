@@ -7,5 +7,7 @@ export interface ISale {
   quantity: number
   saleDate: string
   owner: string
+  customerName: string | null
+  notes: string | null
   product?: IProduct
 }

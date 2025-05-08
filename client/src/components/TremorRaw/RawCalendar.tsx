@@ -78,7 +78,7 @@ type CalendarProps =
 
 const RawCalendar = ({
   mode = 'single',
-  weekStartsOn = 1,
+  weekStartsOn = 0,
   numberOfMonths = 1,
   enableYearNavigation = false,
   disableNavigation,

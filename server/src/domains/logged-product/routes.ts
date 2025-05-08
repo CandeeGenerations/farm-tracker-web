@@ -1,4 +1,4 @@
-import {LoggedProduct} from '@prisma/client'
+import {LoggedProduct} from '@generated/client'
 import {getEmail, handleError, handleSuccess} from '@src/common/helpers'
 import {IException} from '@src/types/logger'
 import express, {Request, Response, Router} from 'express'
