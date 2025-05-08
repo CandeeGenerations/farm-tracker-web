@@ -7,9 +7,6 @@
   "bugs": {
     "url": "https://github.com/CandeeGenerations/farm-tracker/issues"
   },
-  "prisma": {
-    "schema": "./prisma"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:CandeeGenerations/farm-tracker.git"
@@ -25,7 +22,7 @@
     "eslint": "fnm use; eslint 'src/**/*.ts'",
     "fix": "fnm use; pnpm run eslint && pnpm run prettier --cache",
     "generate": "fnm use; npx prisma format; npx prisma generate --no-hints",
-    "preinstall": "sh scripts/check-versions.sh && npx only-allow pnpm",
+    "preinstall": "sh ../scripts/check-versions.sh && npx only-allow pnpm",
     "prettier": "prettier --cache --check --write --ignore-unknown .",
     "prettier:ci": "prettier --check .",
     "start": "fnm use; doppler run --command='pnpm generate && NODE_ENV=development ts-node-dev --respawn -r tsconfig-paths/register src/index.ts'"
@@ -59,5 +56,8 @@
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=9.0.0"
+  },
+  "prisma": {
+    "schema": "./prisma"
   }
 }

@@ -10,6 +10,7 @@ export const LAST_LOGGED_PRODUCT_ID = 'last-logged-product-id'
 export const IMPERSONATOR_EMAIL = 'impersonator-email'
 export const ANIMALS_FILTER = 'animals-filter'
 export const PRODUCTS_COLUMNS = 'products-columns'
+export const SALES_COLUMNS = 'sales-columns'
 export const ANIMALS_COLUMNS = 'animals-columns'
 export const TABLE_FILTERS_STORAGE_KEY = 'farm--table-filters--'
 
