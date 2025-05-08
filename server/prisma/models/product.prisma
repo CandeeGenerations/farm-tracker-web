@@ -1,0 +1,28 @@
+model Product {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  owner      String
+  productKey String @unique
+  name       String
+  species    String
+  unit       String
+
+  expenses       Expense[]
+  loggedProducts LoggedProduct[]
+  sales          Sale[]
+}
+
+model LoggedProduct {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String  @db.ObjectId
+
+  owner   String
+  species String?
+  breed   String?
+
+  quantity Float
+
+  logDate DateTime
+}

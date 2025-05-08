@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Animal} from '@prisma/client'
+import {Animal} from '@generated/client'
 import dayjs from 'dayjs'
 import morphism from 'morphism'
 

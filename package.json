@@ -1,6 +1,6 @@
 {
   "name": "farm-tracker-web",
-  "version": "1.9.14",
+  "version": "1.10.0",
   "private": true,
   "description": "Track your farm!",
   "homepage": "https://github.com/CandeeGenerations/farm-tracker#readme",
@@ -28,18 +28,17 @@
     "cross-spawn": "^7.0.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.4.0",
-    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "husky": "^9.1.5",
-    "lerna": "^8.1.8",
-    "lint-staged": "^15.2.9",
-    "nx": "^20.4.0",
-    "prettier": "^3.3.3",
-    "sort-package-json": "^3.0.0",
+    "husky": "^9.1.7",
+    "lerna": "^8.2.2",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.5.3",
+    "sort-package-json": "^3.2.0",
     "standard-version": "^9.5.0"
   },
-  "packageManager": "pnpm@10.2.1+sha512.398035c7bd696d0ba0b10a688ed558285329d27ea994804a52bad9167d8e3a72bcb993f9699585d3ca25779ac64949ef422757a6c31102c12ab932e5cbe5cc92",
+  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=9.0.0"

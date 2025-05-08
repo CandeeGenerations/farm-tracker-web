@@ -18,12 +18,17 @@ updates:
       - 'cgen01'
     ignore:
       - dependency-name: '@headlessui/react'
-      - dependency-name: 'date-fns'
+        versions: ['2.x']
       - dependency-name: 'react-day-picker'
+        versions: ['9.x']
       - dependency-name: 'react'
+        versions: ['19.x']
       - dependency-name: 'react-dom'
+        versions: ['19.x']
       - dependency-name: '@types/react'
+        versions: ['19.x']
       - dependency-name: '@types/react-dom'
+        versions: ['19.x']
       - dependency-name: 'tailwindcss'
         versions: ['4.x']
       - dependency-name: 'tailwind-merge'

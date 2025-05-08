@@ -1,4 +1,4 @@
-import {LoggedProduct} from '@prisma/client'
+import {LoggedProduct} from '@generated/client'
 import client from '@src/common/client'
 
 const getAll = async (owner: string, productId: string): Promise<LoggedProduct[]> =>

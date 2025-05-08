@@ -608,7 +608,12 @@ const SingleDatePicker = ({
                 <RawButton variant="secondary" className="h-8 w-full" type="button" onClick={onCancel}>
                   {translations?.cancel ?? 'Cancel'}
                 </RawButton>
-                <RawButton variant="primary" className="h-8 w-full" type="button" onClick={onApply}>
+                <RawButton
+                  variant="primary"
+                  className="h-8 w-full bg-primary-medium hover:bg-primary-dark"
+                  type="button"
+                  onClick={onApply}
+                >
                   {translations?.apply ?? 'Apply'}
                 </RawButton>
               </div>

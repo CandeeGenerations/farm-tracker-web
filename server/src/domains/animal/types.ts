@@ -1,4 +1,4 @@
-import {Animal} from '@prisma/client'
+import {Animal} from '@generated/client'
 
 export interface IAnimal {
   id: string

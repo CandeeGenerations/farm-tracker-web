@@ -78,7 +78,7 @@ type CalendarProps =
 
 const RawCalendar = ({
   mode = 'single',
-  weekStartsOn = 1,
+  weekStartsOn = 0,
   numberOfMonths = 1,
   enableYearNavigation = false,
   disableNavigation,
@@ -105,7 +105,7 @@ const RawCalendar = ({
         cell: cx('relative p-0 text-center focus-within:relative', 'text-gray-900'),
         day: cx('size-9 rounded text-sm text-gray-900', 'hover:bg-gray-200', focusRing),
         day_today: 'font-semibold',
-        day_selected: cx('rounded', 'aria-selected:bg-gray-900 aria-selected:text-gray-50'),
+        day_selected: cx('rounded', 'aria-selected:bg-green-700 aria-selected:text-gray-50'),
         day_disabled: '!text-gray-300 line-through disabled:hover:bg-transparent',
         day_outside: 'text-gray-400',
         day_range_middle: cx('!rounded-none', 'aria-selected:!bg-gray-100 aria-selected:!text-gray-900'),
@@ -226,7 +226,7 @@ const RawCalendar = ({
               {today && (
                 <span
                   className={cx('absolute inset-x-1/2 bottom-1.5 h-0.5 w-4 -translate-x-1/2 rounded-[2px]', {
-                    'bg-blue-500': !selected,
+                    'bg-green-700': !selected,
                     '!bg-white': selected,
                     '!bg-gray-400': selected && range_middle,
                     'text-gray-400': disabled,

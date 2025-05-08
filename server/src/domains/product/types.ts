@@ -1,4 +1,4 @@
-import {Expense, LoggedProduct, Product, Sale} from '@prisma/client'
+import {Expense, LoggedProduct, Product, Sale} from '@generated/client'
 
 import {Breed} from '../animal/types'
 import {IExpense} from '../expense/types'

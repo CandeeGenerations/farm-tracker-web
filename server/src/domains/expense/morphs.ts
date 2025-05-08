@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Expense} from '@prisma/client'
+import {Expense} from '@generated/client'
 import dayjs from 'dayjs'
 import morphism from 'morphism'
 
