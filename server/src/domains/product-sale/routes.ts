@@ -78,7 +78,7 @@ router.get(`${route}/:saleId`, async (req: Request<{productId: string; saleId: s
 })
 
 /*
- * POST:    `/api/product/:productId/form-sale`
+ * POST:    `/api/product/form-sale`
  * PAYLOAD: IExternalSale
  */
 router.post(`${route}/form-sale`, async (req: Request<unknown, unknown, IExternalSale>, res: Response) => {

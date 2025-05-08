@@ -79,6 +79,8 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
         saleDate: dayjs().format(),
         id: undefined,
         owner: undefined,
+        customerName: '',
+        notes: '',
       },
     })
 
@@ -125,6 +127,8 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
       amount: number
       quantity: number
       saleDate: string
+      customerName: string | null
+      notes: string | null
     }[],
   ) => {
     const sales: ISale[] = []
@@ -137,6 +141,8 @@ const SalesPage = ({product}: ISalesPage): React.ReactElement => {
         amount: sale.amount,
         quantity: sale.quantity,
         saleDate: sale.saleDate,
+        customerName: sale.customerName,
+        notes: sale.notes,
       })
     }
 
