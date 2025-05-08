@@ -1,7 +1,18 @@
 [build]
-base = "client"
-publish = ".next"
-command = "pnpm build"
+publish = "client/.next"
+command = "cd client && npm run build"
 
 [[plugins]]
 package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+from = "/*"
+to = "/_next/static/:splat"
+status = 200
+force = true
+conditions = {Path = "/_next/static/*"}
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
