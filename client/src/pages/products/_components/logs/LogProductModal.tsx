@@ -66,11 +66,7 @@ const LogProductModal = ({
     // @ts-ignore
     resolver: yupResolver(
       yup.object().shape({
-        quantity: yup
-          .number()
-          .typeError('Quantity must be a positive number')
-          .positive('Quantity must be a positive number')
-          .required(),
+        quantity: yup.number().typeError('Quantity must be a number').required(),
         logDate: yup.string().required().label('Log date'),
       }),
     ),

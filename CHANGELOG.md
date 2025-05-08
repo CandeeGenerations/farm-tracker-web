@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.9.14 (2025-01-28)
+
+### [1.9.13](https://github.com/CandeeGenerations/farm-tracker/compare/v1.9.5...v1.9.13) (2025-01-24)
+
+
+### Bug Fixes
+
+* allowed 0 count for logging product ([a0de71e](https://github.com/CandeeGenerations/farm-tracker/commit/a0de71e91e1ec99b5566f55f6f981d17f6950696))
+* server issues ([e8b9c1e](https://github.com/CandeeGenerations/farm-tracker/commit/e8b9c1ed467834ee4a027606615ffd516652d275))
+
+### 1.9.12 (2025-01-21)
+
+### 1.9.11 (2025-01-13)
+
+### 1.9.10 (2025-01-06)
+
+### 1.9.9 (2024-12-16)
+
+### 1.9.8 (2024-12-10)
+
+### 1.9.7 (2024-12-02)
+
+### 1.9.6 (2024-11-27)
+
+### [1.9.5](https://github.com/CandeeGenerations/farm-tracker/compare/v1.9.4...v1.9.5) (2024-10-21)
+
+### [1.9.4](https://github.com/CandeeGenerations/farm-tracker/compare/v1.9.3...v1.9.4) (2024-10-07)
+
+
+### Bug Fixes
+
+* package updates ([f84c5bf](https://github.com/CandeeGenerations/farm-tracker/commit/f84c5bf62298930ed050d00918d0f4a94bffddb6))
+
+### [1.9.3](https://github.com/CandeeGenerations/farm-tracker/compare/v1.9.2...v1.9.3) (2024-09-30)
+
 ### [1.9.2](https://github.com/CandeeGenerations/farm-tracker/compare/v1.9.1...v1.9.2) (2024-09-13)
 
 
