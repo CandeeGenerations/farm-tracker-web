@@ -28,10 +28,10 @@ router.get('/', async (req: Request, res: Response) => {
  * POST:    `/api/sale/form`
  * PAYLOAD: IExternalSale
  */
-router.post('/form', async (req: Request<unknown, unknown, IExternalSale>, res: Response) => {
+router.post('/form', async (req: Request<unknown, unknown, {product: IExternalSale}>, res: Response) => {
   try {
     const email = getEmail(req, res)
-    const newSale = req.body
+    const newSale = req.body.product
     const product = await productService.getSingleByName(newSale.productName)
 
     if (!product) {
