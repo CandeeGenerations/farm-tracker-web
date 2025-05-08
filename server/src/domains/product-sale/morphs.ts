@@ -13,6 +13,7 @@ export const morphSaleDb = (source: Sale & {product?: Product}): ISale =>
       productId: ({productId}: Sale) => productId,
       quantity: ({quantity}: Sale) => Number(quantity),
       owner: ({owner}: Sale) => owner,
+      customerName: ({customerName}: Sale) => customerName,
       amount: ({amount}: Sale) => parseFloat(amount.toString()),
       saleDate: ({saleDate}: Sale) => (saleDate ? dayjs(saleDate).format() : null),
       product: ({product}: Sale & {product?: Product}) => (product ? morphProductDb(product) : undefined),

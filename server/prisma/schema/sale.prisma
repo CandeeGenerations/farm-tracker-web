@@ -5,6 +5,8 @@ model Sale {
   productId String  @db.ObjectId
 
   owner String
+  customerName String?
+  notes String?
 
   amount Float
 
