@@ -7,7 +7,7 @@ export default [
   {languageOptions: {globals: globals.browser}},
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  next.configs.recommended,
+  ...next.configs.recommended,
   {
     ignores: ['src/graphql/index.tsx'],
     rules: {
