@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.1](https://github.com/CandeeGenerations/farm-tracker/compare/v1.10.0...v1.10.1) (2025-05-08)
+
+
+### Bug Fixes
+
+* build fixes ([75e0110](https://github.com/CandeeGenerations/farm-tracker/commit/75e0110a9f91923383fb2fa590050bf37882cfd6))
+* docker fix ([b160208](https://github.com/CandeeGenerations/farm-tracker/commit/b160208d4cce7655a699d44e3b575c97c0dec1e8))
+* moved the form sale logic ([b52d1d4](https://github.com/CandeeGenerations/farm-tracker/commit/b52d1d476950d26b165131d4e3c29abe0b8a9ad8))
+* package updates ([2e7b8d2](https://github.com/CandeeGenerations/farm-tracker/commit/2e7b8d2d56b87811f403f648b67ba9721dde9c49))
+
 ## [1.10.0](https://github.com/CandeeGenerations/farm-tracker/compare/v1.9.13...v1.10.0) (2025-05-08)
 
 
