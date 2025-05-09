@@ -3,10 +3,9 @@ import {getEmail, handleError, handleSuccess} from '@src/common/helpers'
 import {IException} from '@src/types/logger'
 import express, {Request, Response, Router} from 'express'
 
-import productService from '../product/service'
-import {morphExternalSale, morphSale, morphSaleDb} from './morphs'
+import {morphSale, morphSaleDb} from './morphs'
 import service from './service'
-import {IExternalSale, ISale} from './types'
+import {ISale} from './types'
 
 const route = '/:productId/sale'
 
@@ -70,32 +69,6 @@ router.get(`${route}/:saleId`, async (req: Request<{productId: string; saleId: s
       handleError(res, {name: 'Sale not found', message: 'Sale not found'})
       return
     }
-
-    handleSuccess(res, morphSaleDb(sale))
-  } catch (e) {
-    handleError(res, e as IException)
-  }
-})
-
-/*
- * POST:    `/api/product/:productId/form-sale`
- * PAYLOAD: IExternalSale
- */
-router.post(`${route}/form-sale`, async (req: Request<unknown, unknown, IExternalSale>, res: Response) => {
-  try {
-    const email = getEmail(req, res)
-    const newSale = req.body
-    const product = await productService.getSingleByName(newSale.productName)
-
-    if (!product) {
-      handleError(res, {name: 'Product not found', message: 'Product not found'})
-      return
-    }
-
-    newSale.owner = email
-    newSale.productId = product.id
-
-    const sale = await service.create(morphExternalSale(newSale))
 
     handleSuccess(res, morphSaleDb(sale))
   } catch (e) {

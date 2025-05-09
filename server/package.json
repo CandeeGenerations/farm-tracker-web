@@ -1,6 +1,6 @@
 {
   "name": "farm-tracker-web-server",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "private": true,
   "description": "Track your farm!",
   "homepage": "https://github.com/CandeeGenerations/farm-tracker#readme",

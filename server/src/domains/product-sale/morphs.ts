@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import morphism from 'morphism'
 
 import {morphProductDb} from '../product/morphs'
-import {IExternalSale, ISale} from './types'
+import {ISale} from './types'
 
 export const morphSaleDb = (source: Sale & {product?: Product}): ISale =>
   morphism(
@@ -33,20 +33,6 @@ export const morphSale = (source: ISale): Sale =>
       notes: ({notes}: ISale) => notes,
       amount: ({amount}: ISale) => parseFloat(amount.toString()),
       saleDate: ({saleDate}: ISale) => (saleDate ? new Date(saleDate) : null),
-    },
-    source as any,
-  ) as Sale
-
-export const morphExternalSale = (source: IExternalSale): Sale =>
-  morphism(
-    {
-      productId: ({productId}: IExternalSale) => productId,
-      quantity: ({quantity}: IExternalSale) => Number(quantity),
-      owner: ({owner}: IExternalSale) => owner,
-      customerName: ({customerName}: IExternalSale) => customerName,
-      notes: ({notes}: IExternalSale) => notes,
-      amount: ({amount}: IExternalSale) => parseFloat(amount.toString()),
-      saleDate: ({saleDate}: IExternalSale) => (saleDate ? new Date(saleDate) : null),
     },
     source as any,
   ) as Sale
