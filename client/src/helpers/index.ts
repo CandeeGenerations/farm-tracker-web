@@ -1,6 +1,9 @@
 import {ISelectBoxValues} from '@/components/shadcn/Form/SelectBox'
+import {yupResolver} from '@hookform/resolvers/yup'
 import {AxiosError} from 'axios'
 import dayjs from 'dayjs'
+import {ValidationMode} from 'react-hook-form'
+import * as yup from 'yup'
 
 import {DEFAULT_DATE_FORMAT, DEFAULT_DATE_TIME_FORMAT} from './constants'
 
@@ -33,6 +36,22 @@ export const applySort = (sort: {column: string; asc: boolean}, dataset: any) =>
       numeric: true,
     })
   })
+}
+export function getForm<TFieldValues>(defaultValues: TFieldValues, yupObject, mode: keyof ValidationMode = 'onBlur') {
+  return {
+    defaultValues,
+    mode,
+    resolver: yupObject && yupResolver(yupObject),
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const requiredString = (label: string, schema?: any) => {
+  if (!schema) {
+    schema = yup.string()
+  }
+
+  return schema.required().label(label)
 }
 
 export const validEmail = (email: string): boolean =>

@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply h-full;
+    @apply bg-muted-lightest;
+  }
+
+  body {
+    @apply h-full;
+  }
+}
+
+@keyframes animation-1bzpvkt {
+  50% {
+    transform: scale(0.75);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.total-border {
+  border-top: 4px double #cbd5e1 !important;
+}

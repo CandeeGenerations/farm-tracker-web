@@ -1,10 +1,10 @@
 import Alert from '@/components/Alert'
 import Button from '@/components/Button'
-import DatePicker from '@/components/DatePicker'
 import FormInput from '@/components/FormInput'
 import FormSelect from '@/components/FormSelect'
 import {Modal, ModalBody, ModalFooter} from '@/components/Modal'
 import ReadOnlyField from '@/components/ReadOnlyField'
+import {DatePicker} from '@/components/shadcn/Form'
 import {setPageState} from '@/helpers'
 import {LAST_LOGGED_PRODUCT_ID} from '@/helpers/constants'
 import * as storage from '@/helpers/localStorage'
@@ -167,11 +167,9 @@ const LogProductModal = ({
 
               <DatePicker
                 label="Log date"
-                error={formState.errors.logDate}
                 helpText="This is the date the product was logged"
                 control={control}
                 name="logDate"
-                vertical
               />
 
               <FormSelect

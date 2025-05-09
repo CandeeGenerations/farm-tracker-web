@@ -1,8 +1,8 @@
 import Alert from '@/components/Alert'
 import Button from '@/components/Button'
-import DatePicker from '@/components/DatePicker'
 import FormInput from '@/components/FormInput'
 import {Modal, ModalBody, ModalFooter} from '@/components/Modal'
+import {DatePicker} from '@/components/shadcn/Form'
 import {IExpense} from '@/types/expense'
 import {Dialog} from '@headlessui/react'
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -125,11 +125,9 @@ const ExpenseModal = ({
 
               <DatePicker
                 label="Purchase date"
-                error={formState.errors.purchaseDate}
                 helpText="This is the date the item was purchased"
                 control={control}
                 name="purchaseDate"
-                vertical
               />
             </div>
           </form>

@@ -1,3 +1,4 @@
+import {TooltipProvider} from '@/components/shadcn/ui/tooltip'
 import UserProvider from '@/providers/user.provider'
 import {SessionProvider} from 'next-auth/react'
 import type {AppProps} from 'next/app'
@@ -9,7 +10,9 @@ const FarmTrackerApp = ({Component, pageProps: {session, ...pageProps}}: AppProp
   return (
     <SessionProvider session={session}>
       <UserProvider>
-        <Component {...pageProps} />
+        <TooltipProvider>
+          <Component {...pageProps} />
+        </TooltipProvider>
       </UserProvider>
     </SessionProvider>
   )

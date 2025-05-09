@@ -1,4 +1,4 @@
-import {DEFAULT_DATE_FORMAT} from '@/helpers/constants'
+import {DEFAULT_DATE_FNS_FORMAT} from '@/helpers/constants'
 import {cn} from '@/lib/utils'
 import {CalendarIcon, Cross1Icon} from '@radix-ui/react-icons'
 import {format, isSameMonth, isSameYear} from 'date-fns'
@@ -80,7 +80,7 @@ const DateRangePicker = ({
               const to = currentValue.to
 
               if (from.getTime() === to.getTime()) {
-                return format(from, DEFAULT_DATE_FORMAT)
+                return format(from, DEFAULT_DATE_FNS_FORMAT)
               }
 
               if (isSameMonth(from, to) && isSameYear(from, to)) {
@@ -88,10 +88,10 @@ const DateRangePicker = ({
               }
 
               if (isSameYear(from, to)) {
-                return `${format(from, 'MMM d')} - ${format(to, DEFAULT_DATE_FORMAT)}`
+                return `${format(from, 'MMM d')} - ${format(to, DEFAULT_DATE_FNS_FORMAT)}`
               }
 
-              return `${format(from, DEFAULT_DATE_FORMAT)} - ${format(to, DEFAULT_DATE_FORMAT)}`
+              return `${format(from, DEFAULT_DATE_FNS_FORMAT)} - ${format(to, DEFAULT_DATE_FNS_FORMAT)}`
             })()}
           </>
         ) : (

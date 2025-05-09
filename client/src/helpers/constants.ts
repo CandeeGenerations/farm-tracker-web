@@ -3,7 +3,9 @@ import dayjs from 'dayjs'
 export const DEFAULT_PAGE_SIZE = 10
 export const DEFAULT_PAGINATION_LIMIT = 5
 export const DEFAULT_DATE_FORMAT = 'M/D/YYYY'
+export const DEFAULT_DATE_FNS_FORMAT = 'M/d/yyyy'
 export const DEFAULT_DATE_TIME_FORMAT = 'M/D/YYYY h:mm:ss A'
+export const DEFAULT_DATE_TIME_FNS_FORMAT = 'M/d/yyyy h:mm:ss aa'
 export const LOADER_TIMEOUT = 300
 export const DEBOUNCE = 500
 export const LAST_LOGGED_PRODUCT_ID = 'last-logged-product-id'

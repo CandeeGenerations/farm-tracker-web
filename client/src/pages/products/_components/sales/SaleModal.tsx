@@ -1,14 +1,15 @@
 import Alert from '@/components/Alert'
 import Button from '@/components/Button'
-import DatePicker from '@/components/DatePicker'
 import FormInput from '@/components/FormInput'
 import FormSelect from '@/components/FormSelect'
 import {Modal, ModalBody, ModalFooter} from '@/components/Modal'
 import ReadOnlyField from '@/components/ReadOnlyField'
+import {DatePicker} from '@/components/shadcn/Form'
+import {Form} from '@/components/shadcn/ui/form'
+import {getForm, requiredString} from '@/helpers'
 import {IProduct} from '@/types/product'
 import {ISale} from '@/types/sale'
 import {Dialog} from '@headlessui/react'
-import {yupResolver} from '@hookform/resolvers/yup'
 import dayjs from 'dayjs'
 import React, {useEffect} from 'react'
 import {FieldValues, SubmitHandler, useForm} from 'react-hook-form'
@@ -42,11 +43,10 @@ const SaleModal = ({
   onSubmit,
   isProductSales,
 }: ISaleModal): React.ReactElement => {
-  const {handleSubmit, register, control, formState, setFocus, reset} = useForm<ISale>({
-    defaultValues: sale || defaultValues,
-    mode: 'onChange',
+  const form = useForm<ISale>(
     // @ts-ignore
-    resolver: yupResolver(
+    getForm<ISale>(
+      undefined,
       yup.object().shape({
         amount: yup.number().typeError('Cost must be a dollar amount'),
         quantity: yup
@@ -54,20 +54,21 @@ const SaleModal = ({
           .typeError('Quantity must be a positive number')
           .positive('Quantity must be a positive number')
           .required(),
-        saleDate: yup.string().required().label('Sale date'),
+        saleDate: requiredString('Sale date'),
       }),
+      'onChange',
     ),
-  })
+  )
 
   const submitHandler: SubmitHandler<FieldValues> = async (data: ISale) => onSubmit(data)
 
   useEffect(() => {
     if (!open) return
 
-    reset(sale || defaultValues)
+    form.reset(sale || defaultValues)
 
     const timeout = setTimeout(() => {
-      setFocus('saleDate')
+      form.setFocus('saleDate')
     }, 50)
 
     return () => clearTimeout(timeout)
@@ -83,11 +84,12 @@ const SaleModal = ({
 
           {errorMessage && <Alert type="danger" message={errorMessage} className="mt-5" />}
 
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              handleSubmit(submitHandler)()
-            }}
+          <Form
+            {...form}
+            // onSubmit={(e) => {
+            //   e.preventDefault()
+            //   handleSubmit(submitHandler)()
+            // }}
           >
             <div className="mt-5 space-y-6">
               {isProductSales ? (
@@ -101,9 +103,9 @@ const SaleModal = ({
                   vertical
                   label="Product"
                   name="productId"
-                  control={control}
+                  control={form.control}
                   required
-                  error={formState.errors.productId}
+                  error={form.formState.errors.productId}
                   helpText="This is the product that was sold"
                   items={products?.map(({id, name}) => ({id, name}))}
                 />
@@ -111,18 +113,16 @@ const SaleModal = ({
 
               <DatePicker
                 label="Sale date"
-                error={formState.errors.saleDate}
                 helpText="This is the date of the sale"
-                control={control}
+                control={form.control}
                 name="saleDate"
-                vertical
               />
 
               <FormInput
                 label="Customer Name"
                 name="customerName"
-                register={register}
-                control={control}
+                register={form.register}
+                control={form.control}
                 vertical
                 helpText="This is the name of the customer"
               />
@@ -130,11 +130,11 @@ const SaleModal = ({
               <FormInput
                 label="Quantity"
                 name="quantity"
-                register={register}
-                control={control}
+                register={form.register}
+                control={form.control}
                 required
                 vertical
-                error={formState.errors.quantity}
+                error={form.formState.errors.quantity}
                 helpText="This is number of products sold"
               />
 
@@ -142,38 +142,38 @@ const SaleModal = ({
                 label="Sale Amount"
                 pre="$"
                 name="amount"
-                register={register}
-                control={control}
+                register={form.register}
+                control={form.control}
                 required
                 vertical
-                error={formState.errors.amount}
+                error={form.formState.errors.amount}
                 helpText="This is the total amount received for the sale"
               />
 
               <FormInput
                 label="Notes"
                 name="notes"
-                register={register}
-                control={control}
+                register={form.register}
+                control={form.control}
                 vertical
                 type="textarea"
                 helpText="Any additional notes about the sale"
               />
             </div>
-          </form>
+          </Form>
         </div>
       </ModalBody>
 
       <ModalFooter
         onClose={onClose}
         onDelete={sale ? () => onDelete(sale.id) : undefined}
-        loading={formState.isSubmitting}
+        loading={form.formState.isSubmitting}
       >
         <Button
-          disabled={!formState.isValid}
-          onClick={handleSubmit(submitHandler)}
+          disabled={!form.formState.isValid}
+          onClick={form.handleSubmit(submitHandler)}
           type="primary"
-          loading={formState.isSubmitting}
+          loading={form.formState.isSubmitting}
         >
           Save
         </Button>

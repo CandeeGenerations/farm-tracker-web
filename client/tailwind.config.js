@@ -1,22 +1,113 @@
-/* eslint @typescript-eslint/no-var-requires: 0 */
+/* eslint-disable no-undef, @typescript-eslint/no-require-imports */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const animate = require('tailwindcss-animate')
 const colors = require('tailwindcss/colors')
 const forms = require('@tailwindcss/forms')
 const typography = require('@tailwindcss/typography')
 const aspectRatio = require('@tailwindcss/aspect-ratio')
-const headlessui = require('@headlessui/tailwindcss')
 
 module.exports = {
+  darkMode: ['class'],
   content: [
-    './src/**/*.{js,ts,jsx,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}',
 
     // Path to the Tremor module
     './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: '2rem',
+      screens: {
+        '2xl': '1400px',
+      },
+    },
     extend: {
+      fontFamily: {
+        // sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
+        sans: ['Noto Sans', ...defaultTheme.fontFamily.sans],
+        serif: ['Cormorant', ...defaultTheme.fontFamily.serif],
+      },
       colors: {
-        // light mode
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          // DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+          ...colors.green,
+          lightest: colors.green['50'],
+          light: colors.green['300'],
+          DEFAULT: colors.green['500'],
+          medium: colors.green['700'],
+          dark: colors.green['900'],
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+          ...colors.sky,
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+          lightest: '#eabcbd',
+          light: '#dd9091',
+          mid: '#bb2124',
+          medium: '#951a1c',
+          dark: '#701315',
+        },
+        muted: {
+          // DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+          mid: colors.slate['500'],
+          lightest: colors.slate['50'],
+          'light-medium': colors.slate['100'],
+          light: colors.slate['300'],
+          DEFAULT: colors.slate['500'],
+          medium: colors.slate['700'],
+          dark: colors.slate['900'],
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+        brand: {
+          DEFAULT: '#A3C564',
+        },
+        dark: {
+          DEFAULT: '#3A415C',
+        },
+        success: {
+          lightest: '#bceac1',
+          light: '#90dd99',
+          DEFAULT: '#22BB33',
+          medium: '#1b9528',
+          dark: '#14701e',
+        },
+        warning: {
+          lightest: '#fae6c9',
+          light: '#f7d6a6',
+          DEFAULT: '#f0ad4e',
+          medium: '#c08a3e',
+          dark: '#90672e',
+        },
+        danger: {
+          lightest: '#eabcbd',
+          light: '#dd9091',
+          DEFAULT: '#bb2124',
+          medium: '#951a1c',
+          dark: '#701315',
+        },
         tremor: {
           brand: {
             faint: '#eff6ff', // blue-50
@@ -46,52 +137,13 @@ module.exports = {
             inverted: '#ffffff', // white
           },
         },
-        brand: {
-          DEFAULT: '#A3C564',
-        },
-        primary: {
-          lightest: colors.green['50'],
-          light: colors.green['300'],
-          DEFAULT: colors.green['500'],
-          medium: colors.green['700'],
-          dark: colors.green['900'],
-        },
-        success: {
-          lightest: '#bceac1',
-          light: '#90dd99',
-          DEFAULT: '#22BB33',
-          medium: '#1b9528',
-          dark: '#14701e',
-        },
-        danger: {
-          lightest: '#eabcbd',
-          light: '#dd9091',
-          DEFAULT: '#bb2124',
-          medium: '#951a1c',
-          dark: '#701315',
-        },
-        warning: {
-          lightest: '#fae6c9',
-          light: '#f7d6a6',
-          DEFAULT: '#f0ad4e',
-          medium: '#c08a3e',
-          dark: '#90672e',
-        },
-        muted: {
-          lightest: colors.slate['50'],
-          'light-medium': colors.slate['100'],
-          light: colors.slate['300'],
-          DEFAULT: colors.slate['500'],
-          medium: colors.slate['700'],
-          dark: colors.slate['900'],
-        },
       },
       borderRadius: {
         none: '0',
-        sm: '0.125rem',
+        lg: `var(--radius)`,
+        md: `calc(var(--radius) - 2px)`,
+        sm: 'calc(var(--radius) - 4px)',
         DEFAULT: '3px',
-        md: '0.375rem',
-        lg: '0.5rem',
         full: '9999px',
         'tremor-small': '0.125rem',
         'tremor-default': '3px',
@@ -107,10 +159,25 @@ module.exports = {
       },
       fontSize: {
         ...defaultTheme.fontSize,
+        base: ['0.875rem', {lineHeight: '1.25rem'}],
         'tremor-label': ['0.75rem'],
         'tremor-default': ['0.875rem', {lineHeight: '1.25rem'}],
         'tremor-title': ['1.125rem', {lineHeight: '1.75rem'}],
         'tremor-metric': ['1.875rem', {lineHeight: '2.25rem'}],
+      },
+      keyframes: {
+        'accordion-down': {
+          from: {height: '0'},
+          to: {height: 'var(--radix-accordion-content-height)'},
+        },
+        'accordion-up': {
+          from: {height: 'var(--radix-accordion-content-height)'},
+          to: {height: '0'},
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },
@@ -143,5 +210,5 @@ module.exports = {
         /^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
     },
   ],
-  plugins: [forms, typography, aspectRatio, headlessui],
+  plugins: [forms, typography, aspectRatio, animate],
 }

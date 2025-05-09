@@ -1,9 +1,8 @@
+import {buttonVariants} from '@/components/shadcn/ui/button'
 import {cn} from '@/lib/utils'
 import {ChevronLeftIcon, ChevronRightIcon} from '@radix-ui/react-icons'
 import * as React from 'react'
 import {DayPicker} from 'react-day-picker'
-
-import {buttonVariants} from './button'
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
@@ -44,12 +43,8 @@ function Calendar({className, classNames, showOutsideDays = true, ...props}: Cal
         ...classNames,
       }}
       components={{
-        Chevron: (props) => {
-          if (props.orientation === 'left') {
-            return <ChevronLeftIcon className="h-2 w-2" />
-          }
-          return <ChevronRightIcon className="h-2 w-2" />
-        },
+        IconLeft: () => <ChevronLeftIcon className="h-4 w-4" />,
+        IconRight: () => <ChevronRightIcon className="h-4 w-4" />,
       }}
       {...props}
     />

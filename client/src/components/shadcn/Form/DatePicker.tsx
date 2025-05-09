@@ -1,6 +1,6 @@
 'use client'
 
-import {DEFAULT_DATE_FORMAT} from '@/helpers/constants'
+import {DEFAULT_DATE_FNS_FORMAT} from '@/helpers/constants'
 import {cn} from '@/lib/utils'
 import {CalendarIcon, Cross1Icon} from '@radix-ui/react-icons'
 import {format} from 'date-fns'
@@ -32,7 +32,7 @@ const DatePicker = ({name, label, control, helpText, required = false, value, on
         variant={'outline'}
         className={cn('w-full pl-3 text-left font-normal', !(field?.value || value) && 'text-muted-foreground')}
       >
-        {field?.value || value ? format(field?.value || value, DEFAULT_DATE_FORMAT) : <span>Pick a date</span>}
+        {field?.value || value ? format(field?.value || value, DEFAULT_DATE_FNS_FORMAT) : <span>Pick a date</span>}
         <div className="ml-auto flex items-center gap-2">
           {(field?.value || value) && (
             <Tooltip

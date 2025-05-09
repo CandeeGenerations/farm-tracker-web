@@ -1,11 +1,11 @@
 import Alert from '@/components/Alert'
 import Card from '@/components/Card'
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal'
-import DatePicker from '@/components/DatePicker'
 import FormInput from '@/components/FormInput'
 import FormSelect from '@/components/FormSelect'
 import FormToggle from '@/components/FormToggle'
 import TagsInputComponent from '@/components/TagsInput'
+import {DatePicker} from '@/components/shadcn/Form'
 import {setPageState} from '@/helpers'
 import {AnimalMetadata, Breed, DbAnimal, IAnimal} from '@/types/animal'
 import {yupResolver} from '@hookform/resolvers/yup'
@@ -250,7 +250,6 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
 
             <DatePicker
               label="Birthdate"
-              error={formState.errors.birthDate}
               helpText="This is the date the animal was born"
               control={control}
               name="birthDate"
@@ -273,7 +272,6 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
             {deceased && (
               <DatePicker
                 label="Deceased Date"
-                error={formState.errors.deceasedDate}
                 helpText="This is the date the animal died"
                 control={control}
                 name="deceasedDate"
@@ -285,7 +283,6 @@ const AnimalForm = ({animal, metadata, errorMessage, onSubmit, onDelete}: IAnima
             {sold && (
               <DatePicker
                 label="Sale Date"
-                error={formState.errors.saleDate}
                 helpText="This is the date the animal was sold"
                 control={control}
                 name="saleDate"
