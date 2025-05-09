@@ -1,9 +1,14 @@
+import {ISelectBoxValues} from '@/components/shadcn/Form/SelectBox'
 import {AxiosError} from 'axios'
 import dayjs from 'dayjs'
 
 import {DEFAULT_DATE_FORMAT, DEFAULT_DATE_TIME_FORMAT} from './constants'
 
 export const classNames = (...classes) => classes.filter(Boolean).join(' ')
+
+export function isStringArray(values: (string | ISelectBoxValues)[]): values is string[] {
+  return values.every((x) => typeof x === 'string')
+}
 
 // eslint-disable-next-line no-unused-vars
 export function setPageState<T>(setState: (updates: T) => void, current: T, updates: T): T {
