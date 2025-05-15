@@ -6,8 +6,8 @@ import {CalendarIcon, Cross1Icon} from '@radix-ui/react-icons'
 import {format} from 'date-fns'
 import {Control, ControllerRenderProps} from 'react-hook-form'
 
-import {Button} from '../Button'
 import {Tooltip} from '../Layout'
+import {Button} from '../ui/button'
 import {Calendar} from '../ui/calendar'
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from '../ui/form'
 import {Popover, PopoverContent, PopoverTrigger} from '../ui/popover'
@@ -22,9 +22,19 @@ interface IDatePicker {
   value?: Date
   // eslint-disable-next-line no-unused-vars
   onChange?: (date: Date) => void
+  horizontal?: boolean
 }
 
-const DatePicker = ({name, label, control, helpText, required = false, value, onChange}: IDatePicker) => {
+const DatePicker = ({
+  name,
+  label,
+  control,
+  helpText,
+  required = false,
+  value,
+  onChange,
+  horizontal = false,
+}: IDatePicker) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const popover = (field?: ControllerRenderProps<any, string>) => {
     const button = (

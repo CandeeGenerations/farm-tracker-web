@@ -84,13 +84,7 @@ const SaleModal = ({
 
           {errorMessage && <Alert type="danger" message={errorMessage} className="mt-5" />}
 
-          <Form
-            {...form}
-            // onSubmit={(e) => {
-            //   e.preventDefault()
-            //   handleSubmit(submitHandler)()
-            // }}
-          >
+          <Form {...form}>
             <div className="mt-5 space-y-6">
               {isProductSales ? (
                 <ReadOnlyField
