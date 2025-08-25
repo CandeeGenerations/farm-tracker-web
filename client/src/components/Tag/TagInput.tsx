@@ -8,7 +8,7 @@ interface ITagInput {
 
 const TagInput = ({value, onChange}: ITagInput): React.ReactElement => {
   const [inputValue, setInputValue] = useState(value)
-  const ref = useRef()
+  const ref = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (ref.current) {
