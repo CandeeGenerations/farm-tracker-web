@@ -214,7 +214,13 @@ const AnimalsPage = (): React.ReactElement => {
             linkKey="name"
             data={pageState.animals.map((x) => ({
               ...x,
-              tagBadges: <div className="flex flex-wrap gap-2">{x.tags?.map((y) => <Badge>{y}</Badge>)}</div>,
+              tagBadges: (
+                <div className="flex flex-wrap gap-2">
+                  {x.tags?.map((y) => (
+                    <Badge>{y}</Badge>
+                  ))}
+                </div>
+              ),
             }))}
           />
         </div>

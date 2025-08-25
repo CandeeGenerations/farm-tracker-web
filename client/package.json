@@ -65,7 +65,6 @@
   "devDependencies": {
     "@eslint/js": "^9.34.0",
     "@netlify/plugin-nextjs": "^5.12.1",
-    "@next/eslint-plugin-next": "^15.5.0",
     "@types/lodash": "^4.17.20",
     "@types/node": "^24.3.0",
     "@types/papaparse": "^5.3.16",

@@ -1,5 +1,4 @@
 import pluginJs from '@eslint/js'
-import next from '@next/eslint-plugin-next'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
@@ -7,7 +6,6 @@ export default [
   {languageOptions: {globals: globals.browser}},
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  ...next.configs.recommended,
   {
     ignores: ['src/graphql/index.tsx'],
     rules: {
