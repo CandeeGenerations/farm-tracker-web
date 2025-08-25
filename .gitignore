@@ -36,6 +36,5 @@
 client/next-env.d.ts
 
 .idea
-.nx
 
 server/generated/
