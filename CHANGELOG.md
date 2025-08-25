@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.2](https://github.com/CandeeGenerations/farm-tracker/compare/v1.10.1...v1.10.2) (2025-08-25)
+
+
+### Bug Fixes
+
+* another day fix ([f2275f5](https://github.com/CandeeGenerations/farm-tracker/commit/f2275f5e8f2091f0a613bea7b595768786b4b827))
+* date fix ([ce40e20](https://github.com/CandeeGenerations/farm-tracker/commit/ce40e20d28edbddb2560c97fe7b40a2ee3ee03ad))
+* netlify fix ([9095240](https://github.com/CandeeGenerations/farm-tracker/commit/909524030660116e6dc1c547dc7e936ab8f876b7))
+* route fix ([d02d308](https://github.com/CandeeGenerations/farm-tracker/commit/d02d3080a551ca0a057cf4dec42e6c0ec14ceda4))
+* trying to fix netlify ([c2fc443](https://github.com/CandeeGenerations/farm-tracker/commit/c2fc4439a7a35d2d559a49082f85f97beb327ceb))
+
 ### [1.10.1](https://github.com/CandeeGenerations/farm-tracker/compare/v1.10.0...v1.10.1) (2025-05-08)
 
 
