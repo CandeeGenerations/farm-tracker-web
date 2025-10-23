@@ -1,0 +1,8 @@
+{
+  "version": "2",
+  "phaseApp": "Farm Tracker Server",
+  "appId": "b7b3b562-6bc4-470c-9da4-0aebe84d8ad9",
+  "defaultEnv": "Development",
+  "envId": "d20b98ed-62f8-4fa1-a742-2c69cc811009",
+  "monorepoSupport": false
+}
