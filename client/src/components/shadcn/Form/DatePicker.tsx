@@ -4,7 +4,7 @@ import {DEFAULT_DATE_FNS_FORMAT} from '@/helpers/constants'
 import {cn} from '@/lib/utils'
 import {CalendarIcon, Cross1Icon} from '@radix-ui/react-icons'
 import {format} from 'date-fns'
-import {Control, ControllerRenderProps} from 'react-hook-form'
+import type {Control, ControllerRenderProps} from 'react-hook-form'
 
 import {Tooltip} from '../Layout'
 import {Button} from '../ui/button'
@@ -22,19 +22,9 @@ interface IDatePicker {
   value?: Date
   // eslint-disable-next-line no-unused-vars
   onChange?: (date: Date) => void
-  horizontal?: boolean
 }
 
-const DatePicker = ({
-  name,
-  label,
-  control,
-  helpText,
-  required = false,
-  value,
-  onChange,
-  horizontal = false,
-}: IDatePicker) => {
+const DatePicker = ({name, label, control, helpText, required = false, value, onChange}: IDatePicker) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const popover = (field?: ControllerRenderProps<any, string>) => {
     const button = (
