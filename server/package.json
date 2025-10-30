@@ -34,11 +34,11 @@
     "@prisma/client": "^6.18.0",
     "change-case-all": "^2.1.0",
     "cors": "^2.8.5",
-    "dayjs": "^1.11.13",
+    "dayjs": "^1.11.18",
     "express": "^5.1.0",
     "lodash": "^4.17.21",
     "morphism": "^1.12.3",
-    "winston": "^3.17.0"
+    "winston": "^3.18.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
