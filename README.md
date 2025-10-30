@@ -8,8 +8,8 @@ Track your farm!
 
 ### Prerequisites
 
-- Node.js 20.x
-- PNPM 9.x
+- Node.js 22.x
+- PNPM 10.x
 - [phase.dev](https://docs.phase.dev/quickstart#2-install-the-cli)
 
 ### Local Setup

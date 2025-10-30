@@ -36,6 +36,7 @@
 client/next-env.d.ts
 
 .idea
-.nx
 
 server/generated/
+
+.claude/settings.local.json

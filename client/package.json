@@ -1,6 +1,6 @@
 {
   "name": "farm-tracker-web-client",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "private": true,
   "description": "Track your farm!",
   "homepage": "https://github.com/CandeeGenerations/farm-tracker#readme",
@@ -55,7 +55,7 @@
     "@remixicon/react": "^4.7.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.10",
-    "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/typography": "^0.5.19",
     "@tremor/react": "^3.18.7",
     "avvvatars-react": "^0.4.2",
     "axios": "^1.12.2",
@@ -87,8 +87,8 @@
     "@types/lodash": "^4.17.20",
     "@types/node": "^24.9.1",
     "@types/papaparse": "^5.3.16",
-    "@types/react": "18.3.21",
-    "@types/react-dom": "18.3.7",
+    "@types/react": "19.1.11",
+    "@types/react-dom": "19.1.7",
     "@types/react-tagsinput": "^3.20.6",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.38.0",
@@ -102,7 +102,7 @@
     "typescript-eslint": "^8.46.2"
   },
   "engines": {
-    "node": ">=20.0.0",
-    "pnpm": ">=9.0.0"
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
   }
 }
