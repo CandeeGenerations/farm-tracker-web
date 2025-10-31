@@ -3,6 +3,7 @@ import {IMPERSONATOR_EMAIL} from '@/helpers/constants'
 import * as storage from '@/helpers/localStorage'
 import axios from 'axios'
 import {signOut, useSession} from 'next-auth/react'
+import {useRouter} from 'next/router'
 import {ReactElement, ReactNode, createContext, useContext, useEffect, useState} from 'react'
 
 interface IUserContext {
@@ -30,6 +31,7 @@ const UserContext = createContext<IUserContext>({
 
 const UserProvider = ({children}: {children: ReactNode}): ReactElement => {
   const {data: session, status} = useSession()
+  const router = useRouter()
 
   const [userInfo, setUserInfo] = useState<IUserInfo>({})
 
@@ -55,6 +57,13 @@ const UserProvider = ({children}: {children: ReactNode}): ReactElement => {
       axios.defaults.headers.common['email'] = session.user.email
     }
   }, [session])
+
+  // Redirect to signin if not authenticated and not already on signin page
+  useEffect(() => {
+    if (status === 'unauthenticated' && router.pathname !== '/auth/signin') {
+      router.push('/auth/signin')
+    }
+  }, [status, router])
 
   const logOut = () => {
     storage.remove(IMPERSONATOR_EMAIL)

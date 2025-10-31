@@ -79,32 +79,37 @@ interface ButtonProps extends React.ComponentPropsWithoutRef<'button'>, VariantP
   loadingText?: string
 }
 
-const RawButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {asChild, isLoading = false, loadingText, className, disabled, variant, children, ...props}: ButtonProps,
-    forwardedRef,
-  ) => {
-    const Component = asChild ? Slot : 'button'
-    return (
-      <Component
-        ref={forwardedRef}
-        className={cx(buttonVariants({variant}), className)}
-        disabled={disabled || isLoading}
-        {...props}
-      >
-        {isLoading ? (
-          <span className="pointer-events-none flex shrink-0 items-center justify-center gap-1.5">
-            <RiLoader2Fill className="size-4 shrink-0 animate-spin" aria-hidden="true" />
-            <span className="sr-only">{loadingText ? loadingText : 'Loading'}</span>
-            {loadingText ? loadingText : children}
-          </span>
-        ) : (
-          children
-        )}
-      </Component>
-    )
-  },
-)
+const RawButton = ({
+  asChild,
+  isLoading = false,
+  loadingText,
+  className,
+  disabled,
+  variant,
+  children,
+  ref,
+  ...props
+}: ButtonProps & {ref?: React.Ref<HTMLButtonElement>}) => {
+  const Component = asChild ? Slot : 'button'
+  return (
+    <Component
+      ref={ref}
+      className={cx(buttonVariants({variant}), className)}
+      disabled={disabled || isLoading}
+      {...props}
+    >
+      {isLoading ? (
+        <span className="pointer-events-none flex shrink-0 items-center justify-center gap-1.5">
+          <RiLoader2Fill className="size-4 shrink-0 animate-spin" aria-hidden="true" />
+          <span className="sr-only">{loadingText ? loadingText : 'Loading'}</span>
+          {loadingText ? loadingText : children}
+        </span>
+      ) : (
+        children
+      )}
+    </Component>
+  )
+}
 
 RawButton.displayName = 'Button'
 
