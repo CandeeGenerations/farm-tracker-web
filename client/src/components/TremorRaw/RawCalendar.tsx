@@ -23,36 +23,40 @@ interface NavigationButtonProps extends React.HTMLAttributes<HTMLButtonElement> 
   disabled?: boolean
 }
 
-const NavigationButton = React.forwardRef<HTMLButtonElement, NavigationButtonProps>(
-  ({onClick, icon, disabled, ...props}: NavigationButtonProps, forwardedRef) => {
-    const Icon = icon
-    return (
-      <button
-        ref={forwardedRef}
-        type="button"
-        disabled={disabled}
-        className={cx(
-          'flex size-8 shrink-0 select-none items-center justify-center rounded border p-1 outline-none transition sm:size-[30px]',
-          // text color
-          'text-gray-600 hover:text-gray-800',
-          // border color
-          'border-gray-300',
-          // background color
-          'hover:bg-gray-50 active:bg-gray-100',
-          // disabled
-          'disabled:pointer-events-none',
-          'disabled:border-gray-200',
-          'disabled:text-gray-400',
-          focusRing,
-        )}
-        onClick={onClick}
-        {...props}
-      >
-        <Icon className="size-full shrink-0" />
-      </button>
-    )
-  },
-)
+const NavigationButton = ({
+  onClick,
+  icon,
+  disabled,
+  ref,
+  ...props
+}: NavigationButtonProps & {ref?: React.Ref<HTMLButtonElement>}) => {
+  const Icon = icon
+  return (
+    <button
+      ref={ref}
+      type="button"
+      disabled={disabled}
+      className={cx(
+        'flex size-8 shrink-0 select-none items-center justify-center rounded border p-1 outline-none transition sm:size-[30px]',
+        // text color
+        'text-gray-600 hover:text-gray-800',
+        // border color
+        'border-gray-300',
+        // background color
+        'hover:bg-gray-50 active:bg-gray-100',
+        // disabled
+        'disabled:pointer-events-none',
+        'disabled:border-gray-200',
+        'disabled:text-gray-400',
+        focusRing,
+      )}
+      onClick={onClick}
+      {...props}
+    >
+      <Icon className="size-full shrink-0" />
+    </button>
+  )
+}
 
 NavigationButton.displayName = 'NavigationButton'
 
