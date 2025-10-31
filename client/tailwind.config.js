@@ -1,12 +1,11 @@
-/* eslint @typescript-eslint/no-var-requires: 0 */
-const defaultTheme = require('tailwindcss/defaultTheme')
-const colors = require('tailwindcss/colors')
-const forms = require('@tailwindcss/forms')
-const typography = require('@tailwindcss/typography')
-const aspectRatio = require('@tailwindcss/aspect-ratio')
-const headlessui = require('@headlessui/tailwindcss')
+import headlessui from '@headlessui/tailwindcss'
+import aspectRatio from '@tailwindcss/aspect-ratio'
+import forms from '@tailwindcss/forms'
+import typography from '@tailwindcss/typography'
+import colors from 'tailwindcss/colors.js'
+import defaultTheme from 'tailwindcss/defaultTheme.js'
 
-module.exports = {
+export default {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
 

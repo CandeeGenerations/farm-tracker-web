@@ -1,8 +1,17 @@
+import {dirname} from 'path'
+import {fileURLToPath} from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
   trailingSlash: false,
+  turbopack: {
+    root: __dirname,
+  },
 }
 
-module.exports = nextConfig
+export default nextConfig
