@@ -14,14 +14,14 @@
   "license": "MIT",
   "author": "Candee Generations <admin@candeegenerations.com>",
   "scripts": {
-    "build": "NEXT_PUBLIC_APP_VERSION=$npm_package_version next build",
+    "build": "fnm use; NEXT_PUBLIC_APP_VERSION=$npm_package_version next build",
     "dev": "fnm use; phase run 'NEXT_PUBLIC_APP_VERSION=$npm_package_version next dev --turbopack -p ${PORT-3000}'",
     "eslint": "eslint 'src/**/*.{ts,tsx}'",
     "fix": "pnpm run eslint && pnpm run prettier --cache",
     "preinstall": "npx only-allow pnpm",
     "prettier": "prettier --cache --check --write --ignore-unknown .",
     "prettier:ci": "prettier --check .",
-    "start": "NEXT_PUBLIC_APP_VERSION=$npm_package_version next start"
+    "start": "fnm use; NEXT_PUBLIC_APP_VERSION=$npm_package_version next start"
   },
   "resolutions": {
     "@babel/runtime": "^7.26.10",
