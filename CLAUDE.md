@@ -9,11 +9,13 @@ Farm Tracker is a full-stack monorepo application for tracking farm operations i
 ## Development Setup
 
 ### Prerequisites
+
 - Node.js 22.x (managed with fnm)
 - PNPM 10.x (managed with corepack)
 - phase.dev CLI for environment variable management
 
 ### Initial Setup
+
 ```bash
 # Install dependencies for all packages
 pnpm run install:all
@@ -26,6 +28,7 @@ cd server && phase init
 ```
 
 ### Running the Application
+
 ```bash
 # Start client (from client directory)
 cd client
@@ -43,6 +46,7 @@ cd server && pnpm run build
 ## Common Commands
 
 ### Linting and Formatting
+
 ```bash
 # From root - runs for both client and server
 pnpm run eslint       # Lint all TypeScript files
@@ -54,6 +58,7 @@ pnpm run fix         # Run eslint and prettier with fixes
 ```
 
 ### Database Operations (Server)
+
 ```bash
 cd server
 pnpm run generate    # Generate Prisma client
@@ -61,12 +66,14 @@ pnpm run db:push     # Push schema changes to database
 ```
 
 ### Testing & CI
+
 ```bash
 # CI-specific install (no scripts)
 pnpm run install:ci
 ```
 
 ### Release Management
+
 ```bash
 # From root
 pnpm run release     # Create a new minor version release with standard-version
@@ -75,7 +82,9 @@ pnpm run release     # Create a new minor version release with standard-version
 ## Architecture
 
 ### Monorepo Structure
+
 The repository is organized as a monorepo with two main packages:
+
 - `client/` - Next.js frontend application
 - `server/` - Express.js backend API with Prisma ORM
 
@@ -84,6 +93,7 @@ The repository is organized as a monorepo with two main packages:
 **Framework**: Next.js 15 with TypeScript, using Pages Router (not App Router)
 
 **Key Directories**:
+
 - `src/pages/` - Next.js pages following file-based routing
   - Each feature has its own page directory (e.g., `animals/`, `products/`, `sales/`)
   - `api/` contains NextAuth configuration
@@ -108,6 +118,7 @@ The repository is organized as a monorepo with two main packages:
 
 **Domain-Driven Structure**:
 Each feature domain follows a consistent pattern under `src/domains/`:
+
 ```
 src/domains/<domain>/
   ├── routes.ts    - Express route definitions
@@ -119,6 +130,7 @@ src/domains/<domain>/
 **Domains**: `animal`, `product`, `sale`, `expense`, `logged-product`, `product-sale`, `ping`
 
 **API Structure**: All routes follow the pattern `/api/<domain>` with nested routes for relationships:
+
 - `/api/animal`
 - `/api/product`
   - `/api/product/:productId/logged-product`
@@ -127,6 +139,7 @@ src/domains/<domain>/
 - `/api/sale`
 
 **Common Utilities** (`src/common/`):
+
 - `client.ts` - Prisma client instance
 - `config.ts` - Environment configuration
 - `helpers.ts` - Request/response helpers, including `getEmail()` for auth
@@ -134,6 +147,7 @@ src/domains/<domain>/
 - `constants.ts` - Shared constants
 
 **Database**: MongoDB with Prisma
+
 - Schema located in `server/prisma/`
 - Models split across separate files in `prisma/models/`
 - Generated client outputs to `server/generated/prisma/client/`
@@ -143,6 +157,7 @@ src/domains/<domain>/
 ### Key Patterns
 
 **Server Route Pattern**:
+
 ```typescript
 router.post('/endpoint', async (req: Request, res: Response) => {
   try {
@@ -156,6 +171,7 @@ router.post('/endpoint', async (req: Request, res: Response) => {
 ```
 
 **Service Layer**: Simple CRUD operations using Prisma client
+
 - `getAll(owner)` - Fetch all records for owner
 - `getSingle(id)` - Fetch single record with relations
 - `create(data)` - Create new record
@@ -167,6 +183,7 @@ router.post('/endpoint', async (req: Request, res: Response) => {
 ## Git Workflow
 
 **Commit Convention**: Conventional Commits enforced via commitlint
+
 - Husky pre-commit hook runs lint-staged (prettier, eslint, sort-package-json)
 - Husky commit-msg hook validates commit message format
 
@@ -177,11 +194,13 @@ router.post('/endpoint', async (req: Request, res: Response) => {
 ## Environment Management
 
 **phase.dev**: Used for secure environment variable management
+
 - Each workspace (client/server) has its own `.phase.json` configuration
 - Run `phase run 'command'` to inject environment variables
 - Configure with `phase init` in each directory
 
 **Environment Variables**:
+
 - Server: `PORT` (default 7889), `DATABASE_URL`
 - Client: `NEXT_PUBLIC_APP_VERSION` (from package.json)
 
