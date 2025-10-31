@@ -9,6 +9,7 @@ const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
   trailingSlash: false,
+  transpilePackages: ['next-auth'],
   turbopack: {
     root: __dirname,
   },
