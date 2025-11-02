@@ -9,7 +9,7 @@ const StartPage = (): React.ReactElement => {
   const {isSignedIn} = useUser()
 
   useEffect(() => {
-    if (!isSignedIn) {
+    if (isSignedIn) {
       router.push('/home')
     } else {
       signIn()
