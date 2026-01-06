@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.3](https://github.com/CandeeGenerations/farm-tracker/compare/v1.10.2...v1.10.3) (2026-01-06)
+
+
+### Bug Fixes
+
+* adds type annotation to input ref ([4c73824](https://github.com/CandeeGenerations/farm-tracker/commit/4c7382449850ffc48151e65ccd82d3532202492b))
+* package updates ([7ef9a0a](https://github.com/CandeeGenerations/farm-tracker/commit/7ef9a0a067c34a730121eabe30aa6a3c19bc50b5))
+* package updates and installed claude code ([02b0e90](https://github.com/CandeeGenerations/farm-tracker/commit/02b0e90e6de17fff6a6e9ec500f6f7c5f03c7558))
+
 ### [1.10.2](https://github.com/CandeeGenerations/farm-tracker/compare/v1.10.1...v1.10.2) (2025-08-25)
 
 
