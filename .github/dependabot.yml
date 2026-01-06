@@ -18,6 +18,23 @@ updates:
           - 'patch'
         patterns:
           - '*'
+    ignore:
+      - dependency-name: '@headlessui/react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'date-fns'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'react-day-picker'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'tailwind-merge'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'tailwind-variants'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'tailwindcss'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'prisma'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@prisma/client'
+        update-types: ['version-update:semver-major']
   - package-ecosystem: 'github-actions' # Check for updates to GitHub Actions every week
     directory: '/'
     pull-request-branch-name:

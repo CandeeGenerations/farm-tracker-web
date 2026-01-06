@@ -23,38 +23,40 @@
     "fix": "fnm use; pnpm run eslint && pnpm run prettier --cache",
     "generate": "fnm use; npx prisma format; npx prisma generate --no-hints",
     "preinstall": "sh ../scripts/check-versions.sh && npx only-allow pnpm",
+    "pcheck": "npm-check -u -i '{prisma,@prisma/client}' && pnpm audit",
     "prettier": "prettier --cache --check --write --ignore-unknown .",
     "prettier:ci": "prettier --check .",
     "start": "fnm use; phase run 'pnpm generate && NODE_ENV=development ts-node-dev --respawn -r tsconfig-paths/register src/index.ts'"
   },
   "resolutions": {
-    "brace-expansion": "^2.0.2"
+    "js-yaml": "^4.1.1",
+    "qs": "^6.14.1"
   },
   "dependencies": {
     "@prisma/client": "^6.18.0",
     "change-case-all": "^2.1.0",
     "cors": "^2.8.5",
-    "dayjs": "^1.11.18",
-    "express": "^5.1.0",
+    "dayjs": "^1.11.19",
+    "express": "^5.2.1",
     "lodash": "^4.17.21",
     "morphism": "^1.12.3",
-    "winston": "^3.18.3"
+    "winston": "^3.19.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.38.0",
+    "@eslint/js": "^9.39.2",
     "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.5",
-    "@types/lodash": "^4.17.20",
-    "@types/node": "^24.9.2",
-    "eslint": "^9.38.0",
-    "globals": "^16.4.0",
-    "prettier": "^3.6.2",
+    "@types/express": "^5.0.6",
+    "@types/lodash": "^4.17.21",
+    "@types/node": "^25.0.3",
+    "eslint": "^9.39.2",
+    "globals": "^17.0.0",
+    "prettier": "^3.7.4",
     "prisma": "^6.18.0",
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.2"
+    "typescript-eslint": "^8.52.0"
   },
   "engines": {
     "node": ">=22.0.0",
