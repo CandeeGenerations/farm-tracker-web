@@ -23,10 +23,6 @@
     "prettier:ci": "pnpm --filter farm-tracker-web-client run prettier:ci && pnpm --filter farm-tracker-web-server run prettier:ci",
     "release": "standard-version -a -- --release-as minor"
   },
-  "resolutions": {
-    "lodash": "^4.17.23",
-    "tar": "^7.5.7"
-  },
   "devDependencies": {
     "@commitlint/cli": "^20.4.1",
     "@commitlint/config-conventional": "^20.4.1",
@@ -42,5 +38,12 @@
   "engines": {
     "node": ">=22.0.0",
     "pnpm": ">=10.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "diff": "^4.0.4",
+      "lodash": "^4.17.23",
+      "tar": "^7.5.7"
+    }
   }
 }

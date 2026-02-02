@@ -28,9 +28,6 @@
     "prettier:ci": "prettier --check .",
     "start": "fnm use; phase run 'pnpm generate && NODE_ENV=development ts-node-dev --respawn -r tsconfig-paths/register src/index.ts'"
   },
-  "resolutions": {
-    "diff": "^4.0.4"
-  },
   "dependencies": {
     "@prisma/client": "^6.18.0",
     "change-case-all": "^2.1.0",
