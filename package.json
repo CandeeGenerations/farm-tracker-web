@@ -14,22 +14,22 @@
   "license": "MIT",
   "author": "Candee Generations <admin@candeegenerations.com>",
   "scripts": {
-    "eslint": "cd client && pnpm eslint && cd ../server && pnpm eslint",
+    "eslint": "pnpm --filter farm-tracker-web-client run eslint && pnpm --filter farm-tracker-web-server run eslint",
     "preinstall": "sh scripts/check-versions.sh && npx only-allow pnpm",
     "install:all": "pnpm install; cd client; fnm use; pnpm install; cd ../server; fnm use; pnpm install; pnpm generate; cd ../; fnm use;",
-    "install:ci": "pnpm install --ignore-scripts; cd client; pnpm install --ignore-scripts; cd ../server; pnpm install --ignore-scripts",
+    "install:ci": "pnpm install --ignore-scripts && pnpm --filter farm-tracker-web-client install --ignore-scripts && pnpm --filter farm-tracker-web-server install --ignore-scripts",
     "prepare": "husky",
-    "prettier": "cd client && pnpm prettier && cd ../server && pnpm prettier",
-    "prettier:ci": "cd client && pnpm prettier:ci && cd ../server && pnpm prettier:ci",
+    "prettier": "pnpm --filter farm-tracker-web-client run prettier && pnpm --filter farm-tracker-web-server run prettier",
+    "prettier:ci": "pnpm --filter farm-tracker-web-client run prettier:ci && pnpm --filter farm-tracker-web-server run prettier:ci",
     "release": "standard-version -a -- --release-as minor"
   },
   "resolutions": {
-    "glob": "^11.1.0",
-    "js-yaml": "^3.14.2"
+    "lodash": "^4.17.23",
+    "tar": "^7.5.7"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.3.0",
-    "@commitlint/config-conventional": "^20.3.0",
+    "@commitlint/cli": "^20.4.1",
+    "@commitlint/config-conventional": "^20.4.1",
     "@trivago/prettier-plugin-sort-imports": "^6.0.1",
     "husky": "^9.1.7",
     "lerna": "^9.0.3",
@@ -38,7 +38,7 @@
     "sort-package-json": "^3.6.0",
     "standard-version": "^9.5.0"
   },
-  "packageManager": "pnpm@10.27.0+sha512.72d699da16b1179c14ba9e64dc71c9a40988cbdc65c264cb0e489db7de917f20dcf4d64d8723625f2969ba52d4b7e2a1170682d9ac2a5dcaeaab732b7e16f04a",
+  "packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264",
   "engines": {
     "node": ">=22.0.0",
     "pnpm": ">=10.0.0"
