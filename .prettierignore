@@ -1,0 +1,10 @@
+CHANGELOG.md
+CLAUDE.md
+pnpm-lock.yaml
+
+.github/dependabot.yml
+
+client/pnpm-lock.yaml
+client/public/favicon/site.webmanifest
+
+server/pnpm-lock.yaml

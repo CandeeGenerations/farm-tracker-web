@@ -20,7 +20,7 @@
     "install:ci": "pnpm install --ignore-scripts && pnpm --filter farm-tracker-web-client install --ignore-scripts && pnpm --filter farm-tracker-web-server install --ignore-scripts",
     "prepare": "husky",
     "prettier": "pnpm --filter farm-tracker-web-client run prettier && pnpm --filter farm-tracker-web-server run prettier",
-    "prettier:ci": "pnpm --filter farm-tracker-web-client run prettier:ci && pnpm --filter farm-tracker-web-server run prettier:ci",
+    "prettier:ci": "pnpm exec prettier --check .",
     "release": "standard-version -a -- --release-as minor"
   },
   "devDependencies": {
