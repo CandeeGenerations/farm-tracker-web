@@ -39,7 +39,7 @@
     "winston": "^3.19.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/lodash": "^4.17.23",
