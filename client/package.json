@@ -24,6 +24,10 @@
     "prettier:ci": "prettier --check .",
     "start": "fnm use; NEXT_PUBLIC_APP_VERSION=$npm_package_version next start"
   },
+  "resolutions": {
+    "axios": "^1.13.5",
+    "minimatch": "^9.0.7"
+  },
   "dependencies": {
     "@headlessui/react": "1.7.19",
     "@headlessui/tailwindcss": "^0.2.2",
@@ -68,8 +72,8 @@
     "@types/react-dom": "19.2.3",
     "@types/react-tagsinput": "^3.20.6",
     "autoprefixer": "^10.4.24",
-    "eslint": "^10.0.1",
-    "globals": "^17.3.0",
+    "eslint": "10.0.2",
+    "globals": "^17.4.0",
     "next": "^16.1.6",
     "prettier": "^3.8.1",
     "react": "19.2.4",
