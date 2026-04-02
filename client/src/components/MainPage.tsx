@@ -14,6 +14,8 @@ const MainPage = (): React.ReactElement => {
           style={{maxWidth: '100%', height: 'auto'}}
           width={500}
           height={500}
+          loading="eager"
+          priority
         />
 
         <SmallLoader className="text-white" />

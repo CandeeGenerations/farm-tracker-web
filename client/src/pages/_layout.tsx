@@ -95,6 +95,8 @@ const Layout = ({title, description, children, breadcrumbs}: ILayout): React.Rea
                           alt="Farm Tracker"
                           width={48}
                           height={48}
+                          loading="eager"
+                          priority
                         />
                       </Link>
                     </div>
