@@ -1,6 +1,6 @@
 {
   "name": "farm-tracker-web-client",
-  "version": "1.10.5",
+  "version": "1.10.7",
   "private": true,
   "description": "Track your farm!",
   "homepage": "https://github.com/CandeeGenerations/farm-tracker#readme",
@@ -14,8 +14,8 @@
   "license": "MIT",
   "author": "Candee Generations <admin@candeegenerations.com>",
   "scripts": {
-    "build": "fnm use; NEXT_PUBLIC_APP_VERSION=$npm_package_version next build",
-    "dev": "fnm use; phase run 'NEXT_PUBLIC_APP_VERSION=$npm_package_version next dev --turbopack -p ${PORT-3000}'",
+    "build": "NEXT_PUBLIC_APP_VERSION=$npm_package_version next build",
+    "dev": "fnm use; phase run 'NEXT_PUBLIC_APP_VERSION=$npm_package_version next dev --webpack -p ${PORT-3000}'",
     "eslint": "eslint 'src/**/*.{ts,tsx}'",
     "fix": "pnpm run eslint && pnpm run prettier --cache",
     "preinstall": "npx only-allow pnpm",
@@ -68,18 +68,18 @@
     "@types/react-dom": "19.2.3",
     "@types/react-tagsinput": "^3.20.6",
     "autoprefixer": "^10.4.24",
-    "eslint": "10.0.2",
+    "eslint": "10.1.0",
     "globals": "^17.4.0",
     "next": "^16.1.6",
     "prettier": "^3.8.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "tailwindcss": "3.4.19",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.54.0"
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.0"
   },
   "engines": {
-    "node": ">=22.0.0",
+    "node": ">=24.0.0",
     "pnpm": ">=10.0.0"
   }
 }

@@ -10,7 +10,7 @@ Farm Tracker is a full-stack monorepo application for tracking farm operations i
 
 ### Prerequisites
 
-- Node.js 22.x (managed with fnm)
+- Node.js 24.x (managed with fnm)
 - PNPM 10.x (managed with corepack)
 - phase.dev CLI for environment variable management
 
