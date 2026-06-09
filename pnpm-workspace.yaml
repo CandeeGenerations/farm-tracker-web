@@ -7,5 +7,3 @@ allowBuilds:
   nx: true
   prisma: true
   sharp: true
-minimumReleaseAgeExclude:
-  - prettier@3.8.4
