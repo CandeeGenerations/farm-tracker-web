@@ -1,4 +1,8 @@
-onlyBuiltDependencies:
-  - '@prisma/client'
-  - '@prisma/engines'
-  - prisma
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  prisma: true
+# The Docker build copies the server package in isolation, so its deps are
+# already provided by the deps stage. Skip pnpm's implicit pre-run install,
+# which would otherwise trigger the monorepo-only preinstall script.
+verifyDepsBeforeRun: false

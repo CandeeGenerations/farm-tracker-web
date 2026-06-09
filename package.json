@@ -16,8 +16,8 @@
   "scripts": {
     "eslint": "pnpm --filter farm-tracker-web-client run eslint && pnpm --filter farm-tracker-web-server run eslint",
     "preinstall": "sh scripts/check-versions.sh && npx only-allow pnpm",
-    "install:all": "pnpm install; cd client; fnm use; pnpm install; cd ../server; fnm use; pnpm install; pnpm generate; cd ../; fnm use;",
-    "install:ci": "pnpm install --ignore-scripts && pnpm --filter farm-tracker-web-client install --ignore-scripts && pnpm --filter farm-tracker-web-server install --ignore-scripts",
+    "install:all": "pnpm install && pnpm --filter farm-tracker-web-server run generate",
+    "install:ci": "pnpm install --ignore-scripts",
     "prepare": "husky",
     "prettier": "pnpm --filter farm-tracker-web-client run prettier && pnpm --filter farm-tracker-web-server run prettier",
     "prettier:ci": "pnpm exec prettier --check .",
@@ -37,15 +37,14 @@
     "@commitlint/config-conventional": "^21.0.2",
     "@trivago/prettier-plugin-sort-imports": "^6.0.1",
     "husky": "^9.1.7",
-    "lerna": "9.0.7",
     "lint-staged": "17.0.7",
-    "prettier": "3.8.3",
+    "prettier": "^3.8.3",
     "sort-package-json": "^4.0.0",
     "standard-version": "^9.5.0"
   },
   "packageManager": "pnpm@11.5.2+sha512.71c631e382066efc25625d5cf029075de07b61b37f6e27350fbd84b1bda5864c8c1967adc280776b45c30a715c0359a3be08fef42d5bb09e2b99029979692916",
   "engines": {
     "node": ">=24.0.0",
-    "pnpm": ">=10.0.0"
+    "pnpm": ">=11.0.0"
   }
 }

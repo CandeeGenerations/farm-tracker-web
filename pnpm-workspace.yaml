@@ -1,9 +1,9 @@
 packages:
   - 'client'
   - 'server'
+ignoreWorkspaceRootCheck: true
 allowBuilds:
   '@prisma/client': true
   '@prisma/engines': true
-  nx: true
   prisma: true
   sharp: true
