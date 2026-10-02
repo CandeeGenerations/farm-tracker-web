@@ -19,11 +19,9 @@ interface ITagsInput {
   tags?: ITag[]
   horizontal?: boolean
   type?: 'email' | 'text'
-  /* eslint-disable no-unused-vars */
   onEdit?: (item: {text: string; id: string}, index: number) => void
   onAdd: (item: {text: string; id: string}) => void
   onDelete: (index: number) => void
-  /* eslint-enable no-unused-vars */
   tooltip?: React.ReactNode
   id?: string
   caseSensitive?: boolean

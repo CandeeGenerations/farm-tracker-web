@@ -10,7 +10,7 @@ const getSingle = async (id: string): Promise<LoggedProduct | null> =>
 const create = async (data: LoggedProduct): Promise<LoggedProduct> => await client.loggedProduct.create({data})
 
 const update =
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   async (id: string, {id: _, ...data}: LoggedProduct): Promise<LoggedProduct> =>
     await client.loggedProduct.update({where: {id}, data})
 

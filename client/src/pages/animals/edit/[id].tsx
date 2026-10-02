@@ -52,7 +52,7 @@ const EditAnimalPage = (): React.ReactElement => {
 
   const setState = (state: IPageState) => setPageState<IPageState>(stateFunc, pageState, state)
 
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   const handleSubmit = async ({children, ...data}: IAnimalWithChildren) => {
     try {
       await axios.post(`/animal/${data.id}`, data)

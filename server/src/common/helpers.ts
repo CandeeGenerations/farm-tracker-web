@@ -9,10 +9,10 @@ export const handleError = (res: Response, error: IException): Response => {
   return res.status(500).send({code: 500, error: `${error.name}: ${error.message}`})
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export const handleSuccess = (res: Response, data?: any): Response => res.status(200).send({code: 200, data})
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export const getEmail = (req: Request<any, any, any>, res: Response): string => {
   const email = req.header('email')
 

@@ -24,7 +24,7 @@ export interface IColumnHeader {
 
 export interface ITotalRow {
   id: string
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   value: (data: any[]) => React.ReactNode
 }
 
@@ -32,14 +32,13 @@ interface ITable {
   columns: IColumnHeader[]
   totalRow?: ITotalRow[]
   actions?: IActions
-  data: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
+  data: any[] // oxlint-disable-line typescript/no-explicit-any
   keyName: string
   linkKey?: string
   defaultSortColumn?: string
   defaultSortOrder?: 'asc' | 'desc'
   editLink?: string
   loading?: boolean
-  // eslint-disable-next-line no-unused-vars
   onEdit?: (id: string | number) => void
 }
 

@@ -6,7 +6,7 @@ import {Control, Controller, FieldError} from 'react-hook-form'
 import {RawDatePicker} from './TremorRaw/RawDatePicker'
 
 interface IDatePickerRaw {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   control: Control<any, object>
   name: string
   label?: string

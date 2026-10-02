@@ -54,7 +54,7 @@ interface ISortableTable {
   id?: string
   columns: IColumnHeader[]
   actions?: IActions
-  data: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
+  data: any[] // oxlint-disable-line typescript/no-explicit-any
   keyName: string
   linkKey?: string
   defaultSortColumn?: string
@@ -65,7 +65,6 @@ interface ISortableTable {
   searchableColumns?: string[]
   totalRow?: ITotalRow[]
   loading?: boolean
-  // eslint-disable-next-line no-unused-vars
   onClick?: (id: string | number) => void
 }
 

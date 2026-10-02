@@ -9,10 +9,8 @@ interface IPagination {
   totalCount: number
   pageNumber: number
   pageSize: number
-  /* eslint-disable no-unused-vars */
   onPageChange: (number: number) => void
   onPageSizeChange: (number: number) => void
-  /* eslint-enable no-unused-vars */
 }
 
 const Pagination = ({

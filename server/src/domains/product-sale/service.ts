@@ -9,7 +9,7 @@ const getSingle = async (id: string): Promise<Sale | null> => await client.sale.
 const create = async (data: Sale): Promise<Sale> => await client.sale.create({data})
 
 const update =
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   async (id: string, {id: _, ...data}: Sale): Promise<Sale> => await client.sale.update({where: {id}, data})
 
 const remove = async (id: string): Promise<Sale> => await client.sale.delete({where: {id}})

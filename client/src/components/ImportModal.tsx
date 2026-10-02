@@ -24,7 +24,7 @@ interface IImportModal {
   metadata?: {[key: string]: string}
   open: boolean
   onClose: () => void
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   onSave: (data: any[]) => void
   notReloading?: boolean
 }

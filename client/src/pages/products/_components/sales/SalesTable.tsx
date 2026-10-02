@@ -14,7 +14,6 @@ import ColumnsModal from '../_ColumnsModal'
 interface ISalesTable {
   sales: ISale[]
   products?: IProduct[]
-  // eslint-disable-next-line no-unused-vars
   onShowSaleModal: (sale?: ISale) => void
   onOpenImporter: () => void
   isProductSales: boolean

@@ -5,7 +5,6 @@ import {DEFAULT_DATE_FORMAT, DEFAULT_DATE_TIME_FORMAT} from './constants'
 
 export const classNames = (...classes) => classes.filter(Boolean).join(' ')
 
-// eslint-disable-next-line no-unused-vars
 export function setPageState<T>(setState: (updates: T) => void, current: T, updates: T): T {
   const newState = {...current, ...updates}
 
@@ -14,7 +13,7 @@ export function setPageState<T>(setState: (updates: T) => void, current: T, upda
   return newState
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export const applySort = (sort: {column: string; asc: boolean}, dataset: any) => {
   return dataset.slice().sort((a, b) => {
     const valA = a[sort.column]

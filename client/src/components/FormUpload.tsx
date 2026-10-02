@@ -10,11 +10,11 @@ interface IFormUpload {
   fileTypes?: string
   required?: boolean
   maxSize?: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   control: Control<any, object>
   reset: number
   accept?: Accept
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   setValue?: UseFormSetValue<any>
   alert?: React.ReactElement
 }

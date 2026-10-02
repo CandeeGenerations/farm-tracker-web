@@ -5,7 +5,7 @@ import FormLabel from './FormLabel'
 import Toggle from './Toggle'
 
 interface IFormToggle {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   control: Control<any, object>
   name: string
   label?: string

@@ -1,6 +1,6 @@
 {
   "typescript.preferences.importModuleSpecifier": "shortest",
-  "eslint.workingDirectories": ["./client", "./server"],
+  "oxc.enable": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.removeUnusedImports": "explicit",

@@ -9,12 +9,11 @@ import ReadOnlyField from './ReadOnlyField'
 
 interface IFormInput {
   name: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   register?: UseFormRegister<any>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   control?: Control<any, object>
   staticValue?: string | number
-  // eslint-disable-next-line no-unused-vars
   onChange?: (name: string, value: string | number, extraProps?: {reset?: boolean}) => void
   onBlur?: () => void
   onFocus?: () => void

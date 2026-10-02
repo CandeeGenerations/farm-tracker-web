@@ -39,10 +39,10 @@ const navigation: {id: string; name: string}[] = [
   {id: 'sales', name: 'Sales'},
 ]
 
-/* eslint-disable no-undef */
+/* oxlint-disable no-undef */
 const version = process.env.NEXT_PUBLIC_APP_VERSION
 const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL
-/* eslint-enable no-undef */
+/* oxlint-enable no-undef */
 
 const Layout = ({title, description, children, breadcrumbs}: ILayout): React.ReactElement => {
   const router = useRouter()
