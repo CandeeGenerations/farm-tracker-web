@@ -38,7 +38,7 @@ const Pagination = ({
     let lowerLimit = Math.min(pageNumber, maxPages)
     let upperLimit = Math.min(pageNumber, maxPages)
 
-    for (let i = 1; i < DEFAULT_PAGINATION_LIMIT && i < maxPages; ) {
+    for (let i = 1; i < DEFAULT_PAGINATION_LIMIT && i < maxPages;) {
       if (lowerLimit > 1) {
         lowerLimit--
         i++
