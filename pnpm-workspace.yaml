@@ -7,3 +7,6 @@ allowBuilds:
   '@prisma/engines': true
   prisma: true
   sharp: true
+overrides:
+  # Node types track the .nvmrc major (24); transitive @types/* ask for "*" and would pull a newer major.
+  '@types/node': '>=24.19.0 <25.0.0'

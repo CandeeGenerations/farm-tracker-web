@@ -43,7 +43,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/lodash": "^4.17.25",
-    "@types/node": "^25.9.2",
+    "@types/node": "^24.19.0",
     "eslint": "10.11.0",
     "globals": "^17.13.0",
     "prettier": "^3.9.9",
