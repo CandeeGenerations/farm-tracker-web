@@ -11,7 +11,7 @@ const getSingle = async (id: string): Promise<AnimalWithChildren | null> =>
 const create = async (data: Animal): Promise<Animal> => await client.animal.create({data})
 
 const update =
-  // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   async (id: string, {id: _, ...data}: Animal): Promise<Animal> => await client.animal.update({where: {id}, data})
 
 const remove = async (id: string): Promise<Animal> => await client.animal.delete({where: {id}})

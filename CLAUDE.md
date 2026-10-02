@@ -49,12 +49,13 @@ cd server && pnpm run build
 
 ```bash
 # From root - runs for both client and server
-pnpm run eslint       # Lint all TypeScript files
+pnpm run lint         # Lint all TypeScript files (oxlint)
+pnpm run lint:fix     # Lint with auto-fixes
 pnpm run prettier     # Format all files
 pnpm run prettier:ci  # Check formatting (CI mode)
 
 # From client or server directories
-pnpm run fix         # Run eslint and prettier with fixes
+pnpm run fix         # Run oxlint, then prettier with fixes
 ```
 
 ### Database Operations (Server)
@@ -184,7 +185,7 @@ router.post('/endpoint', async (req: Request, res: Response) => {
 
 **Commit Convention**: Conventional Commits enforced via commitlint
 
-- Husky pre-commit hook runs lint-staged (prettier, eslint, sort-package-json)
+- Husky pre-commit hook runs lint-staged (prettier, oxlint, sort-package-json)
 - Husky commit-msg hook validates commit message format
 
 **Lint-Staged**: Auto-formats and lints changed files on commit

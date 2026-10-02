@@ -11,7 +11,7 @@ dayjs.extend(isSameOrAfter)
 const dataFormatter = (number: number) => `$ ${Intl.NumberFormat('us').format(number).toString()}`
 
 interface IChart {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   data: any[]
   title: string
   labels?: string[]

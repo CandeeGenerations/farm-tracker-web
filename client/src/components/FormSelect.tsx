@@ -17,7 +17,6 @@ export interface IFormSelectItem {
 interface IListBoxControl {
   items: IFormSelectItem[]
   value: IFormSelectItem | IFormSelectItem[]
-  // eslint-disable-next-line no-unused-vars
   onChange: (item: IFormSelectItem) => void
   label?: React.ReactNode
   error?: FieldError
@@ -310,10 +309,9 @@ interface IFormSelect {
   items: IFormSelectItem[]
   name: string
   error?: FieldError
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   control?: Control<any, object>
   staticSelected?: IFormSelectItem | IFormSelectItem[]
-  // eslint-disable-next-line no-unused-vars
   onSelected?: (item: IFormSelectItem) => void
   label?: React.ReactNode
   placeholder?: string

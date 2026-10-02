@@ -5,7 +5,7 @@ import {classNames} from '../helpers'
 
 interface IToggle {
   enabled: boolean
-  setEnabled: (value: boolean) => void // eslint-disable-line no-unused-vars
+  setEnabled: (value: boolean) => void
   onLabel?: string
   offLabel?: string
   disabled?: boolean

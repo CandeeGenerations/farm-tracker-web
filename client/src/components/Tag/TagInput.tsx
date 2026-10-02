@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react'
 
 interface ITagInput {
   value: string
-  // eslint-disable-next-line no-unused-vars
   onChange: (value: string) => void
 }
 
@@ -12,7 +11,7 @@ const TagInput = ({value, onChange}: ITagInput): React.ReactElement => {
 
   useEffect(() => {
     if (ref.current) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any
       const input = ref.current as any
       input.focus()
     }

@@ -14,10 +14,12 @@
   "license": "MIT",
   "author": "Candee Generations <admin@candeegenerations.com>",
   "scripts": {
-    "eslint": "pnpm --filter farm-tracker-web-client run eslint && pnpm --filter farm-tracker-web-server run eslint",
+    "eslint": "pnpm run lint",
     "preinstall": "sh scripts/check-versions.sh && npx only-allow pnpm",
     "install:all": "pnpm install && pnpm --filter farm-tracker-web-server run generate",
     "install:ci": "pnpm install --ignore-scripts",
+    "lint": "pnpm --filter farm-tracker-web-client run lint && pnpm --filter farm-tracker-web-server run lint",
+    "lint:fix": "pnpm --filter farm-tracker-web-client run lint:fix && pnpm --filter farm-tracker-web-server run lint:fix",
     "prepare": "husky",
     "prettier": "pnpm --filter farm-tracker-web-client run prettier && pnpm --filter farm-tracker-web-server run prettier",
     "prettier:ci": "pnpm exec prettier --check .",

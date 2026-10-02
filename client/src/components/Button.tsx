@@ -25,9 +25,9 @@ interface IButton {
   loadingText?: string
   disabled?: boolean
   children: React.ReactNode
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   onClick?: any
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   ref?: React.MutableRefObject<any>
   type?: ButtonType
   size?: ButtonSize

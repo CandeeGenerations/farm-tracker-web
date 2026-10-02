@@ -13,7 +13,6 @@ export interface ITab {
 interface ITabNav {
   tabs: ITab[]
   currentTab: number
-  // eslint-disable-next-line no-unused-vars
   onChange: (tab: number) => void
 }
 

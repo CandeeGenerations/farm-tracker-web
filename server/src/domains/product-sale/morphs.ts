@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* oxlint-disable typescript/no-explicit-any */
 import {Product, Sale} from '@generated/client'
 import dayjs from 'dayjs'
 import morphism from 'morphism'

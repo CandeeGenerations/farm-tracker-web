@@ -9,7 +9,6 @@ interface IUserContext {
   userInfo: IUserInfo
   isSignedIn: boolean
   logOut: () => void
-  // eslint-disable-next-line no-unused-vars
   impersonate: (email: string) => void
 }
 
@@ -36,7 +35,7 @@ const UserProvider = ({children}: {children: ReactNode}): ReactElement => {
   useEffect(() => {
     const impersonatorEmail = storage.get(IMPERSONATOR_EMAIL)
 
-    // eslint-disable-next-line no-undef
+    // oxlint-disable-next-line no-undef
     axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL
 
     if (impersonatorEmail) {

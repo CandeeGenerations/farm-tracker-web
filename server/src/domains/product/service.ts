@@ -17,7 +17,7 @@ const getSingleByName = async (name: string): Promise<ProductWithExpenses | null
 const create = async (data: Product): Promise<ProductWithExpenses> => await client.product.create({data, include})
 
 const update =
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  // oxlint-disable-next-line no-unused-vars
   async (id: string, {id: _, ...data}: Product): Promise<ProductWithExpenses> =>
     await client.product.update({where: {id}, data, include})
 
