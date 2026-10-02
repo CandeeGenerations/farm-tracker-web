@@ -12,12 +12,11 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "ignoreDeprecations": "6.0",
-    "baseUrl": "src",
+    "types": ["node"],
     "paths": {
-      "@src/*": ["./*"],
-      "@generated/client": ["../generated/prisma/client"],
-      "change-case-all": ["./types/change-case-all"]
+      "@src/*": ["./src/*"],
+      "@generated/client": ["./generated/prisma/client"],
+      "change-case-all": ["./src/types/change-case-all"]
     }
   },
   "include": ["src/**/*"]

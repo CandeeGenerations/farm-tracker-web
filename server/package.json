@@ -28,7 +28,7 @@
     "pcheck": "npm-check -u -i '{prisma,@prisma/client}' && pnpm audit",
     "prettier": "prettier --cache --check --write --ignore-unknown .",
     "prettier:ci": "prettier --check .",
-    "start": "fnm use; phase run 'pnpm generate && NODE_ENV=development ts-node-dev --respawn -r tsconfig-paths/register src/index.ts'"
+    "start": "fnm use; phase run 'pnpm generate && NODE_ENV=development ts-node-dev --respawn --compiler @typescript/typescript6 -r tsconfig-paths/register src/index.ts'"
   },
   "dependencies": {
     "@prisma/client": "^6.18.0",
@@ -45,13 +45,14 @@
     "@types/express": "^5.0.6",
     "@types/lodash": "^4.17.25",
     "@types/node": "^24.19.0",
+    "@typescript/typescript6": "^6.0.2",
     "oxlint": "1.86.0",
     "prettier": "^3.9.9",
     "prisma": "^6.18.0",
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.9.7",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "engines": {
     "node": ">=24.0.0",
