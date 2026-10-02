@@ -7,6 +7,9 @@ version: 2
 updates:
   - package-ecosystem: 'npm'
     directory: '/'
+    # Version updates are handled by CGENovate (see the pinned dashboard issue). Security
+    # updates still flow, and the ignore list below remains the mute list.
+    open-pull-requests-limit: 0
     pull-request-branch-name:
       separator: '-' # Use hyphens to separate branch name segments
     schedule:
