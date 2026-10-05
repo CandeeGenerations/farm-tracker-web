@@ -164,14 +164,6 @@ settings:
 
 overrides:
   '@types/node': '>=24.19.1 <25.0.0'
-  body-parser: '>=2.3.0 <3.0.0'
-  brace-expansion@1: '>=1.1.21 <2.0.0'
-  brace-expansion@2: '>=2.1.7 <3.0.0'
-  brace-expansion@5: '>=5.0.12 <6.0.0'
-  fast-uri: '>=3.1.8 <4.0.0'
-  js-yaml: '>=4.3.2 <5.0.0'
-  postcss-selector-parser: '>=6.1.3 <7.0.0'
-  qs: '>=6.16.0 <7.0.0'
 
 importers:
 
@@ -3120,6 +3112,10 @@ packages:
     peerDependencies:
       postcss: ^8.2.14
 
+  postcss-selector-parser@6.0.10:
+    resolution: {integrity: sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==}
+    engines: {node: '>=4'}
+
   postcss-selector-parser@6.1.4:
     resolution: {integrity: sha512-bIoJLOmjCO1S9XdY/DcnR5hJxvrDir1PbGChrzXG3vw0/FOliy/fA3dmdhQ441kah4gKv+TwckGzex6wNS5cnQ==}
     engines: {node: '>=4'}
@@ -4695,7 +4691,7 @@ snapshots:
 
   '@tailwindcss/typography@0.5.20(tailwindcss@3.4.19(yaml@2.9.1))':
     dependencies:
-      postcss-selector-parser: 6.1.4
+      postcss-selector-parser: 6.0.10
       tailwindcss: 3.4.19(yaml@2.9.1)
 
   '@tanstack/react-virtual@3.14.2(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
@@ -6303,6 +6299,11 @@ snapshots:
     dependencies:
       postcss: 8.5.23
       postcss-selector-parser: 6.1.4
+
+  postcss-selector-parser@6.0.10:
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
 
   postcss-selector-parser@6.1.4:
     dependencies:
