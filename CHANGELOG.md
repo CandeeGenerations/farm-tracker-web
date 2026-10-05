@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.10](https://github.com/CandeeGenerations/farm-tracker/compare/v1.10.8...v1.10.10) (2026-10-05)
+
+
+### Bug Fixes
+
+* corepack ([1113874](https://github.com/CandeeGenerations/farm-tracker/commit/11138743ea5de6a3fbb0da5f1b5cac8a965a1f0e))
+* package updates ([f25b425](https://github.com/CandeeGenerations/farm-tracker/commit/f25b425ee03c170a41b35496ee88f0fa4bcf836d))
+* packages ([db3ced5](https://github.com/CandeeGenerations/farm-tracker/commit/db3ced5964d2093345ceed1b9168c1a3cd0182fd))
+* prettier fix ([0ee4f5c](https://github.com/CandeeGenerations/farm-tracker/commit/0ee4f5c5e7555270c1792752e9a857dbb48691cc))
+
 ### [1.10.9](https://github.com/CandeeGenerations/farm-tracker/compare/v1.10.8...v1.10.9) (2026-06-09)
 
 
